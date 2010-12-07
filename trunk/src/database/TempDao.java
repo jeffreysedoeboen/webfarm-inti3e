@@ -1,4 +1,5 @@
 package database;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -6,38 +7,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 
-import javax.print.attribute.standard.PDLOverrideSupported;
-
+import model.Temperature;
 import model.User;
 
-public class UserDao {
-	
-	private String sqlGetAllUsers		= "SELECT name, password FROM APP.Users";
-	private String sqlNewUser 			= "INSERT INTO APP.Users (\"NAME \", \"PASSWORD\" ) VALUES (?,?)";
+public class TempDao {
+
+
+	private String sqlGetAllTemps		= "SELECT name, password FROM APP.Temp";
+	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE \", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
-	private PreparedStatement psGetAllUsers = null ;
-	private PreparedStatement psNewUser = null;
-	
+	private PreparedStatement psGetAllTemps = null ;
+	private PreparedStatement psNewTemp = null;
 
-	public UserDao(){
+
+	public TempDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
 		createTable();
 		try{
 
-			this.psGetAllUsers   = con.prepareStatement(sqlGetAllUsers);
-			this.psNewUser 		 = con.prepareStatement(sqlNewUser);
+			this.psGetAllTemps   = con.prepareStatement(sqlGetAllTemps);
+			this.psNewTemp 		 = con.prepareStatement(sqlNewTemp);
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
 		}
 	}
-	
+
 	public void createTable(){
-		
+
 		try {
 			//get the table listing
 			DatabaseMetaData dbmd = con.getMetaData();
@@ -49,43 +50,46 @@ public class UserDao {
 			//check if the table does not already exists and then create them if needed
 			if(!tableList.contains("Users")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Users (" +
-						"name VARCHAR(50) PRIMARY KEY," +
-						"password VARCHAR(50)," +
-						")");
+				stat.execute("CREATE TABLE APP.Temp (" +
+						"date DATE," +
+						"time VARCHAR(50)," +
+						"temp VARCHAR(25)" +
+				")");
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public ArrayList<User> getAllUsers(){
-		ArrayList<User> users = new ArrayList<User>();
+
+	public ArrayList<Temperature> getAllTemps(){
+		ArrayList<Temperature> temps = new ArrayList<Temperature>();
 		try {
-			ResultSet rs = psGetAllUsers.executeQuery();
+			ResultSet rs = psGetAllTemps.executeQuery();
 			while (rs.next()){
-				String name = rs.getString(1);
-				String password = rs.getString(2);
-				User s = new User(name, password);
-				users.add(s);
+				Date date = rs.getDate(1);
+				String time = rs.getString(2);
+				String temp = rs.getString(3);
+				Temperature temperature = new Temperature(date, time, temp);
+				temps.add(temperature);
 			}
 		} catch (SQLException se) {
 			printSQLException(se) ;		
 		} 
-		return users;
+		return temps;
 	}
-	
-	public void addNewUser(String name, String password){
+
+	public void addNewTemp(Date date, String time, String temperature){
 		try {
-			psNewUser.clearParameters();
-			psNewUser.setString(1, name);
-			psNewUser.setString(2, password);
+			psNewTemp.clearParameters();
+			psNewTemp.setDate(1, new java.sql.Date(date.getTime()));
+			psNewTemp.setString(2, time);
+			psNewTemp.setString(3, temperature);
 		} catch (SQLException se) {
 			printSQLException(se) ;
 		}
 	}
-	
+
 	private void printSQLException(SQLException se) {
 		while(se != null) {
 
