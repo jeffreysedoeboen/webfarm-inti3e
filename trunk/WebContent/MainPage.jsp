@@ -14,11 +14,7 @@
 	$(function() {
 		$( "#tabs" ).tabs();
 	});
-	</script>
-
-
-
-<div class="demo">
+</script>
 
 <div id="tabs">
 	<ul>
@@ -59,14 +55,6 @@
 		<p align="center">* <a href="http://www.jquery.com">www.jquery.com</a></p>
 
 	</div>
-</div>
-
-</div>
-
-
-
-<div class="demo-description" style="display: none; ">
-<p>Click tabs to swap between content that is broken into logical sections.</p>
 </div>
 </body>
 </html>
