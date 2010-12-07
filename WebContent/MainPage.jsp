@@ -48,11 +48,12 @@
 	<div id="tabs-8">
 	<p><h1 align="center">The sources we used:</h1></p>
 	<p align = "center">Firewall & OS</p>
-		<p align="center">* <a href="http://www.ipfire.org">www.ipfire.org</a></p>
-		<p align="center">* <a href="http://www.debian.org">www.debian.org</a></p>
+		<p align="center">* <a href="http://www.ipfire.org">IpFire</a></p>
+		<p align="center">* <a href="http://www.debian.org">Debian</a></p>
 	<br></br>
 	<p align="center">Web page</p>
-		<p align="center">* <a href="http://www.jquery.com">www.jquery.com</a></p>
+		<p align="center">* <a href="http://www.jquery.com">jQuery</a></p>
+		<p align="center">* <a href="http://www.longtailvideo.com/players/jw-flv-player/">Video Player</a></p>
 
 	</div>
 </div>
