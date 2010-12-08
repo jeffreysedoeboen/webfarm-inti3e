@@ -13,4 +13,46 @@ public class Movement {
 		this.move = move;
 	}
 
+	/**
+	 * @return the date
+	 */
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * @return the time
+	 */
+	public String getTime() {
+		return time;
+	}
+
+	/**
+	 * @return the move
+	 */
+	public String getMove() {
+		return move;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	/**
+	 * @param move the move to set
+	 */
+	public void setMove(String move) {
+		this.move = move;
+	}
+
 }
