@@ -13,7 +13,7 @@ import model.Movement;
 import model.Temperature;
 import model.User;
 
-public class MovementSensor {
+public class MovementDao {
 
 
 	private String sqlGetAllMovements	= "SELECT date, time, movement FROM APP.Movement";
@@ -24,7 +24,7 @@ public class MovementSensor {
 	private PreparedStatement psNewMovement		 = null;
 
 
-	public MovementSensor(){
+	public MovementDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
 		createTable();
