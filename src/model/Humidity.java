@@ -2,15 +2,15 @@ package model;
 
 import java.util.Date;
 
-public class Temperature {
-	private Date date = null;
-	private String time = "";
-	private String temp = "";
+public class Humidity {
+	private Date date;
+	private String time;
+	private int humidity;
 	
-	public Temperature(Date date, String time, String temp) {
+	public Humidity(Date date, String time, int humidity) {
 		this.date = date;
 		this.time = time;
-		this.temp = temp;
+		this.humidity = humidity;
 	}
 
 	/**
@@ -28,10 +28,10 @@ public class Temperature {
 	}
 
 	/**
-	 * @return the temp
+	 * @return the humidity
 	 */
-	public String getTemp() {
-		return temp;
+	public int getHumidity() {
+		return humidity;
 	}
 
 	/**
@@ -49,10 +49,10 @@ public class Temperature {
 	}
 
 	/**
-	 * @param temp the temp to set
+	 * @param humidity the humidity to set
 	 */
-	public void setTemp(String temp) {
-		this.temp = temp;
+	public void setHumidity(int humidity) {
+		this.humidity = humidity;
 	}
 
 }
