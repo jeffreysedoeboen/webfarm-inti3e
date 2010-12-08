@@ -9,32 +9,36 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.Light;
-
-public class LightDao {
+import model.LightSwitch;
 
 
-	private String sqlGetAllLights		= "SELECT date, time, light FROM APP.Light";
-	private String sqlNewLight 			= "INSERT INTO APP.Light (\"DATE \", \"TIME\", \"LIGHT\" ) VALUES (?,?,?)";
+
+public class LightSwitchDao {
+
+
+	private String sqlGetAllLightSwitches 	= "SELECT date, time, LightSwitches FROM APP.LightSwitch";
+	private String sqlNewLightSwitch		= "INSERT INTO APP.LightSwitch (\"DATE \", \"TIME\", \"LIGHTSWITCH\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
-	private PreparedStatement psGetAllLights = null ;
-	private PreparedStatement psNewLight = null;
+	private PreparedStatement psGetAllLightSwitches = null ;
+	private PreparedStatement psNewLightSwitch = null;
 
 
-	public LightDao(){
+	public LightSwitchDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
 		createTable();
 		try{
 
-			this.psGetAllLights   = con.prepareStatement(sqlGetAllLights);
-			this.psNewLight		 = con.prepareStatement(sqlNewLight);
+			this.psGetAllLightSwitches   = con.prepareStatement(sqlGetAllLightSwitches);
+			this.psNewLightSwitch 		 = con.prepareStatement(sqlNewLightSwitch);
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
 		}
 	}
+
+
 
 	public void createTable(){
 
@@ -47,12 +51,12 @@ public class LightDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Temp")){
+			if(!tableList.contains("LightSwitch")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Temp (" +
+				stat.execute("CREATE TABLE APP.LightSwitch (" +
 						"date DATE," +
 						"time VARCHAR(50)," +
-						"light VARCHAR(25)" +
+						"LightSwitch VARCHAR(25)" +
 				")");
 			}
 
@@ -61,16 +65,16 @@ public class LightDao {
 		}
 	}
 
-	public ArrayList<Light> getAllLights(){
-		ArrayList<Light> lights = new ArrayList<Light>();
+	public ArrayList<LightSwitch> getAllLightSwitches(){
+		ArrayList<LightSwitch> lights = new ArrayList<LightSwitch>();
 		try {
-			ResultSet rs = psGetAllLights.executeQuery();
+			ResultSet rs = psGetAllLightSwitches.executeQuery();
 			while (rs.next()){
 				Date date = rs.getDate(1);
 				String time = rs.getString(2);
-				String temp = rs.getString(3);
-				Light light = new Light(date, time, temp);
-				lights.add(light);
+				String light = rs.getString(3);
+				LightSwitch l = new LightSwitch(date, time, light);
+				lights.add(l);
 			}
 		} catch (SQLException se) {
 			printSQLException(se) ;		
@@ -78,13 +82,13 @@ public class LightDao {
 		return lights;
 	}
 
-	public void addNewLight(Date date, String time, String light){
+	public void addNewTemp(Date date, String time, String light){
 		try {
-			psNewLight.clearParameters();
-			psNewLight.setDate(1, new java.sql.Date(date.getTime()));
-			psNewLight.setString(2, time);
-			psNewLight.setString(3, light);
-			psNewLight.executeUpdate();
+			psNewLightSwitch.clearParameters();
+			psNewLightSwitch.setDate(1, new java.sql.Date(date.getTime()));
+			psNewLightSwitch.setString(2, time);
+			psNewLightSwitch.setString(3, light);
+			psNewLightSwitch.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;
 		}
@@ -102,4 +106,3 @@ public class LightDao {
 	}	
 
 }
-
