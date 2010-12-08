@@ -60,14 +60,17 @@ public class DataManager {
 							boolean lightsensor = Boolean.parseBoolean(value);
 							LightSensorDao ld = new LightSensorDao();
 							ld.addNewLight( lightsensor);
+							break;
 				case ('t'):
 							String temperature = value;
 							TempDao td = new TempDao();
 							td.addNewTemp(temperature);
+							break;
 				case ('v'):
 							int humidity = Integer.parseInt(value);
 							HumidityDao hd = new HumidityDao();
 							hd.addNewHumidity(humidity);
+							break;
 				}	
 			}
 			
