@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import model.Movement;
@@ -52,7 +53,7 @@ public class MovementDao {
 			if(!tableList.contains("Movement")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.Movement (" +
-						"date DATE," +
+						"date VARCHAR(10)" +
 						"time VARCHAR(50)," +
 						"movement VARCHAR(25)" +
 				")");
@@ -80,12 +81,12 @@ public class MovementDao {
 		return movements;
 	}
 
-	public void addNewTemp(Date date, String time, String movement){
+	public void addNewMovement(boolean movement){
 		try {
 			psNewMovement.clearParameters();
-			psNewMovement.setDate(1, new java.sql.Date(date.getTime()));
-			psNewMovement.setString(2, time);
-			psNewMovement.setString(3, movement);
+			psNewMovement.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
+			psNewMovement.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewMovement.setInt(3, movement ? 1:0);
 			psNewMovement.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import model.LightSwitch;
@@ -54,7 +55,7 @@ public class LightSwitchDao {
 			if(!tableList.contains("LightSwitch")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.LightSwitch (" +
-						"date DATE," +
+						"date VARCHAR(10)" +
 						"time VARCHAR(50)," +
 						"LightSwitch VARCHAR(25)" +
 				")");
@@ -82,12 +83,12 @@ public class LightSwitchDao {
 		return lights;
 	}
 
-	public void addNewTemp(Date date, String time, String light){
+	public void addNewLightSwitch(boolean light){
 		try {
 			psNewLightSwitch.clearParameters();
-			psNewLightSwitch.setDate(1, new java.sql.Date(date.getTime()));
-			psNewLightSwitch.setString(2, time);
-			psNewLightSwitch.setString(3, light);
+			psNewLightSwitch.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
+			psNewLightSwitch.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewLightSwitch.setInt(3, light ? 1:0);
 			psNewLightSwitch.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import model.Temperature;
@@ -51,7 +52,7 @@ public class TempDao {
 			if(!tableList.contains("Temp")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.Temp (" +
-						"date DATE," +
+						"date VARCHAR(10)," +
 						"time VARCHAR(50)," +
 						"temp VARCHAR(25)" +
 				")");
@@ -79,11 +80,11 @@ public class TempDao {
 		return temps;
 	}
 
-	public void addNewTemp(Date date, String time, String temperature){
+	public void addNewTemp(String temperature){
 		try {
 			psNewTemp.clearParameters();
-			psNewTemp.setDate(1, new java.sql.Date(date.getTime()));
-			psNewTemp.setString(2, time);
+			psNewTemp.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
+			psNewTemp.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
 			psNewTemp.setString(3, temperature);
 			psNewTemp.executeUpdate();
 		} catch (SQLException se) {
