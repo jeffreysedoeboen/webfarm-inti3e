@@ -48,7 +48,7 @@ public class TempDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Users")){
+			if(!tableList.contains("Temp")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.Temp (" +
 						"date DATE," +
