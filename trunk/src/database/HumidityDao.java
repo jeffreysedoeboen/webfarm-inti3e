@@ -9,28 +9,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.Temperature;
-import model.User;
+import model.Humidity;
 
-public class TempDao {
+public class HumidityDao {
 
 
-	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp";
-	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE \", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
+	private String sqlGetAllTemps		= "SELECT date, time, humid FROM APP.Humidity";
+	private String sqlNewTemp 			= "INSERT INTO APP.Humidity (\"DATE \", \"TIME\", \"HUMID\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
-	private PreparedStatement psGetAllTemps = null ;
-	private PreparedStatement psNewTemp = null;
+	private PreparedStatement psGetAllHumids = null ;
+	private PreparedStatement psNewHumid = null;
 
 
-	public TempDao(){
+	public HumidityDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
 		createTable();
 		try{
 
-			this.psGetAllTemps   = con.prepareStatement(sqlGetAllTemps);
-			this.psNewTemp 		 = con.prepareStatement(sqlNewTemp);
+			this.psGetAllHumids   = con.prepareStatement(sqlGetAllTemps);
+			this.psNewHumid 	  = con.prepareStatement(sqlNewTemp);
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
@@ -48,12 +47,12 @@ public class TempDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Temp")){
+			if(!tableList.contains("Humidity")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Temp (" +
+				stat.execute("CREATE TABLE APP.Humidity (" +
 						"date DATE," +
 						"time VARCHAR(50)," +
-						"temp VARCHAR(25)" +
+						"humid INTEGER" +
 				")");
 			}
 
@@ -62,30 +61,30 @@ public class TempDao {
 		}
 	}
 
-	public ArrayList<Temperature> getAllTemps(){
-		ArrayList<Temperature> temps = new ArrayList<Temperature>();
+	public ArrayList<Humidity> getAllHumids(){
+		ArrayList<Humidity> humiditys = new ArrayList<Humidity>();
 		try {
-			ResultSet rs = psGetAllTemps.executeQuery();
+			ResultSet rs = psGetAllHumids.executeQuery();
 			while (rs.next()){
 				Date date = rs.getDate(1);
 				String time = rs.getString(2);
-				String temp = rs.getString(3);
-				Temperature temperature = new Temperature(date, time, temp);
-				temps.add(temperature);
+				int humidity = rs.getInt(3);
+				Humidity humid = new Humidity(date, time, humidity);
+				humiditys.add(humid);
 			}
 		} catch (SQLException se) {
 			printSQLException(se) ;		
 		} 
-		return temps;
+		return humiditys;
 	}
 
-	public void addNewTemp(Date date, String time, String temperature){
+	public void addNewHumid(Date date, String time, String temperature){
 		try {
-			psNewTemp.clearParameters();
-			psNewTemp.setDate(1, new java.sql.Date(date.getTime()));
-			psNewTemp.setString(2, time);
-			psNewTemp.setString(3, temperature);
-			psNewTemp.executeUpdate();
+			psNewHumid.clearParameters();
+			psNewHumid.setDate(1, new java.sql.Date(date.getTime()));
+			psNewHumid.setString(2, time);
+			psNewHumid.setString(3, temperature);
+			psNewHumid.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;
 		}
