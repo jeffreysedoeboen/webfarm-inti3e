@@ -1,17 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Temperature history</title>
-</head>
-<body>
+<br></br>
+<br></br>
+<br></br>
 <div style="
+left:screen.width / 3;
+top:screen.height / 2; 
 color:#ffffff;
 width:300px;
 height:300px;
 border: 5px;
+float: left;
 background-color:#000000;
 overflow:auto;">
 <table border="1">
@@ -72,7 +69,19 @@ overflow:auto;">
 </tr>
 </table>
 </div>
+<div id="tempdiv" style="height:400px;width:800px;margin-left: 50px;float:left;"></div>
+
+
 <br></br>
 <br></br>
-</body>
-</html>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+
