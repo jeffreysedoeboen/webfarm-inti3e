@@ -15,7 +15,7 @@ import model.User;
 public class TempDao {
 
 
-	private String sqlGetAllTemps		= "SELECT name, password FROM APP.Temp";
+	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp";
 	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE \", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
