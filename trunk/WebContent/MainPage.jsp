@@ -5,9 +5,28 @@
 <head>
 <script type="text/javascript" src="assets/js/lib/jquery-1.4.4.js"></script>
 <script type="text/javascript" src="assets/js/lib/jquery-ui-1.8.6.js"></script>
-<link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css">
+<link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css" />
+<script language="javascript" type="text/javascript" src="assets/js/lib/jquery.jqplot.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Main Page</title>
+<script>
+$(document).ready(function(){
+	$.jqplot('tempdiv',  [[[8, 2],[9,5.12],[10,13.1],[11, 46.6],[12,85.9],[13,99]]],
+			{ title:'Temperature',
+			  axes:{yaxis:{min:-10, max:100}},
+			  series:[{color:'#5FAB78'}]
+			});
+	});
+
+$(document).ready(function(){
+	$.jqplot('humiditydiv',  [[[8, 20],[9,25],[10,30],[11, 32],[12,27],[13,25]]],
+			{ title:'Air Humidity',
+			  axes:{yaxis:{min:0, max:100}},
+			  series:[{color:'#5FAB78'}]
+			});
+	});
+</script>
 </head>
 <body>
 <script>
@@ -50,6 +69,7 @@
 	<p align = "center">Firewall & OS</p>
 		<p align="center">* <a href="http://www.ipfire.org">IpFire</a></p>
 		<p align="center">* <a href="http://www.debian.org">Debian</a></p>
+		<p align="center">* <a href="http://distrowatch.com/search.php?category=Firewall#distrosearch">List of firewalls</a></p>
 	<br></br>
 	<p align="center">Web page</p>
 		<p align="center">* <a href="http://www.jquery.com">jQuery</a></p>
