@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import model.LightSensor;
@@ -50,7 +51,7 @@ public class LightSensorDao {
 			if(!tableList.contains("Temp")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.Temp (" +
-						"date DATE," +
+						"date VARCHAR(10)" +
 						"time VARCHAR(50)," +
 						"light VARCHAR(25)" +
 				")");
@@ -78,12 +79,12 @@ public class LightSensorDao {
 		return lightSensors;
 	}
 
-	public void addNewLight(Date date, String time, String light){
+	public void addNewLight(boolean light) {
 		try {
 			psNewLight.clearParameters();
-			psNewLight.setDate(1, new java.sql.Date(date.getTime()));
-			psNewLight.setString(2, time);
-			psNewLight.setString(3, light);
+			psNewLight.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
+			psNewLight.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewLight.setInt(3, light ? 1:0);
 			psNewLight.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;
@@ -99,7 +100,10 @@ public class LightSensorDao {
 
 			se = se.getNextException();
 		}
-	}	
+	}
+
+	
+	
 
 }
 

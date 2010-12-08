@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import model.Humidity;
@@ -50,7 +51,7 @@ public class HumidityDao {
 			if(!tableList.contains("Humidity")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.Humidity (" +
-						"date DATE," +
+						"date VARCHAR(10)" +
 						"time VARCHAR(50)," +
 						"humid INTEGER" +
 				")");
@@ -78,12 +79,12 @@ public class HumidityDao {
 		return humiditys;
 	}
 
-	public void addNewHumid(Date date, String time, String temperature){
+	public void addNewHumidity(int humidity){
 		try {
 			psNewHumid.clearParameters();
-			psNewHumid.setDate(1, new java.sql.Date(date.getTime()));
-			psNewHumid.setString(2, time);
-			psNewHumid.setString(3, temperature);
+			psNewHumid.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
+			psNewHumid.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewHumid.setInt(3, humidity);
 			psNewHumid.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;

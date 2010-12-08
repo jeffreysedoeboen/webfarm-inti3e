@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import model.Door;
@@ -52,9 +53,9 @@ public class DoorDao {
 			if(!tableList.contains("Door")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.Door (" +
-						"date DATE," +
+						"date VARCHAR(10)," +
 						"time VARCHAR(50)," +
-						"door VARCHAR(25)" +
+						"door SMALLINT" +
 				")");
 			}
 
@@ -68,7 +69,7 @@ public class DoorDao {
 		try {
 			ResultSet rs = psGetAllDoor.executeQuery();
 			while (rs.next()){
-				Date date = rs.getDate(1);
+				String date = rs.getString(1);
 				String time = rs.getString(2);
 				String door = rs.getString(3);
 				Door d = new Door(date, time, door);
@@ -80,12 +81,12 @@ public class DoorDao {
 		return doors;
 	}
 
-	public void addNewTemp(Date date, String time, String temperature){
+	public void addNewDoor( boolean open ){
 		try {
 			psNewDoor.clearParameters();
-			psNewDoor.setDate(1, new java.sql.Date(date.getTime()));
-			psNewDoor.setString(2, time);
-			psNewDoor.setString(3, temperature);
+			psNewDoor.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
+			psNewDoor.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewDoor.setInt(3, open ? 1:0);
 			psNewDoor.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;
