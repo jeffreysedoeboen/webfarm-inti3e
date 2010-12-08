@@ -3,12 +3,40 @@ package model;
 import java.util.Date;
 
 public class LightSensor {
-	private Date date;
+	private String date;
 	private String time;
-	private String temp;
+	private String light;
 
-	public LightSensor(Date date, String time, String temp) {
-		// TODO Auto-generated constructor stub
+	public LightSensor(String date, String time, String light) {
+		this.date = date;
+		this.time = time;
+		this.light = light;
 	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate( String date ) {
+		this.date = date;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime( String time ) {
+		this.time = time;
+	}
+
+	public String getLight() {
+		return light;
+	}
+
+	public void setLight( String light ) {
+		this.light = light;
+	}
+	
+	
 
 }

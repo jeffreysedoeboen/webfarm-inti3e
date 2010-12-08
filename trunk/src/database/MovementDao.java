@@ -17,8 +17,8 @@ import model.User;
 public class MovementDao {
 
 
-	private String sqlGetAllMovements	= "SELECT date, time, movement FROM APP.Movement";
-	private String sqlNewMovement		= "INSERT INTO APP.Movement (\"DATE \", \"TIME\", \"MOVEMENT\" ) VALUES (?,?,?)";
+	private String sqlGetAllMovements	= "SELECT date, time, movement FROM APP.MOVEMENT";
+	private String sqlNewMovement		= "INSERT INTO APP.MOVEMENT (\"DATE\", \"TIME\", \"MOVEMENT\" ) VALUES (?,?,?)";
 
 	private Connection        con      			= null ;
 	private PreparedStatement psGetAllMovements = null ;
@@ -50,12 +50,12 @@ public class MovementDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Movement")){
+			if(!tableList.contains("MOVEMENT")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Movement (" +
-						"date VARCHAR(10)" +
-						"time VARCHAR(50)," +
-						"movement VARCHAR(25)" +
+				stat.execute("CREATE TABLE APP.MOVEMENT (" +
+						"DATE VARCHAR(10)," +
+						"TIME VARCHAR(50)," +
+						"MOVEMENT VARCHAR(25)" +
 				")");
 			}
 
@@ -69,14 +69,14 @@ public class MovementDao {
 		try {
 			ResultSet rs = psGetAllMovements.executeQuery();
 			while (rs.next()){
-				Date date = rs.getDate(1);
+				String date = rs.getString(1);
 				String time = rs.getString(2);
 				String move = rs.getString(3);
 				Movement movement = new Movement(date, time, move);
 				movements.add(movement);
 			}
 		} catch (SQLException se) {
-			printSQLException(se) ;		
+			se.printStackTrace();	
 		} 
 		return movements;
 	}
@@ -89,7 +89,8 @@ public class MovementDao {
 			psNewMovement.setInt(3, movement ? 1:0);
 			psNewMovement.executeUpdate();
 		} catch (SQLException se) {
-			printSQLException(se) ;
+//			printSQLException(se) ;
+			se.printStackTrace();
 		}
 	}
 

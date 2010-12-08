@@ -3,11 +3,11 @@ package model;
 import java.util.Date;
 
 public class Movement {
-	private Date date;
+	private String date;
 	private String time;
 	private String move;
 
-	public Movement(Date date, String time, String move) {
+	public Movement(String date, String time, String move) {
 		this.date = date;
 		this.time = time;
 		this.move = move;
@@ -16,7 +16,7 @@ public class Movement {
 	/**
 	 * @return the date
 	 */
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
@@ -37,7 +37,7 @@ public class Movement {
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

@@ -17,8 +17,8 @@ import model.User;
 public class DoorDao {
 
 
-	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.Door";
-	private String sqlNewDoor			= "INSERT INTO APP.Door (\"DATE \", \"TIME\", \"DOOR\" ) VALUES (?,?,?)";
+	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.DOOR";
+	private String sqlNewDoor			= "INSERT INTO APP.DOOR (\"DATE\", \"TIME\", \"DOOR\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllDoor = null ;
@@ -50,12 +50,12 @@ public class DoorDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Door")){
+			if(!tableList.contains("DOOR")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Door (" +
-						"date VARCHAR(10)," +
-						"time VARCHAR(50)," +
-						"door SMALLINT" +
+				stat.execute("CREATE TABLE APP.DOOR (" +
+						"DATE VARCHAR(10)," +
+						"TIME VARCHAR(50)," +
+						"DOOR SMALLINT" +
 				")");
 			}
 

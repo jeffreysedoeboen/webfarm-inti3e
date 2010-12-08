@@ -3,11 +3,11 @@ package model;
 import java.util.Date;
 
 public class Temperature {
-	private Date date = null;
+	private String date = null;
 	private String time = "";
 	private String temp = "";
 	
-	public Temperature(Date date, String time, String temp) {
+	public Temperature(String date, String time, String temp) {
 		this.date = date;
 		this.time = time;
 		this.temp = temp;
@@ -16,7 +16,7 @@ public class Temperature {
 	/**
 	 * @return the date
 	 */
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
@@ -37,7 +37,7 @@ public class Temperature {
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
