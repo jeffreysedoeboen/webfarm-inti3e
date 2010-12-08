@@ -17,8 +17,8 @@ import model.LightSwitch;
 public class LightSwitchDao {
 
 
-	private String sqlGetAllLightSwitches 	= "SELECT date, time, LightSwitches FROM APP.LightSwitch";
-	private String sqlNewLightSwitch		= "INSERT INTO APP.LightSwitch (\"DATE \", \"TIME\", \"LIGHTSWITCH\" ) VALUES (?,?,?)";
+	private String sqlGetAllLightSwitches 	= "SELECT date, time, LightSwitch FROM APP.LIGHTSWITCHES";
+	private String sqlNewLightSwitch		= "INSERT INTO APP.LIGHTSWITCHES (\"DATE\", \"TIME\", \"LIGHTSWITCH\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllLightSwitches = null ;
@@ -52,10 +52,10 @@ public class LightSwitchDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("LightSwitch")){
+			if(!tableList.contains("LIGHTSWITCHES")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.LightSwitch (" +
-						"date VARCHAR(10)" +
+				stat.execute("CREATE TABLE APP.LIGHTSWITCHES (" +
+						"date VARCHAR(10)," +
 						"time VARCHAR(50)," +
 						"LightSwitch VARCHAR(25)" +
 				")");
@@ -71,7 +71,7 @@ public class LightSwitchDao {
 		try {
 			ResultSet rs = psGetAllLightSwitches.executeQuery();
 			while (rs.next()){
-				Date date = rs.getDate(1);
+				String date = rs.getString(1);
 				String time = rs.getString(2);
 				String light = rs.getString(3);
 				LightSwitch l = new LightSwitch(date, time, light);

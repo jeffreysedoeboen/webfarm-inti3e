@@ -17,7 +17,7 @@ public class TempDao {
 
 
 	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp";
-	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE \", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
+	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE\", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllTemps = null ;
@@ -49,12 +49,12 @@ public class TempDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Temp")){
+			if(!tableList.contains("TEMP")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.Temp (" +
-						"date VARCHAR(10)," +
-						"time VARCHAR(50)," +
-						"temp VARCHAR(25)" +
+						"DATE VARCHAR(10)," +
+						"TIME VARCHAR(50)," +
+						"TEMP VARCHAR(25)" +
 				")");
 			}
 
@@ -68,7 +68,7 @@ public class TempDao {
 		try {
 			ResultSet rs = psGetAllTemps.executeQuery();
 			while (rs.next()){
-				Date date = rs.getDate(1);
+				String date = rs.getString(1);
 				String time = rs.getString(2);
 				String temp = rs.getString(3);
 				Temperature temperature = new Temperature(date, time, temp);

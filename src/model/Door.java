@@ -13,4 +13,27 @@ public class Door {
 		this.door = door;
 	}
 
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate( String date ) {
+		this.date = date;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime( String time ) {
+		this.time = time;
+	}
+
+	public String getDoor() {
+		return door;
+	}
+
+	public void setDoor( String door ) {
+		this.door = door;
+	}
 }

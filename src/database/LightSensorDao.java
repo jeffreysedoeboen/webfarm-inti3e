@@ -15,8 +15,8 @@ import model.LightSensor;
 public class LightSensorDao {
 
 
-	private String sqlGetAllLights		= "SELECT date, time, light FROM APP.Light";
-	private String sqlNewLight 			= "INSERT INTO APP.Light (\"DATE \", \"TIME\", \"LIGHT\" ) VALUES (?,?,?)";
+	private String sqlGetAllLights		= "SELECT date, time, light FROM APP.LIGHTSENSOR";
+	private String sqlNewLight 			= "INSERT INTO APP.LIGHTSENSOR (\"DATE\", \"TIME\", \"LIGHT\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllLights = null ;
@@ -48,10 +48,10 @@ public class LightSensorDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Temp")){
+			if(!tableList.contains("LIGHTSENSOR")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Temp (" +
-						"date VARCHAR(10)" +
+				stat.execute("CREATE TABLE APP.LIGHTSENSOR (" +
+						"date VARCHAR(10)," +
 						"time VARCHAR(50)," +
 						"light VARCHAR(25)" +
 				")");
@@ -67,7 +67,7 @@ public class LightSensorDao {
 		try {
 			ResultSet rs = psGetAllLights.executeQuery();
 			while (rs.next()){
-				Date date = rs.getDate(1);
+				String date = rs.getString(1);
 				String time = rs.getString(2);
 				String light = rs.getString(3);
 				LightSensor lightSensor = new LightSensor(date, time, light);

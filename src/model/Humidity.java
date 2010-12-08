@@ -3,11 +3,11 @@ package model;
 import java.util.Date;
 
 public class Humidity {
-	private Date date;
+	private String date;
 	private String time;
 	private int humidity;
 	
-	public Humidity(Date date, String time, int humidity) {
+	public Humidity(String date, String time, int humidity) {
 		this.date = date;
 		this.time = time;
 		this.humidity = humidity;
@@ -16,7 +16,7 @@ public class Humidity {
 	/**
 	 * @return the date
 	 */
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
@@ -37,7 +37,7 @@ public class Humidity {
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

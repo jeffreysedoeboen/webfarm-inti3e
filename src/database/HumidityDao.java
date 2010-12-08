@@ -15,8 +15,8 @@ import model.Humidity;
 public class HumidityDao {
 
 
-	private String sqlGetAllTemps		= "SELECT date, time, humid FROM APP.Humidity";
-	private String sqlNewTemp 			= "INSERT INTO APP.Humidity (\"DATE \", \"TIME\", \"HUMID\" ) VALUES (?,?,?)";
+	private String sqlGetAllTemps		= "SELECT date, time, humidity FROM APP.Humidity";
+	private String sqlNewTemp 			= "INSERT INTO APP.Humidity (\"DATE\", \"TIME\", \"HUMIDITY\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllHumids = null ;
@@ -48,12 +48,12 @@ public class HumidityDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Humidity")){
+			if(!tableList.contains("HUMIDITY")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Humidity (" +
-						"date VARCHAR(10)" +
-						"time VARCHAR(50)," +
-						"humid INTEGER" +
+				stat.execute("CREATE TABLE APP.HUMIDITY (" +
+						"DATE VARCHAR(10)," +
+						"TIME VARCHAR(50)," +
+						"HUMIDITY INTEGER" +
 				")");
 			}
 
@@ -67,7 +67,7 @@ public class HumidityDao {
 		try {
 			ResultSet rs = psGetAllHumids.executeQuery();
 			while (rs.next()){
-				Date date = rs.getDate(1);
+				String date = rs.getString(1);
 				String time = rs.getString(2);
 				int humidity = rs.getInt(3);
 				Humidity humid = new Humidity(date, time, humidity);
