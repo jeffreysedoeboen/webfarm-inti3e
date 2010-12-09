@@ -54,5 +54,9 @@ public class Humidity {
 	public void setHumidity(int humidity) {
 		this.humidity = humidity;
 	}
+	
+	public String getcoordinates() {
+		return "[" + getTime() + ", " + getHumidity() + "]";
+	}
 
 }

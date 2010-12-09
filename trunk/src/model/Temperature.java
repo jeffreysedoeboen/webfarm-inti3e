@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Date;
-
 public class Temperature {
 	private String date = null;
 	private String time = "";
@@ -53,6 +51,10 @@ public class Temperature {
 	 */
 	public void setTemp(String temp) {
 		this.temp = temp;
+	}
+	
+	public String getcoordinates() {
+		return "[" + getTime() + ", " + getTemp() + "]";
 	}
 
 }
