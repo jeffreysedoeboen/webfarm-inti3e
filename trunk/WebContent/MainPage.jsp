@@ -44,7 +44,8 @@ $(document).ready(function(){
 		<li><a href="#tabs-5">Air humidity</a></li>
 		<li><a href="#tabs-6">Illumination</a></li>
 		<li><a href="#tabs-7">Door switch</a></li>
-		<li><a href="#tabs-8">Sources</a></li>
+		<li><a href="#tabs-8">Light switch</a></li>
+		<li><a href="#tabs-9">Sources</a></li>
 	</ul>
 	<div id="tabs-1">
 		<p><h1 align="center">Welcome to our application!</h1></p>
@@ -64,7 +65,9 @@ $(document).ready(function(){
 	</div>
 	<div id="tabs-7"><jsp:include page="/WEB-INF/components/tabs/doorSwitch.jsp" />
 	</div>
-	<div id="tabs-8">
+	<div id="tabs-8"><jsp:include page="/WEB-INF/components/tabs/lightSwitch.jsp" />
+	</div>
+	<div id="tabs-9">
 	<p><h1 align="center">The sources we used:</h1></p>
 	<p align = "center">Firewall & OS</p>
 		<p align="center">* <a href="http://www.ipfire.org">IpFire</a></p>
