@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
 			sessionControl.addUser(session, user);
 			response.sendRedirect("MainPage.jsp");
 		} else {
-			
+			response.sendRedirect("RegisterError.html");
 		}
 	}
 
