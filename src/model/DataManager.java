@@ -36,6 +36,7 @@ public class DataManager {
 		
 		while(true){
 			String inputData = (String) inputstream.readObject();
+			System.out.println(inputData);
 			String[] splittedData = inputData.split(":");
 			for (String s : splittedData){
 				char indentifier = s.charAt(0);
@@ -45,11 +46,12 @@ public class DataManager {
 							boolean door =Boolean.parseBoolean(value);
 							DoorDao dd = new DoorDao();
 							dd.addNewDoor(door);
+							
 							break;
 				case ('b'): 
 							boolean movement = Boolean.parseBoolean(value);
 							MovementDao md = new MovementDao();
-							md.addNewMovement(movement);
+							md.addNewMovement(!movement); // sensor geeft 1 als er geen actie is, 0 als er wel actie is.
 							break;
 				case ('s'):
 							boolean lightswitch = Boolean.parseBoolean(value);
