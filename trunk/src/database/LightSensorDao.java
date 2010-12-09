@@ -61,6 +61,17 @@ public class LightSensorDao {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean getLightOn() {
+		ArrayList<LightSensor> lightMessures = getAllLights();
+		LightSensor s = lightMessures.get(lightMessures.size()-1);
+		if(s.getLight().equals("true")) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
 
 	public ArrayList<LightSensor> getAllLights(){
 		ArrayList<LightSensor> lightSensors = new ArrayList<LightSensor>();
