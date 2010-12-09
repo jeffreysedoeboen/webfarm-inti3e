@@ -22,7 +22,7 @@ public class DataManager {
 	public DataManager(){
 		
 		try {
-			welcomeSocket = new ServerSocket();
+			welcomeSocket = new ServerSocket(4000);
 			socket = welcomeSocket.accept();
 		} catch (IOException e) {
 			e.printStackTrace();
