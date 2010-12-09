@@ -8,10 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
 import model.Temperature;
-import model.User;
 
 public class TempDao {
 
@@ -84,7 +81,7 @@ public class TempDao {
 		try {
 			psNewTemp.clearParameters();
 			psNewTemp.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
-			psNewTemp.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewTemp.setString(2, "" + Calendar.HOUR_OF_DAY) ;
 			psNewTemp.setString(3, temperature);
 			psNewTemp.executeUpdate();
 		} catch (SQLException se) {

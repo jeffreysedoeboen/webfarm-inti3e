@@ -83,7 +83,7 @@ public class HumidityDao {
 		try {
 			psNewHumid.clearParameters();
 			psNewHumid.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
-			psNewHumid.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewHumid.setString(2,"" + Calendar.HOUR_OF_DAY);
 			psNewHumid.setInt(3, humidity);
 			psNewHumid.executeUpdate();
 		} catch (SQLException se) {
