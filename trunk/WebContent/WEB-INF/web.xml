@@ -30,4 +30,14 @@
     <servlet-name>LightSwitch</servlet-name>
     <url-pattern>/LightSwitch.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DateServlet</display-name>
+    <servlet-name>DateServlet</servlet-name>
+    <servlet-class>servlets.DateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DateServlet</servlet-name>
+    <url-pattern>/DateServlet.do</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -1,14 +1,14 @@
 <br></br>
 <br></br>
-<br></br>
 <script>
 $(function() {
 		$( "#datepicker" ).datepicker();
 	});
 </script>
-<form method="get" action="dateServlet.do?ID=humidity">
+<form method="get" action="DateServlet.do?ID=humidity">
 <p>Date: <input type="text" id="datepicker"></p>
 <input type="submit" value="submit"></input></form>
+<br></br>
 <div style="
 left:screen.width / 3;
 top:screen.height / 2; 
