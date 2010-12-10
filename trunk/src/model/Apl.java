@@ -1,6 +1,7 @@
 package model;
 
 import java.io.IOException;
+import database.TempDao;
 
 public class Apl {
 
@@ -8,7 +9,5 @@ public class Apl {
 		DataManager dm = new DataManager();
 		System.out.println("test");
 		dm.read();
-		
-		
 	}
 }

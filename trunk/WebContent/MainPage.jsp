@@ -5,6 +5,17 @@
 <head>
 <script type="text/javascript" src="assets/js/lib/jquery-1.4.4.js"></script>
 <script type="text/javascript" src="assets/js/lib/jquery-ui-1.8.6.js"></script>
+<script type="text/javascript">
+function reloadGraphs() {
+	setInterval("kaas()", 1000);
+}
+
+function kaas() {
+	
+}
+
+
+</script>
 <link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css" />
 <script language="javascript" type="text/javascript" src="assets/js/lib/jquery.jqplot.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css" />

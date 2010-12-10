@@ -2,12 +2,14 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import model.Temperature;
 
 public class TempDao {
@@ -15,10 +17,12 @@ public class TempDao {
 
 	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp";
 	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE\", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
-
+	private String sqlGetTempOfDate		= "SELECT time, temp FROM APP.Temp WHERE date=?";
+	
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllTemps = null ;
 	private PreparedStatement psNewTemp = null;
+	private PreparedStatement psGetTempOfDate = null;
 
 
 	public TempDao(){
@@ -29,6 +33,7 @@ public class TempDao {
 
 			this.psGetAllTemps   = con.prepareStatement(sqlGetAllTemps);
 			this.psNewTemp 		 = con.prepareStatement(sqlNewTemp);
+			this.psGetTempOfDate = con.prepareStatement(sqlGetTempOfDate);
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
@@ -49,7 +54,7 @@ public class TempDao {
 			if(!tableList.contains("TEMP")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.Temp (" +
-						"DATE VARCHAR(10)," +
+						"DATE DATE," +
 						"TIME VARCHAR(50)," +
 						"TEMP VARCHAR(25)" +
 				")");
@@ -65,7 +70,7 @@ public class TempDao {
 		try {
 			ResultSet rs = psGetAllTemps.executeQuery();
 			while (rs.next()){
-				String date = rs.getString(1);
+				Date date = rs.getDate(1);
 				String time = rs.getString(2);
 				String temp = rs.getString(3);
 				Temperature temperature = new Temperature(date, time, temp);
@@ -79,9 +84,10 @@ public class TempDao {
 
 	public void addNewTemp(String temperature){
 		try {
+			Calendar calendar = Calendar.getInstance();
 			psNewTemp.clearParameters();
-			psNewTemp.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
-			psNewTemp.setString(2, "" + Calendar.HOUR_OF_DAY) ;
+			psNewTemp.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+			psNewTemp.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY)) ;
 			psNewTemp.setString(3, temperature);
 			psNewTemp.executeUpdate();
 		} catch (SQLException se) {
@@ -98,6 +104,31 @@ public class TempDao {
 
 			se = se.getNextException();
 		}
-	}	
+	}
+	
+	public ArrayList<Temperature> getTempsOfDate(String dateFormat){
+		ArrayList<Temperature> temps = new ArrayList<Temperature>();
+		String[] splittedDateFormat = dateFormat.split("-");
+		int year 	= Integer.parseInt(splittedDateFormat[2]);
+		int month 	= Integer.parseInt(splittedDateFormat[1]);
+		int day 	= Integer.parseInt(splittedDateFormat[0]);
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.set(year, month - 1, day);
+		Date date = new Date(gc.getTimeInMillis());
+		try {
+			psGetTempOfDate.setDate(1, date);
+			
+			ResultSet rs = psGetTempOfDate.executeQuery();
+			while (rs.next()){
+				String time = rs.getString(1);
+				String temp = rs.getString(2);
+				Temperature temperature = new Temperature(date, time, temp);
+				temps.add(temperature);
+			}
+		} catch (SQLException se) {
+			printSQLException(se) ;		
+		} 
+		return temps;
+	}
 
 }
