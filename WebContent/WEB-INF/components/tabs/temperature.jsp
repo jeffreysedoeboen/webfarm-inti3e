@@ -1,5 +1,13 @@
 <br></br>
 <br></br>
+<script>
+$(function() {
+		$( "#datepicker" ).datepicker();
+	});
+</script>
+<form method="get" action="dateServlet.do?ID=temp">
+<p>Date: <input type="text" id="datepicker"></p>
+<input type="submit" value="submit"></input></form>
 <br></br>
 <div style="
 left:screen.width / 3;
