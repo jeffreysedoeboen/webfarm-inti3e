@@ -5,7 +5,7 @@ $(function() {
 		$( "#datepicker" ).datepicker();
 	});
 </script>
-<form method="get" action="dateServlet.do?ID=temp">
+<form method="get" action="DateServlet.do?ID=temp">
 <p>Date: <input type="text" id="datepicker"></p>
 <input type="submit" value="submit"></input></form>
 <br></br>
