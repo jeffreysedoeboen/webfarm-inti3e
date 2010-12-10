@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -17,20 +18,23 @@ import database.TempDao;
 
 public class DataManager {
 	private ServerSocket welcomeSocket = null;
-	private ObjectInputStream inputstream = null;
 	private Socket socket;
-	private boolean connOpen;
+	private boolean switchLight;
+	private int outPut = 0;
 
 	public DataManager() {
 
 		try {
 			welcomeSocket = new ServerSocket(4000);
 			socket = welcomeSocket.accept();
-			connOpen = true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void setSwitchLight(boolean light) {
+		switchLight = light;
 	}
 
 	public void read() {
@@ -77,6 +81,16 @@ public class DataManager {
 						break;
 					}
 				}
+			}
+			if(switchLight) {
+				OutputStream out = socket.getOutputStream();
+				if(outPut == 1) {
+					outPut = 0;
+				} else {
+					outPut = 1;
+				}
+				out.write(outPut);
+				switchLight = false;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
