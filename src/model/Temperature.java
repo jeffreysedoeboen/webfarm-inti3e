@@ -1,11 +1,13 @@
 package model;
 
+import java.sql.Date;
+
 public class Temperature {
-	private String date = null;
+	private Date date = null;
 	private String time = "";
 	private String temp = "";
 	
-	public Temperature(String date, String time, String temp) {
+	public Temperature(Date date, String time, String temp) {
 		this.date = date;
 		this.time = time;
 		this.temp = temp;
@@ -14,7 +16,7 @@ public class Temperature {
 	/**
 	 * @return the date
 	 */
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
@@ -35,7 +37,7 @@ public class Temperature {
 	/**
 	 * @param date the date to set
 	 */
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -54,7 +56,7 @@ public class Temperature {
 	}
 	
 	public String getcoordinates() {
-		return "[" + getTime() + ", " + getTemp() + "]";
+		return "[" + getDate().getTime() + ", " + getTemp() + "]";
 	}
 
 }

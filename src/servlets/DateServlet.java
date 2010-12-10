@@ -1,10 +1,19 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.DateFormatter;
+import model.Temperature;
+import database.TempDao;
 
 /**
  * Servlet implementation class dataServlet
@@ -30,8 +39,7 @@ public class DateServlet extends HttpServlet {
 			System.out.println("Moet nog wat met data doen");
 			
 		} else if(type.equals("temp")) {
-			System.out.println("Moet nog wat met data doen");
-			
+			TempDao tempDao = new TempDao();
 		}
 	}
 

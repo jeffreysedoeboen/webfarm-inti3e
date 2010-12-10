@@ -1,6 +1,5 @@
 package model;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -8,7 +7,6 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.omg.CORBA.portable.InputStream;
 import database.DoorDao;
 import database.HumidityDao;
 import database.LightSensorDao;
