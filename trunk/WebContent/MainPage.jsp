@@ -96,7 +96,7 @@ $(document).ready(function(){
 		<p align="center">* <a href="http://dev.fubbie.org/wiki/browser/fubbie-techtests/src/org/fubbie/techtests/snippets/GStreamerWebcam.java">Examples</a></p>
 		<p align="center">* <a href="http://www.twm-kd.com/linux/webcam-and-linux-gstreamer-tutorial/">Webcam and Linux</a></p>
 	<br></br>
-	<p><h2 align="center">DK-51</h2></p>
+	<p><h2 align="center">Code conventies</h2></p>
 		<p align="center">* <a href="http://drupal.org/coding-standards">Coding Standards (Voorbeeld)</a></p>
 	</div>
 </div>
