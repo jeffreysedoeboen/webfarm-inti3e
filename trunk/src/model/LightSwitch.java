@@ -1,11 +1,13 @@
 package model;
 
+import java.util.Date;
+
 public class LightSwitch {
 	private String light;
-	private String date;
+	private Date date;
 	private String time;
 
-	public LightSwitch(String date, String time, String light) {
+	public LightSwitch(Date date, String time, String light) {
 		this.light = light;
 		this.date = date;
 		this.light = light;
@@ -19,11 +21,11 @@ public class LightSwitch {
 		this.light = light;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate( String date ) {
+	public void setDate( Date date ) {
 		this.date = date;
 	}
 

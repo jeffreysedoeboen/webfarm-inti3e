@@ -51,7 +51,7 @@ public class HumidityDao {
 			if(!tableList.contains("HUMIDITY")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.HUMIDITY (" +
-						"DATE VARCHAR(10)," +
+						"DATE DATE," +
 						"TIME VARCHAR(50)," +
 						"HUMIDITY INTEGER" +
 				")");
@@ -67,7 +67,7 @@ public class HumidityDao {
 		try {
 			ResultSet rs = psGetAllHumids.executeQuery();
 			while (rs.next()){
-				String date = rs.getString(1);
+				Date date = rs.getDate(1);
 				String time = rs.getString(2);
 				int humidity = rs.getInt(3);
 				Humidity humid = new Humidity(date, time, humidity);
@@ -81,9 +81,10 @@ public class HumidityDao {
 
 	public void addNewHumidity(int humidity){
 		try {
+			Calendar calendar = Calendar.getInstance();
 			psNewHumid.clearParameters();
-			psNewHumid.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
-			psNewHumid.setString(2,"" + Calendar.HOUR_OF_DAY);
+			psNewHumid.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
 			psNewHumid.setInt(3, humidity);
 			psNewHumid.executeUpdate();
 		} catch (SQLException se) {

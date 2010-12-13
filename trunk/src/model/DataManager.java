@@ -30,7 +30,7 @@ public class DataManager {
 		}
 
 	}
-	
+
 	public void setSwitchLight(boolean light) {
 		switchLight = light;
 	}
@@ -45,51 +45,84 @@ public class DataManager {
 				String value = "";
 				while ((input = (char) socket.getInputStream().read()) != ':') {
 					value += String.valueOf(input);
-					switch (in) {
-					case ('d'):
-						boolean door = Boolean.parseBoolean(value);
-						DoorDao dd = new DoorDao();
-						dd.addNewDoor(door);
-
-						break;
-					case ('b'):
-						boolean movement = Boolean.parseBoolean(value);
-						MovementDao md = new MovementDao();
-						md.addNewMovement(movement);
-						break;
-					case ('s'):
-						boolean lightswitch = Boolean.parseBoolean(value);
-						LightSwitchDao lsd = new LightSwitchDao();
-						lsd.addNewLightSwitch(lightswitch);
-						break;
-					case ('l'):
-						boolean lightsensor = Boolean.parseBoolean(value);
-						LightSensorDao ld = new LightSensorDao();
-						ld.addNewLight(lightsensor);
-						break;
-					case ('t'):
-						String temperature = value;
-						TempDao td = new TempDao();
-						td.addNewTemp(temperature);
-						break;
-					case ('v'):
-						int humidity = Integer.parseInt(value);
-						HumidityDao hd = new HumidityDao();
-						hd.addNewHumidity(humidity);
-						break;
+				}
+				System.out.println(value);
+				switch (in) {
+				case ('D'):
+					System.out.println("Deur");
+					boolean door;
+					if(value.equals("1")) {
+						door = true;
+					} else {
+						door = false;
 					}
+					DoorDao dd = new DoorDao();
+					dd.addNewDoor(door);
+
+				break;
+				case ('B'):
+					System.out.println("Movement");
+					boolean movement;
+					if(value.equals("1")) {
+						movement = true;
+					} else {
+						movement = false;
+					}
+					System.out.println(movement);
+					MovementDao md = new MovementDao();
+					md.addNewMovement(movement);
+					break;
+				case ('S'):
+					System.out.println("Switch");
+					boolean manualSwitch;
+					if(value.equals("1")) {
+						manualSwitch = true;
+					} else {
+						manualSwitch = false;
+					}
+					LightSwitchDao lsd = new LightSwitchDao();
+					lsd.addNewLightSwitch(manualSwitch);
+					break;
+				case ('L'):
+					System.out.println("Lightsensor");
+					boolean lightSensor;
+					if(value.equals("1")) {
+						lightSensor = true;
+					} else {
+						lightSensor = false;
+					}
+					LightSensorDao ld = new LightSensorDao();
+					ld.addNewLight(lightSensor);
+					break;
+				case ('T'):
+					System.out.println("Temperature");
+					String temperature = value;
+					TempDao td = new TempDao();
+					td.addNewTemp(temperature);
+					break;
+				case ('H'):
+					System.out.println("Luchtvochtigheid");
+					int humidity = Integer.parseInt(value);
+					HumidityDao hd = new HumidityDao();
+					hd.addNewHumidity(humidity);
+					break;
+				}
+				if(switchLight) {
+					OutputStream out = socket.getOutputStream();
+					System.out.println("SwitchLight = " + switchLight);
+					if(outPut == 1) {
+						outPut = 0;
+					} else {
+						outPut = 1;
+					}
+					System.out.println(outPut);
+					out.write('L');
+					out.write(outPut + 48);//ASCI
+					out.write(':');
+					switchLight = false;
 				}
 			}
-			if(switchLight) {
-				OutputStream out = socket.getOutputStream();
-				if(outPut == 1) {
-					outPut = 0;
-				} else {
-					outPut = 1;
-				}
-				out.write(outPut);
-				switchLight = false;
-			}
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

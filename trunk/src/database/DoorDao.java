@@ -53,7 +53,7 @@ public class DoorDao {
 			if(!tableList.contains("DOOR")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.DOOR (" +
-						"DATE VARCHAR(10)," +
+						"DATE DATE," +
 						"TIME VARCHAR(50)," +
 						"DOOR SMALLINT" +
 				")");
@@ -69,7 +69,7 @@ public class DoorDao {
 		try {
 			ResultSet rs = psGetAllDoor.executeQuery();
 			while (rs.next()){
-				String date = rs.getString(1);
+				Date date = rs.getDate(1);
 				String time = rs.getString(2);
 				String door = rs.getString(3);
 				Door d = new Door(date, time, door);
@@ -83,9 +83,10 @@ public class DoorDao {
 
 	public void addNewDoor( boolean open ){
 		try {
+			Calendar calendar = Calendar.getInstance();
 			psNewDoor.clearParameters();
-			psNewDoor.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
-			psNewDoor.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewDoor.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+			psNewDoor.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
 			psNewDoor.setInt(3, open ? 1:0);
 			psNewDoor.executeUpdate();
 		} catch (SQLException se) {
