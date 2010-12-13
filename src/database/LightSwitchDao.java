@@ -8,7 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
+import java.util.GregorianCalendar;
 
 import model.LightSwitch;
 
@@ -23,6 +24,8 @@ public class LightSwitchDao {
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllLightSwitches = null ;
 	private PreparedStatement psNewLightSwitch = null;
+	
+	private Calendar cal = new GregorianCalendar();
 
 
 	public LightSwitchDao(){
@@ -55,7 +58,7 @@ public class LightSwitchDao {
 			if(!tableList.contains("LIGHTSWITCHES")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.LIGHTSWITCHES (" +
-						"date VARCHAR(10)," +
+						"date DATE," +
 						"time VARCHAR(50)," +
 						"LightSwitch VARCHAR(25)" +
 				")");
@@ -71,7 +74,7 @@ public class LightSwitchDao {
 		try {
 			ResultSet rs = psGetAllLightSwitches.executeQuery();
 			while (rs.next()){
-				String date = rs.getString(1);
+				Date date = rs.getDate(1);
 				String time = rs.getString(2);
 				String light = rs.getString(3);
 				LightSwitch l = new LightSwitch(date, time, light);
@@ -84,9 +87,11 @@ public class LightSwitchDao {
 	}
 
 	public void addNewLightSwitch(boolean light){
+		Date date = new Date(cal.getTimeInMillis());
 		try {
+			Calendar calendar = Calendar.getInstance();
 			psNewLightSwitch.clearParameters();
-			psNewLightSwitch.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
+			psNewLightSwitch.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
 			psNewLightSwitch.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
 			psNewLightSwitch.setInt(3, light ? 1:0);
 			psNewLightSwitch.executeUpdate();

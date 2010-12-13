@@ -53,7 +53,7 @@ public class MovementDao {
 			if(!tableList.contains("MOVEMENT")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.MOVEMENT (" +
-						"DATE VARCHAR(10)," +
+						"DATE DATE," +
 						"TIME VARCHAR(50)," +
 						"MOVEMENT VARCHAR(25)" +
 				")");
@@ -69,7 +69,7 @@ public class MovementDao {
 		try {
 			ResultSet rs = psGetAllMovements.executeQuery();
 			while (rs.next()){
-				String date = rs.getString(1);
+				Date date = rs.getDate(1);
 				String time = rs.getString(2);
 				String move = rs.getString(3);
 				Movement movement = new Movement(date, time, move);
@@ -83,9 +83,10 @@ public class MovementDao {
 
 	public void addNewMovement(boolean movement){
 		try {
+			Calendar calendar = Calendar.getInstance();
 			psNewMovement.clearParameters();
-			psNewMovement.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
-			psNewMovement.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewMovement.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+			psNewMovement.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
 			psNewMovement.setInt(3, movement ? 1:0);
 			psNewMovement.executeUpdate();
 		} catch (SQLException se) {

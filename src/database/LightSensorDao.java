@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import model.LightSensor;
 
@@ -51,7 +52,7 @@ public class LightSensorDao {
 			if(!tableList.contains("LIGHTSENSOR")){
 				Statement stat = con.createStatement();
 				stat.execute("CREATE TABLE APP.LIGHTSENSOR (" +
-						"date VARCHAR(10)," +
+						"date DATE," +
 						"time VARCHAR(50)," +
 						"light VARCHAR(25)" +
 				")");
@@ -78,7 +79,7 @@ public class LightSensorDao {
 		try {
 			ResultSet rs = psGetAllLights.executeQuery();
 			while (rs.next()){
-				String date = rs.getString(1);
+				Date date = rs.getDate(1);
 				String time = rs.getString(2);
 				String light = rs.getString(3);
 				LightSensor lightSensor = new LightSensor(date, time, light);
@@ -92,9 +93,10 @@ public class LightSensorDao {
 
 	public void addNewLight(boolean light) {
 		try {
+			Calendar calendar = Calendar.getInstance();
 			psNewLight.clearParameters();
-			psNewLight.setString(1, Calendar.YEAR + "-" + Calendar.MONTH + "-" + Calendar.DAY_OF_MONTH );
-			psNewLight.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);
+			psNewLight.setDate(1, new java.sql.Date(new java.util.Date().getTime()));			
+			psNewLight.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
 			psNewLight.setInt(3, light ? 1:0);
 			psNewLight.executeUpdate();
 		} catch (SQLException se) {

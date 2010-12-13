@@ -3,21 +3,21 @@ package model;
 import java.util.Date;
 
 public class LightSensor {
-	private String date;
+	private Date date;
 	private String time;
 	private String light;
 
-	public LightSensor(String date, String time, String light) {
+	public LightSensor(Date date, String time, String light) {
 		this.date = date;
 		this.time = time;
 		this.light = light;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate( String date ) {
+	public void setDate( Date date ) {
 		this.date = date;
 	}
 

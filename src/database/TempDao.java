@@ -87,7 +87,7 @@ public class TempDao {
 			Calendar calendar = Calendar.getInstance();
 			psNewTemp.clearParameters();
 			psNewTemp.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewTemp.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY)) ;
+			psNewTemp.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
 			psNewTemp.setString(3, temperature);
 			psNewTemp.executeUpdate();
 		} catch (SQLException se) {

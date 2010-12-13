@@ -3,21 +3,21 @@ package model;
 import java.util.Date;
 
 public class Door {
-	private String date;
+	private Date date;
 	private String time;
 	private String door;
 
-	public Door(String date, String time, String door) {
+	public Door(Date date, String time, String door) {
 		this.date = date;
 		this.time = time;
 		this.door = door;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate( String date ) {
+	public void setDate( Date date ) {
 		this.date = date;
 	}
 
