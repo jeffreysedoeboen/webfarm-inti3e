@@ -55,7 +55,7 @@ public class DataManager {
 					case ('b'):
 						boolean movement = Boolean.parseBoolean(value);
 						MovementDao md = new MovementDao();
-						md.addNewMovement(!movement); // sensor geeft 1 als er geen actie is, 0 als er wel actie is.
+						md.addNewMovement(movement);
 						break;
 					case ('s'):
 						boolean lightswitch = Boolean.parseBoolean(value);
