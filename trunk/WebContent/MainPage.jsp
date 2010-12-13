@@ -98,6 +98,7 @@ $(document).ready(function(){
 	<br></br>
 	<p><h2 align="center">Code conventies</h2></p>
 		<p align="center">* <a href="http://drupal.org/coding-standards">Coding Standards (Voorbeeld)</a></p>
+		<p align="center">* <a href="http://wiki.eclipse.org/index.php/Development_Conventions_and_Guidelines">Eclipse code conventies</a></p>
 	</div>
 </div>
 </body>
