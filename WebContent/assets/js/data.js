@@ -1,3 +1,9 @@
+$(document).ready(function() {
+	getTempByDate();
+	getHumidityByDate();
+});
+
+
 function getTempByDate() {
 	var date = document.getElementById("date_temp");
 	
@@ -118,7 +124,7 @@ function drawHumidityChart(json) {
 	plot.innerHTML = "";
 	
 	$.jqplot('humiditydiv', tempArray, {
-		title:'Temperature',
+		title:'Humidity',
 		axes:{
 			yaxis:{
 				label: "Humidity(%)",
