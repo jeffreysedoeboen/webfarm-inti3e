@@ -1,6 +1,3 @@
-    <%@ page import="java.util.ArrayList" %>
-    <%@ page import="com.inti3e.model.Temperature" %>
-    <%@page import="com.inti3e.database.dao.TempDao"%>
 <br></br>
 <br></br>
 <script>
