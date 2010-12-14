@@ -86,11 +86,17 @@ public class TempDao {
 	}
 
 	public void addNewTemp(String temperature){
+		String tempMin = "";
 		try {
 			Calendar calendar = Calendar.getInstance();
 			psNewTemp.clearParameters();
 			psNewTemp.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewTemp.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
+			if(calendar.get(Calendar.MINUTE) < 10) {
+				tempMin = "0" + calendar.get(Calendar.MINUTE);
+			} else {
+				tempMin = "" + calendar.get(Calendar.MINUTE);
+			}
+			psNewTemp.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + tempMin + ":" + calendar.get(Calendar.SECOND));
 			psNewTemp.setString(3, temperature);
 			psNewTemp.executeUpdate();
 		} catch (SQLException se) {
