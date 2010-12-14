@@ -2,22 +2,24 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
-import model.Door;
-import model.Humidity;
-import model.LightSensor;
-import model.LightSwitch;
-import model.Movement;
-import model.Temperature;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import database.DBmanager;
-import database.DoorDao;
-import database.HumidityDao;
-import database.LightSensorDao;
-import database.LightSwitchDao;
-import database.MovementDao;
-import database.TempDao;
+
+import com.inti3e.database.dao.DoorDao;
+import com.inti3e.database.dao.HumidityDao;
+import com.inti3e.database.dao.LightSensorDao;
+import com.inti3e.database.dao.LightSwitchDao;
+import com.inti3e.database.dao.MovementDao;
+import com.inti3e.database.dao.TempDao;
+import com.inti3e.model.Door;
+import com.inti3e.model.Humidity;
+import com.inti3e.model.LightSensor;
+import com.inti3e.model.LightSwitch;
+import com.inti3e.model.Movement;
+import com.inti3e.model.Temperature;
+
+import com.inti3e.database.DBmanager;
 
 
 public class TestDatabase {

@@ -14,7 +14,7 @@
     <description></description>
     <display-name>LoginServlet</display-name>
     <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>servlets.LoginServlet</servlet-class>
+    <servlet-class>com.inti3e.web.LoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
@@ -24,7 +24,7 @@
     <description></description>
     <display-name>LightSwitch</display-name>
     <servlet-name>LightSwitch</servlet-name>
-    <servlet-class>servlets.LightSwitch</servlet-class>
+    <servlet-class>com.inti3e.web.LightSwitch</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>LightSwitch</servlet-name>
@@ -34,7 +34,7 @@
     <description></description>
     <display-name>DateServlet</display-name>
     <servlet-name>DateServlet</servlet-name>
-    <servlet-class>servlets.DateServlet</servlet-class>
+    <servlet-class>com.inti3e.web.DateServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>DateServlet</servlet-name>
