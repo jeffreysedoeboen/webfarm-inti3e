@@ -28,7 +28,7 @@
 		<li><a href="#tabs-4">Temperature</a></li>
 		<li><a href="#tabs-5">Air humidity</a></li>
 		<li><a href="#tabs-6">Illumination</a></li>
-		<li><a href="#tabs-7">Door switch</a></li>
+		<li><a href="#tabs-7">Door</a></li>
 		<li><a href="#tabs-8">Light switch</a></li>
 		<li><a href="#tabs-9">Sources</a></li>
 	</ul>
@@ -48,7 +48,7 @@
 	</div>
 	<div id="tabs-6"><jsp:include page="/WEB-INF/components/tabs/illumination.jsp" />
 	</div>
-	<div id="tabs-7"><jsp:include page="/WEB-INF/components/tabs/doorswitch.jsp" />
+	<div id="tabs-7"><jsp:include page="/WEB-INF/components/tabs/door.jsp" />
 	</div>
 	<div id="tabs-8"><jsp:include page="/WEB-INF/components/tabs/lightswitch.jsp" />
 	</div>

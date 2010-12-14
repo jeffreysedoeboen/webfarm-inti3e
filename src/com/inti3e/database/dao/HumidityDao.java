@@ -118,7 +118,7 @@ public class HumidityDao {
 	}
 	
 	public ArrayList<Humidity> getHumidsOfDate(String dateFormat){
-		ArrayList<Humidity> temps = new ArrayList<Humidity>();
+		ArrayList<Humidity> humids = new ArrayList<Humidity>();
 		String[] splittedDateFormat = dateFormat.split("-");
 		int year 	= Integer.parseInt(splittedDateFormat[2]);
 		int month 	= Integer.parseInt(splittedDateFormat[1]);
@@ -132,14 +132,14 @@ public class HumidityDao {
 			ResultSet rs = psGetHumidOfDate.executeQuery();
 			while (rs.next()){
 				String time = rs.getString(1);
-				int temp = rs.getInt(2);
-				Humidity humid = new Humidity(date, time, temp);
-				temps.add(humid);
+				int humidInt = rs.getInt(2);
+				Humidity humid = new Humidity(date, time, humidInt);
+				humids.add(humid);
 			}
 		} catch (SQLException se) {
 			printSQLException(se) ;		
 		} 
-		return temps;
+		return humids;
 	}
 
 }

@@ -142,3 +142,75 @@ function drawHumidityChart(json) {
 		series:[{color:'#5FAB78'}]
 	});
 }
+
+function getDoorByDate() {
+	var date = document.getElementById("date_door");
+	
+	$.getJSON("DateServlet.do?id=door&date="+date.value, function(json) {
+		fillDoorTable(json);
+	});
+}
+
+function fillDoorTable(json) {
+	var table = document.getElementById("door_table_body");
+	table.innerHTML = "";
+	
+	for (var i = 0; i < json.door.length; i++) {
+		var trElem = document.createElement("tr");
+		
+		var tdDate = document.createElement("td");
+		tdDate.innerHTML = json.door[i].date;
+		
+		var tdTime = document.createElement("td");
+		tdTime.innerHTML = json.door[i].time;
+		
+		var tdDoor = document.createElement("td");
+		if(json.door[i].door == 1) {
+			tdDoor.innerHTML = "OPEN";
+		} else {
+			tdDoor.innerHTML = "CLOSED";
+		}
+		
+		trElem.appendChild(tdDate);
+		trElem.appendChild(tdTime);
+		trElem.appendChild(tdDoor);
+		
+		table.appendChild(trElem);
+	}
+}
+
+function getLightByDate() {
+	var date = document.getElementById("date_light");
+	
+	$.getJSON("DateServlet.do?id=light&date="+date.value, function(json) {
+		fillLightTable(json);
+	});
+}
+
+function fillLightTable(json) {
+	var table = document.getElementById("light_table_body");
+	table.innerHTML = "";
+	
+	for (var i = 0; i < json.light.length; i++) {
+		var trElem = document.createElement("tr");
+		
+		var tdDate = document.createElement("td");
+		tdDate.innerHTML = json.light[i].date;
+		
+		var tdTime = document.createElement("td");
+		tdTime.innerHTML = json.light[i].time;
+		
+		var tdLight = document.createElement("td");
+		if(json.light[i].light == 1) {
+			tdLight.innerHTML = "ON";
+		} else {
+			tdLight.innerHTML = "OFF";
+		}
+		
+		trElem.appendChild(tdDate);
+		trElem.appendChild(tdTime);
+		trElem.appendChild(tdLight);
+		
+		table.appendChild(trElem);
+	}
+}

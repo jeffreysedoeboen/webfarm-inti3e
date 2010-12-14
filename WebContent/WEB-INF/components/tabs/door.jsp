@@ -3,12 +3,12 @@
 <br></br>
 <script>
 $(function() {
-		$( "#date_light" ).datepicker({ dateFormat: 'dd-mm-yy' });
+		$( "#date_door" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});
 </script>
 <div style="float: left;">
-	<p>Date: <input name="datepicker" type="text" id="date_light" readonly="readonly"></p>
-	<input type="button" onclick="getLightByDate()" value="submit"></input>
+	<p>Date: <input name="datepicker" type="text" id="date_door" readonly="readonly"></p>
+	<input type="button" onclick="getDoorByDate()" value="submit"></input>
 </div>
 <br></br>
 <div style="
@@ -26,10 +26,10 @@ overflow:auto;">
 <tr>
 	<th>Date:</th>
 	<th>Time:</th>
-	<th>Light:</th>
+	<th>Door:</th>
 </tr>
 </thead>
-<tbody id="light_table_body"></tbody>
+<tbody id="door_table_body"></tbody>
 </table>
 </div>
 <br></br>

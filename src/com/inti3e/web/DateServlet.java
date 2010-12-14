@@ -16,9 +16,13 @@ import javax.swing.text.DateFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.inti3e.database.dao.DoorDao;
 import com.inti3e.database.dao.HumidityDao;
+import com.inti3e.database.dao.LightSensorDao;
 import com.inti3e.database.dao.TempDao;
+import com.inti3e.model.Door;
 import com.inti3e.model.Humidity;
+import com.inti3e.model.LightSensor;
 import com.inti3e.model.Temperature;
 
 
@@ -61,6 +65,24 @@ public class DateServlet extends HttpServlet {
 			
 			try {
 				json.put("temp", temp);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else if(type.equals("door")) {
+			DoorDao doorDao = new DoorDao();
+			ArrayList<Door> door = doorDao.getDoorsOfDate(date);
+			
+			try {
+				json.put("door", door);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else if(type.equals("light")) {
+			LightSensorDao lightDao = new LightSensorDao();
+			ArrayList<LightSensor> light = lightDao.getLightsOfDate(date);
+			
+			try {
+				json.put("light", light);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
