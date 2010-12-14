@@ -5,9 +5,9 @@ import java.util.Date;
 public class Door {
 	private Date date;
 	private String time;
-	private String door;
+	private int door;
 
-	public Door(Date date, String time, String door) {
+	public Door(Date date, String time, int door) {
 		this.date = date;
 		this.time = time;
 		this.door = door;
@@ -29,11 +29,11 @@ public class Door {
 		this.time = time;
 	}
 
-	public String getDoor() {
+	public int getDoor() {
 		return door;
 	}
 
-	public void setDoor( String door ) {
+	public void setDoor( int door ) {
 		this.door = door;
 	}
 }

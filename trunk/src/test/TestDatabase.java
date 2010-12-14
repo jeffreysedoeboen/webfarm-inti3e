@@ -83,7 +83,7 @@ public class TestDatabase {
 	public void testDoorDao() {
 		DoorDao td = new DoorDao();
 		td.addNewDoor(true);
-		ArrayList<Door> doors = td.getAllTemps();
+		ArrayList<Door> doors = td.getAllDoors();
 		for(Door door: doors) {
 			System.out.println(door.getDoor());
 		}
