@@ -77,7 +77,7 @@ function getHumidityByDate() {
 	});
 }
 
-function fillTempTable(json) {
+function fillHumidityTable(json) {
 	var table = document.getElementById("humidity_table_body");
 	table.innerHTML = "";
 	

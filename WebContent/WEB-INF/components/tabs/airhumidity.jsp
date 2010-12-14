@@ -2,7 +2,7 @@
 <br></br>
 <script>
 $(function() {
-		$( "#date_humidity" ).datepicker();
+		$( "#date_humidity" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});
 </script>
 
