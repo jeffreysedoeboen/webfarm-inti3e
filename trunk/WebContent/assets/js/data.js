@@ -58,7 +58,9 @@ function drawTempChart(json) {
 			xaxis: {
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
-				tickOptions:{formatString:'%H:%M'}
+				tickOptions:{formatString:'%H:%M'},
+				min:'00:00',
+				max:'23:59'
 			}
 		},
 		series:[{color:'#5FAB78'}]

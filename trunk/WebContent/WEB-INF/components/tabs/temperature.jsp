@@ -6,7 +6,7 @@ $(function() {
 	});
 </script>
 
-	<p>Date: <input name="datepicker" type="text" id="date_temp"></p>
+	<p>Date: <input name="datepicker" type="text" id="date_temp" readonly="readonly"></p>
 	<input type="button" onclick="getTempByDate()" value="submit"></input>
 
 <br></br>
