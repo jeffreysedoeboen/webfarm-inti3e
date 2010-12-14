@@ -47,7 +47,7 @@ public class DateServlet extends HttpServlet {
 		
 		if(type.equals("humidity")) {
 			HumidityDao humidityDao = new HumidityDao();
-			ArrayList<Humidity> humidity = humidityDao.getHumidityOfDate(date);
+			ArrayList<Humidity> humidity = humidityDao.getHumidsOfDate(date);
 			
 			try {
 				json.put("Humidity", humidity);
