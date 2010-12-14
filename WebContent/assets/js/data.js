@@ -21,7 +21,7 @@ function fillTempTable(json) {
 		tdTime.innerHTML = json.temp[i].time;
 		
 		var tdTemp = document.createElement("td");
-		tdTemp.innerHTML = json.temp[i].temp + "%";
+		tdTemp.innerHTML = json.temp[i].temp + " &deg;C";
 		
 		trElem.appendChild(tdDate);
 		trElem.appendChild(tdTime);
@@ -91,7 +91,7 @@ function fillTempTable(json) {
 		tdTime.innerHTML = json.temp[i].time;
 		
 		var tdTemp = document.createElement("td");
-		tdTemp.innerHTML = json.temp[i].temp + " &deg;C";
+		tdTemp.innerHTML = json.temp[i].temp + "%";
 		
 		trElem.appendChild(tdDate);
 		trElem.appendChild(tdTime);
@@ -121,8 +121,8 @@ function drawHumidityChart(json) {
 		title:'Temperature',
 		axes:{
 			yaxis:{
-				label: "Humidity",
-				min:-10,
+				label: "Humidity(%)",
+				min:0,
 				max:100
 			},
 			xaxis: {
