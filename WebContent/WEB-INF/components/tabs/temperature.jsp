@@ -5,13 +5,13 @@
 <br></br>
 <script>
 $(function() {
-		$( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
+		$( "#date_temp" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});
 </script>
-<form method="get" action="DateServlet.do?ID=temp">
-<input name='ID' type="hidden" value="temp"></input>
-<p>Date: <input name="datepicker" type="text" id="datepicker"></p>
-<input type="submit" value="submit"></input></form>
+
+	<p>Date: <input name="datepicker" type="text" id="date_temp"></p>
+	<input type="button" onclick="getTempByDate()" value="submit"></input>
+
 <br></br>
 <div style="
 left:screen.width / 3;
@@ -24,11 +24,14 @@ float: left;
 background-color:#000000;
 overflow:auto;">
 <table border="1">
+<thead>
 <tr>
 	<th>Date:</th>
 	<th>Time:</th>
 	<th>Temp:</th>
 </tr>
+</thead>
+<tbody id="temp_table_body"></tbody>
 </table>
 </div>
 <div id="tempdiv" style="height:400px;width:800px;margin-left: 50px;float:left;"></div>
