@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.DateFormatter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.inti3e.database.dao.TempDao;
 import com.inti3e.model.Temperature;
 
@@ -35,14 +38,27 @@ public class DateServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String type = request.getParameter("ID");
-		String date = request.getParameter("datepicker");
+		String type = request.getParameter("id");
+		String date = request.getParameter("date");
+		
+		JSONObject json = new JSONObject();
+		
 		if(type.equals("humidity")) {
 			System.out.println("Moet nog wat met data doen");
 			
 		} else if(type.equals("temp")) {
 			TempDao tempDao = new TempDao();
+			ArrayList<Temperature> temp = tempDao.getTempsOfDate(date);
+			
+			try {
+				json.put("temp", temp);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
+		
+		System.out.println(json.toString());
+		response.getWriter().print(json.toString());
 	}
 
 	/**
