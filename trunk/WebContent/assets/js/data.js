@@ -60,7 +60,7 @@ function drawTempChart(json) {
 				renderer:$.jqplot.DateAxisRenderer,
 				tickOptions:{formatString:'%H:%M'},
 				min:'00:00',
-				max:'23:59'
+				max:'24:00'
 			}
 		},
 		series:[{color:'#5FAB78'}]
@@ -72,8 +72,8 @@ function getHumidityByDate() {
 	var date = document.getElementById("date_humidity");
 	
 	$.getJSON("DateServlet.do?id=humidity&date="+date.value, function(json) {
-		fillTempTable(json);
-		drawTempChart(json);
+		fillHumidityTable(json);
+		drawHumidityChart(json);
 	});
 }
 
@@ -81,17 +81,17 @@ function fillHumidityTable(json) {
 	var table = document.getElementById("humidity_table_body");
 	table.innerHTML = "";
 	
-	for (var i = 0; i < json.temp.length; i++) {
+	for (var i = 0; i < json.Humidity.length; i++) {
 		var trElem = document.createElement("tr");
 		
 		var tdDate = document.createElement("td");
-		tdDate.innerHTML = json.temp[i].date;
+		tdDate.innerHTML = json.Humidity[i].date;
 		
 		var tdTime = document.createElement("td");
-		tdTime.innerHTML = json.temp[i].time;
+		tdTime.innerHTML = json.Humidity[i].time;
 		
 		var tdTemp = document.createElement("td");
-		tdTemp.innerHTML = json.temp[i].temp + "%";
+		tdTemp.innerHTML = json.Humidity[i].humidity + "%";
 		
 		trElem.appendChild(tdDate);
 		trElem.appendChild(tdTime);
@@ -105,10 +105,10 @@ function drawHumidityChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
-	for (var i = 0; i < json.temp.length; i++) {
+	for (var i = 0; i < json.Humidity.length; i++) {
 		var valueSet = new Array();
-		valueSet[0] = json.temp[i].time;
-		valueSet[1] = json.temp[i].temp;
+		valueSet[0] = json.Humidity[i].time;
+		valueSet[1] = json.Humidity[i].humidity;
 		
 		tempArray2[i] = valueSet;
 	}
