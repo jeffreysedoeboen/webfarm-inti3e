@@ -16,7 +16,9 @@ import javax.swing.text.DateFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.inti3e.database.dao.HumidityDao;
 import com.inti3e.database.dao.TempDao;
+import com.inti3e.model.Humidity;
 import com.inti3e.model.Temperature;
 
 
@@ -44,7 +46,14 @@ public class DateServlet extends HttpServlet {
 		JSONObject json = new JSONObject();
 		
 		if(type.equals("humidity")) {
-			System.out.println("Moet nog wat met data doen");
+			HumidityDao humidityDao = new HumidityDao();
+			ArrayList<Humidity> humidity = humidityDao.getHumidityOfDate(date);
+			
+			try {
+				json.put("Humidity", humidity);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 			
 		} else if(type.equals("temp")) {
 			TempDao tempDao = new TempDao();
