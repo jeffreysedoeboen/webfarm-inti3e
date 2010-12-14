@@ -2,15 +2,17 @@ package com.inti3e.database.dao;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.inti3e.model.Humidity;
+import com.inti3e.model.Temperature;
 
 import com.inti3e.database.DBmanager;
 
@@ -20,10 +22,12 @@ public class HumidityDao {
 
 	private String sqlGetAllTemps		= "SELECT date, time, humidity FROM APP.Humidity";
 	private String sqlNewTemp 			= "INSERT INTO APP.Humidity (\"DATE\", \"TIME\", \"HUMIDITY\" ) VALUES (?,?,?)";
+	private String sqlGetHumidOfDate	= "SELECT time, humidity FROM APP.Humidity WHERE date=?";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllHumids = null ;
 	private PreparedStatement psNewHumid = null;
+	private PreparedStatement psGetHumidOfDate = null;
 
 
 	public HumidityDao(){
@@ -34,6 +38,7 @@ public class HumidityDao {
 
 			this.psGetAllHumids   = con.prepareStatement(sqlGetAllTemps);
 			this.psNewHumid 	  = con.prepareStatement(sqlNewTemp);
+			this.psGetHumidOfDate = con.prepareStatement(sqlGetHumidOfDate);
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
@@ -83,11 +88,17 @@ public class HumidityDao {
 	}
 
 	public void addNewHumidity(int humidity){
+		String humidMin = "";
 		try {
 			Calendar calendar = Calendar.getInstance();
 			psNewHumid.clearParameters();
 			psNewHumid.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
+			if(calendar.get(Calendar.MINUTE) < 10) {
+				humidMin = "0" + calendar.get(Calendar.MINUTE);
+			} else {
+				humidMin = "" + calendar.get(Calendar.MINUTE);
+			}
+			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + humidMin + ":" + calendar.get(Calendar.SECOND));
 			psNewHumid.setInt(3, humidity);
 			psNewHumid.executeUpdate();
 		} catch (SQLException se) {
@@ -104,6 +115,31 @@ public class HumidityDao {
 
 			se = se.getNextException();
 		}
-	}	
+	}
+	
+	public ArrayList<Humidity> getHumidsOfDate(String dateFormat){
+		ArrayList<Humidity> temps = new ArrayList<Humidity>();
+		String[] splittedDateFormat = dateFormat.split("-");
+		int year 	= Integer.parseInt(splittedDateFormat[2]);
+		int month 	= Integer.parseInt(splittedDateFormat[1]);
+		int day 	= Integer.parseInt(splittedDateFormat[0]);
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.set(year, month - 1, day);
+		Date date = new Date(gc.getTimeInMillis());
+		try {
+			psGetHumidOfDate.setDate(1, date);
+			
+			ResultSet rs = psGetHumidOfDate.executeQuery();
+			while (rs.next()){
+				String time = rs.getString(1);
+				int temp = rs.getInt(2);
+				Humidity humid = new Humidity(date, time, temp);
+				temps.add(humid);
+			}
+		} catch (SQLException se) {
+			printSQLException(se) ;		
+		} 
+		return temps;
+	}
 
 }
