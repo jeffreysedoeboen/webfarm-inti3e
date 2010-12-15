@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.sql.Date;
-import java.util.GregorianCalendar;
 
 import com.inti3e.model.LightSwitch;
 
@@ -28,9 +27,6 @@ public class LightSwitchDao {
 	private PreparedStatement psGetAllLightSwitches = null ;
 	private PreparedStatement psNewLightSwitch = null;
 	
-	private Calendar cal = new GregorianCalendar();
-
-
 	public LightSwitchDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -90,9 +86,7 @@ public class LightSwitchDao {
 	}
 
 	public void addNewLightSwitch(boolean light){
-		Date date = new Date(cal.getTimeInMillis());
 		try {
-			Calendar calendar = Calendar.getInstance();
 			psNewLightSwitch.clearParameters();
 			psNewLightSwitch.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
 			psNewLightSwitch.setString(2, Calendar.HOUR_OF_DAY + ":" + Calendar.MINUTE + ":" + Calendar.SECOND);

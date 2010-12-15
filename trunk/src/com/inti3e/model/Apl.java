@@ -1,8 +1,5 @@
 package com.inti3e.model;
 
-import java.io.IOException;
-
-import com.inti3e.database.dao.TempDao;
 
 public class Apl {
 

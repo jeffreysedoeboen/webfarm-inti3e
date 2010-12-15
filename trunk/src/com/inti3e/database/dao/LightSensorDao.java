@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import com.inti3e.model.Door;
 import com.inti3e.model.LightSensor;
-
 import com.inti3e.database.DBmanager;
 
 
