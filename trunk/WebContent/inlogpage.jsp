@@ -40,10 +40,10 @@
 	<div id="tabs-3">
 	<p><h1 align="center">Please login</h1></p>
 	<p></p>
-	<form>
-		<p align="center"><input ID="username" type="text" value="Username" onclick="value=''"></input></p>
-		<p align="center"><input ID="password" type="text" value="Password" onclick="value=''"></input></p>
-		<p align="center"><input type="submit" value="Login" action="LoginServlet.do"></input></p>
+	<form method="get" action="LoginServlet.do">
+		<p align="center"><input name="usernameLogin" type="text" value="Username" onclick="value=''"></input></p>
+		<p align="center"><input name="passwordLogin" type="password" value="Password" onclick="value=''"></input></p>
+		<p align="center"><input type="submit" value="Login"></input></p>
 	</form>
 	</div>
 </div>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,7 +16,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Main Page</title>
 </head>
-<body>
+<body onload="msgPrint('${errors}','${success}');">
+<div ID="errors"></div>
+<div ID="success"></div>
 <script>
 	$(function() {
 		$( "#tabs" ).tabs();
@@ -31,7 +35,8 @@
 		<li><a href="#tabs-6">Illumination</a></li>
 		<li><a href="#tabs-7">Door</a></li>
 		<li><a href="#tabs-8">Light switch</a></li>
-		<li><a href="#tabs-9">Sources</a></li>
+		<li><a href="#tabs-9">Create acount</a></li>
+		<li><a href="#tabs-10">Sources</a></li>
 	</ul>
 	<div id="tabs-1">
 		<p><h1 align="center">Welcome to our application!</h1></p>
@@ -39,6 +44,8 @@
 		<p align="center">On this page you will see the protection of the Saxion webfarm.</p>
 		<p align="center">You can look the stats with the tabs.</p>
 	</div>
+	<c:if test="${user != null}">
+	</c:if>
 	<div id="tabs-2"><jsp:include page="/WEB-INF/components/tabs/livestream.jsp" />
 	</div>
 	<div id="tabs-3"><jsp:include page="/WEB-INF/components/tabs/videoplayback.jsp" />
@@ -53,7 +60,9 @@
 	</div>
 	<div id="tabs-8"><jsp:include page="/WEB-INF/components/tabs/lightswitch.jsp" />
 	</div>
-	<div id="tabs-9">
+	<div id="tabs-9"><jsp:include page="/WEB-INF/components/tabs/createacount.jsp" />
+	</div>
+	<div id="tabs-10">
 	<p><h1 align="center">The sources we used:</h1></p>
 	<p><h2 align="center">Firewall & OS</h2></p>
 		<p align="center">* <a href="http://www.ipfire.org">IpFire</a></p>
@@ -76,5 +85,9 @@
 		<p align="center">* <a href="http://wiki.eclipse.org/index.php/Development_Conventions_and_Guidelines">Eclipse code conventies</a></p>
 	</div>
 </div>
+<%
+session.removeAttribute("errors");
+session.removeAttribute("success");
+%>
 </body>
 </html>
