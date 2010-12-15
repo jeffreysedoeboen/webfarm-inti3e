@@ -3,10 +3,12 @@ package com.inti3e.model;
 public class User {
 	private String name;
 	private String password;
+	private boolean admin;
 
-	public User(String name, String password) {
+	public User(String name, String password, boolean admin) {
 		this.name = name;
 		this.password = password;
+		this.admin = admin;
 	}
 
 	/**
@@ -36,5 +38,8 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
+	public boolean isAdmin() {
+		return admin;
+	}
 }

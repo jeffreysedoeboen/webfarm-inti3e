@@ -67,7 +67,7 @@ public class UserDao {
 			while (rs.next()){
 				String name = rs.getString(1);
 				String password = rs.getString(2);
-				User s = new User(name, password);
+				User s = new User(name, password, false);
 				users.add(s);
 			}
 		} catch (SQLException se) {

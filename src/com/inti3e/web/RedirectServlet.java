@@ -6,8 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.inti3e.model.Admin;
+import com.inti3e.model.User;
 
 /**
  * Servlet implementation class RedirectServlet
@@ -30,7 +29,7 @@ public class RedirectServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String ip = request.getRemoteAddr();
 		if(ip.startsWith("192.168.2.")) {
-			session.setAttribute("user", new Admin("admin", "admin"));
+			session.setAttribute("user", new User("admin", "admin", true));
 			response.sendRedirect("mainpage.jsp");
 		} else {
 			response.sendRedirect("inlogpage.jsp");
