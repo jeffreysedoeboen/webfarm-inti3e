@@ -104,6 +104,25 @@ public class HumidityDao {
 			printSQLException(se) ;
 		}
 	}
+	
+	public void addNewHumidity(int humidity, int minuut){
+		String humidMin = "";
+		try {
+			Calendar calendar = Calendar.getInstance();
+			psNewHumid.clearParameters();
+			psNewHumid.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+			if(minuut < 10) {
+				humidMin = "0" + minuut;
+			} else {
+				humidMin = "" + minuut;
+			}
+			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + humidMin + ":" + calendar.get(Calendar.SECOND));
+			psNewHumid.setInt(3, humidity);
+			psNewHumid.executeUpdate();
+		} catch (SQLException se) {
+			printSQLException(se) ;
+		}
+	}
 
 	private void printSQLException(SQLException se) {
 		while(se != null) {
