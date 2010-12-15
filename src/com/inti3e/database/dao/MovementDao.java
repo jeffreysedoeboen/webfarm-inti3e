@@ -11,8 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.inti3e.model.Movement;
-import com.inti3e.model.Temperature;
-import com.inti3e.model.User;
 
 import com.inti3e.database.DBmanager;
 

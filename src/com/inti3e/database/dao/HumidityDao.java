@@ -12,7 +12,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.inti3e.model.Humidity;
-import com.inti3e.model.Temperature;
 
 import com.inti3e.database.DBmanager;
 

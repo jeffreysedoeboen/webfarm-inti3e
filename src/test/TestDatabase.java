@@ -2,8 +2,6 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.inti3e.database.dao.DoorDao;
@@ -18,9 +16,6 @@ import com.inti3e.model.LightSensor;
 import com.inti3e.model.LightSwitch;
 import com.inti3e.model.Movement;
 import com.inti3e.model.Temperature;
-
-import com.inti3e.database.DBmanager;
-
 
 public class TestDatabase {
 	

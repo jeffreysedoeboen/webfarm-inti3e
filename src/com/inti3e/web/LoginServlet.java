@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.jasper.tagplugins.jstl.core.Redirect;
-
 import com.inti3e.database.dao.UserDao;
 import com.inti3e.model.SessionControl;
 import com.inti3e.model.User;
