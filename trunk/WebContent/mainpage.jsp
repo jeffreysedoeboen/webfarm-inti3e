@@ -7,6 +7,7 @@
 <head>
 <script type="text/javascript" src="assets/js/lib/jquery-1.4.4.js"></script>
 <script type="text/javascript" src="assets/js/lib/jquery-ui-1.8.6.js"></script>
+<script type="text/javascript" src="assets/js/messages.js"></script>
 <link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css" />
 <script language="javascript" type="text/javascript" src="assets/js/lib/jquery.jqplot.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.dateAxisRenderer.min.js"></script>
@@ -15,6 +16,7 @@
 <script type="text/javascript" src="assets/js/data.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Main Page</title>
+
 </head>
 <body onload="msgPrint('${errors}','${success}');">
 <div ID="errors"></div>
@@ -28,14 +30,18 @@
 <div id="tabs">
 	<ul>
 		<li><a href="#tabs-1">Main</a></li>
+		<c:if test="${user != null}">
 		<li><a href="#tabs-2">Live stream</a></li>
 		<li><a href="#tabs-3">Video playback</a></li>
+		<c:if test="${user == 'admin'}">
 		<li><a href="#tabs-4" onclick="getTempByDate()">Temperature</a></li>
 		<li><a href="#tabs-5" onclick="getHumidityByDate()">Air humidity</a></li>
 		<li><a href="#tabs-6">Illumination</a></li>
 		<li><a href="#tabs-7">Door</a></li>
 		<li><a href="#tabs-8">Light switch</a></li>
 		<li><a href="#tabs-9">Create acount</a></li>
+		</c:if>
+		</c:if>
 		<li><a href="#tabs-10">Sources</a></li>
 	</ul>
 	<div id="tabs-1">
@@ -43,13 +49,16 @@
 		<p></p>
 		<p align="center">On this page you will see the protection of the Saxion webfarm.</p>
 		<p align="center">You can look the stats with the tabs.</p>
+		<br></br>
+		<p align="center">Here you can see the current stats:</p>
+		<p align="center">KOMT NOG! :D</p>
 	</div>
 	<c:if test="${user != null}">
-	</c:if>
 	<div id="tabs-2"><jsp:include page="/WEB-INF/components/tabs/livestream.jsp" />
 	</div>
 	<div id="tabs-3"><jsp:include page="/WEB-INF/components/tabs/videoplayback.jsp" />
 	</div>
+	<c:if test="${user == 'admin'}">
 	<div id="tabs-4"><jsp:include page="/WEB-INF/components/tabs/temperature.jsp" />
 	</div>
 	<div id="tabs-5"><jsp:include page="/WEB-INF/components/tabs/airhumidity.jsp" />
@@ -62,6 +71,8 @@
 	</div>
 	<div id="tabs-9"><jsp:include page="/WEB-INF/components/tabs/createacount.jsp" />
 	</div>
+	</c:if>
+	</c:if>
 	<div id="tabs-10">
 	<p><h1 align="center">The sources we used:</h1></p>
 	<p><h2 align="center">Firewall & OS</h2></p>
