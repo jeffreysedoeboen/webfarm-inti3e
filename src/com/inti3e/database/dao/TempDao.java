@@ -96,7 +96,7 @@ public class TempDao {
 			} else {
 				tempMin = "" + calendar.get(Calendar.MINUTE);
 			}
-			psNewTemp.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + tempMin + ":" + calendar.get(Calendar.SECOND));
+			psNewTemp.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + tempMin);
 			psNewTemp.setString(3, temperature);
 			psNewTemp.executeUpdate();
 		} catch (SQLException se) {
