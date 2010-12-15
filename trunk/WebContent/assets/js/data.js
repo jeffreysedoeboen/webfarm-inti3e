@@ -1,9 +1,3 @@
-$(document).ready(function() {
-	autoupdate();
-	setInterval('autoupdate()', 60000);
-});
-
-
 function getTempByDate() {
 	var date = document.getElementById("date_temp");
 	
@@ -67,7 +61,7 @@ function drawTempChart(json) {
 				renderer:$.jqplot.DateAxisRenderer,
 				tickOptions:{formatString:'%H:%M'},
 				min:'00:00',
-				max:'23:59'
+				max:'24:00'
 			}
 		},
 		series:[{color:'#5FAB78'}]
@@ -126,7 +120,6 @@ function drawHumidityChart(json) {
 	
 	$.jqplot('humiditydiv', tempArray, {
 		title:'Humidity',
-		cursor: {tooltipLocation:'sw', zoom:true, clickReset:true},
 		axes:{
 			yaxis:{
 				label: "Humidity(%)",
@@ -138,7 +131,7 @@ function drawHumidityChart(json) {
 				renderer:$.jqplot.DateAxisRenderer,
 				tickOptions:{formatString:'%H:%M'},
 				min:'00:00',
-				max:'23:59'
+				max:'24:00'
 			}
 		},
 		series:[{color:'#5FAB78'}]

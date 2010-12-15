@@ -116,7 +116,7 @@ public class HumidityDao {
 			} else {
 				humidMin = "" + minuut;
 			}
-			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + humidMin + ":" + calendar.get(Calendar.SECOND));
+			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + humidMin);
 			psNewHumid.setInt(3, humidity);
 			psNewHumid.executeUpdate();
 		} catch (SQLException se) {
