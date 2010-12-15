@@ -34,7 +34,7 @@
 		<c:if test="${user != null}">
 		<li><a href="#tabs-2">Live stream</a></li>
 		<li><a href="#tabs-3">Video playback</a></li>
-		<c:if test="${user == 'admin'}">
+		<c:if test="${user.admin}">
 		<li><a href="#tabs-4" onclick="getTempByDate()">Temperature</a></li>
 		<li><a href="#tabs-5" onclick="getHumidityByDate()">Air humidity</a></li>
 		<li><a href="#tabs-6">Illumination</a></li>
