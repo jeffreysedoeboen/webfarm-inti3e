@@ -101,7 +101,7 @@ public class HumidityDao {
 			} else {
 				humidMin = "" + calendar.get(Calendar.MINUTE);
 			}
-			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + humidMin + ":" + calendar.get(Calendar.SECOND));
+			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + humidMin);
 			psNewHumid.setInt(3, humidity);
 			psNewHumid.executeUpdate();
 		} catch (SQLException se) {
@@ -212,12 +212,10 @@ public class HumidityDao {
 			int hour = Integer.parseInt(splittedTime[0]);
 			int minute = Integer.parseInt(splittedTime[1]);
 
-			if(!humidity.getDate().after(date1)) {
+			if((humidity.getDate().getDay() == date1.getDay()) && (humidity.getDate().getMonth() == date1.getMonth())) {
 				String[] splittedTime1 = time1.split(":");
 				int hour1 = Integer.parseInt(splittedTime1[0]);
 				int minute1 = Integer.parseInt(splittedTime1[1]);
-
-				System.out.println(hour + " < " + hour1);
 				if(hour < hour1) {
 					if(minute < minute1) {
 						tempArray.remove(humidity);
@@ -225,11 +223,10 @@ public class HumidityDao {
 				}
 			}
 
-			if(humidity.getDate().compareTo(date2) <= 0) {
+			if((humidity.getDate().getDay() == date2.getDay()) && (humidity.getDate().getMonth() == date2.getMonth())) {
 				String[] splittedTime2 = time2.split(":");
 				int hour2 = Integer.parseInt(splittedTime2[0]);
 				int minute2 = Integer.parseInt(splittedTime2[1]);
-				System.out.println(hour + " > " + hour2);
 				if(hour > hour2) {
 					if(minute > minute2) {
 						tempArray.remove(humidity);
@@ -240,5 +237,3 @@ public class HumidityDao {
 		return tempArray;
 	}
 }
-
-
