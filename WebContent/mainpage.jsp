@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css" />
 <script language="javascript" type="text/javascript" src="assets/js/lib/jquery.jqplot.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="assets/js/lib/jqplot.cursor.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css" />
 <script type="text/javascript" src="assets/js/data.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -25,8 +26,8 @@
 		<li><a href="#tabs-1">Main</a></li>
 		<li><a href="#tabs-2">Live stream</a></li>
 		<li><a href="#tabs-3">Video playback</a></li>
-		<li><a href="#tabs-4">Temperature</a></li>
-		<li><a href="#tabs-5">Air humidity</a></li>
+		<li><a href="#tabs-4" onclick="getTempByDate()">Temperature</a></li>
+		<li><a href="#tabs-5" onclick="getHumidityByDate()">Air humidity</a></li>
 		<li><a href="#tabs-6">Illumination</a></li>
 		<li><a href="#tabs-7">Door</a></li>
 		<li><a href="#tabs-8">Light switch</a></li>
