@@ -14,8 +14,8 @@ import com.inti3e.database.DBmanager;
 
 public class UserDao {
 	
-	private String sqlGetAllUsers		= "SELECT name, password FROM APP.Users";
-	private String sqlNewUser 			= "INSERT INTO APP.Users (\"NAME \", \"PASSWORD\" ) VALUES (?,?)";
+	private String sqlGetAllUsers		= "SELECT NAME, PASSWORD FROM APP.USERS";
+	private String sqlNewUser 			= "INSERT INTO APP.USERS (\"NAME\", \"PASSWORD\" ) VALUES (?,?)";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllUsers = null ;
@@ -47,11 +47,11 @@ public class UserDao {
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
 			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("Users")){
+			if(!tableList.contains("USERS")){
 				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Users (" +
-						"name VARCHAR(50) PRIMARY KEY," +
-						"password VARCHAR(50)," +
+				stat.execute("CREATE TABLE APP.USERS (" +
+						"NAME VARCHAR(50) PRIMARY KEY," +
+						"PASSWORD VARCHAR(50)" +
 						")");
 			}
 			
@@ -81,6 +81,7 @@ public class UserDao {
 			psNewUser.clearParameters();
 			psNewUser.setString(1, name);
 			psNewUser.setString(2, password);
+			psNewUser.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;
 		}
@@ -95,6 +96,17 @@ public class UserDao {
 
 			se = se.getNextException();
 		}
+	}
+
+	public boolean nameIsAvailable(String nickname) {
+		boolean doesexists = false;
+		ArrayList<User> allUsers = getAllUsers();
+		for(User s: allUsers) {
+			if(s.getName().equals(nickname)) {
+				doesexists = true;
+			}
+		}
+		return doesexists;
 	}	
 
 }
