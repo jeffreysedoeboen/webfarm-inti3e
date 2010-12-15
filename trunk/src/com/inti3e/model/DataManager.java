@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import com.inti3e.database.dao.DoorDao;
 import com.inti3e.database.dao.HumidityDao;
@@ -18,8 +21,13 @@ public class DataManager {
 	private Socket socket;
 	private boolean switchLight;
 	private int outPut = 0;
+	private int previousMinute;
+	private LinkedList<Integer> tempValues;
+	private LinkedList<Integer> humidityValues;
 
 	public DataManager() {
+		tempValues 		= new LinkedList<Integer>();
+		humidityValues 	= new LinkedList<Integer>();
 
 		try {
 			welcomeSocket = new ServerSocket(4000);
@@ -47,8 +55,8 @@ public class DataManager {
 				}
 				System.out.println(value);
 				switch (in) {
-				case ('D'):
-					System.out.println("Deur");
+					case ('D'):
+						System.out.println("Deur");
 					boolean door;
 					if(value.equals("1")) {
 						door = true;
@@ -58,9 +66,9 @@ public class DataManager {
 					DoorDao dd = new DoorDao();
 					dd.addNewDoor(door);
 
-				break;
-				case ('B'):
-					System.out.println("Movement");
+					break;
+					case ('B'):
+						System.out.println("Movement");
 					boolean movement;
 					if(value.equals("1")) {
 						movement = true;
@@ -71,39 +79,35 @@ public class DataManager {
 					MovementDao md = new MovementDao();
 					md.addNewMovement(movement);
 					break;
-				case ('S'):
-					System.out.println("Switch");
-					boolean manualSwitch;
-					if(value.equals("1")) {
-						manualSwitch = true;
-					} else {
-						manualSwitch = false;
-					}
-					LightSwitchDao lsd = new LightSwitchDao();
-					lsd.addNewLightSwitch(manualSwitch);
+					case ('S'):
+						System.out.println("Switch");
+						boolean manualSwitch;
+						if(value.equals("1")) {
+							manualSwitch = true;
+						} else {
+							manualSwitch = false;
+						}
+						LightSwitchDao lsd = new LightSwitchDao();
+						lsd.addNewLightSwitch(manualSwitch);
 					break;
-				case ('L'):
-					System.out.println("Lightsensor");
-					boolean lightSensor;
-					if(value.equals("1")) {
-						lightSensor = true;
-					} else {
-						lightSensor = false;
-					}
-					LightSensorDao ld = new LightSensorDao();
-					ld.addNewLight(lightSensor);
+					case ('L'):
+						System.out.println("Lightsensor");
+						boolean lightSensor;
+						if(value.equals("1")) {
+							lightSensor = true;
+						} else {
+							lightSensor = false;
+						}
+						LightSensorDao ld = new LightSensorDao();
+						ld.addNewLight(lightSensor);
 					break;
-				case ('T'):
-					System.out.println("Temperature");
-					String temperature = value;
-					TempDao td = new TempDao();
-					td.addNewTemp(temperature);
+					case ('T'):
+						System.out.println("Temperature");
+						tempValues.add(Integer.parseInt(value));
 					break;
-				case ('H'):
-					System.out.println("Luchtvochtigheid");
-					int humidity = Integer.parseInt(value);
-					HumidityDao hd = new HumidityDao();
-					hd.addNewHumidity(humidity);
+					case ('H'):
+						System.out.println("Luchtvochtigheid");
+						humidityValues.add(Integer.parseInt(value));
 					break;
 				}
 				if(switchLight) {
@@ -120,10 +124,36 @@ public class DataManager {
 					out.write(':');
 					switchLight = false;
 				}
+
+				checkTempValues();
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+
+	}
+
+	private void checkTempValues() {
+		Calendar calendar = Calendar.getInstance();
+		if(calendar.get(Calendar.MINUTE) > previousMinute) {
+			int totalValue = 0;
+			
+			//determine average temperature
+			for(int value: tempValues) {
+				totalValue += value;
+			}
+			int averageValue = totalValue/tempValues.size();
+			TempDao td = new TempDao();
+			td.addNewTemp("" + averageValue);
+			
+			//determine average humidity
+			for(int value: humidityValues) {
+				totalValue += value;
+			}
+			averageValue = totalValue/humidityValues.size();
+			HumidityDao hd = new HumidityDao();
+			hd.addNewHumidity(averageValue, previousMinute);
 		}
 
 	}
