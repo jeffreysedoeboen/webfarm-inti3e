@@ -39,13 +39,16 @@ public class DateServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String type = request.getParameter("id");
-		String date = request.getParameter("date");
+		String date1 = request.getParameter("date1");
+		String date2 = request.getParameter("date2");
+		String time1 = request.getParameter("time1");
+		String time2 = request.getParameter("time2");
 		
 		JSONObject json = new JSONObject();
 		
 		if(type.equals("humidity")) {
 			HumidityDao humidityDao = new HumidityDao();
-			ArrayList<Humidity> humidity = humidityDao.getHumidsOfDate(date);
+			ArrayList<Humidity> humidity = humidityDao.getTempsBetweenDates(date1, time1, date2, time2);
 			
 			try {
 				json.put("Humidity", humidity);
@@ -55,7 +58,7 @@ public class DateServlet extends HttpServlet {
 			
 		} else if(type.equals("temp")) {
 			TempDao tempDao = new TempDao();
-			ArrayList<Temperature> temp = tempDao.getTempsOfDate(date);
+			ArrayList<Temperature> temp = tempDao.getTempsBetweenDates(date1, time1, date2, time2);
 			
 			try {
 				json.put("temp", temp);
@@ -64,7 +67,7 @@ public class DateServlet extends HttpServlet {
 			}
 		} else if(type.equals("door")) {
 			DoorDao doorDao = new DoorDao();
-			ArrayList<Door> door = doorDao.getDoorsOfDate(date);
+			ArrayList<Door> door = doorDao.getDoorsOfDate(date1);
 			
 			try {
 				json.put("door", door);
@@ -73,7 +76,7 @@ public class DateServlet extends HttpServlet {
 			}
 		} else if(type.equals("light")) {
 			LightSensorDao lightDao = new LightSensorDao();
-			ArrayList<LightSensor> light = lightDao.getLightsOfDate(date);
+			ArrayList<LightSensor> light = lightDao.getLightsOfDate(date1);
 			
 			try {
 				json.put("light", light);

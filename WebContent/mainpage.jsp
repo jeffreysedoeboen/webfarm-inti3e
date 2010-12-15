@@ -10,6 +10,7 @@
 <script type="text/javascript" src="assets/js/messages.js"></script>
 <link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css" />
 <script language="javascript" type="text/javascript" src="assets/js/lib/jquery.jqplot.js"></script>
+<script type="text/javascript" src="assets/js/lib/jqplot.canvasAxisTickRenderer.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.dateAxisRenderer.min.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.cursor.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css" />
