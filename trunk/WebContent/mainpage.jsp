@@ -59,7 +59,7 @@
 	</div>
 	<div id="tabs-3"><jsp:include page="/WEB-INF/components/tabs/videoplayback.jsp" />
 	</div>
-	<c:if test="${user == 'admin'}">
+	<c:if test="${user.admin}">
 	<div id="tabs-4"><jsp:include page="/WEB-INF/components/tabs/temperature.jsp" />
 	</div>
 	<div id="tabs-5"><jsp:include page="/WEB-INF/components/tabs/airhumidity.jsp" />

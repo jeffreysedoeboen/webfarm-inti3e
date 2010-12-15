@@ -55,7 +55,7 @@ $(function() {
 		calendar = java.util.Calendar.getInstance(); 
 		out.print(calendar.get(java.util.Calendar.YEAR) + "-");
 		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
-		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH) + 1);
 		%>>
 		</td>
 	</tr>

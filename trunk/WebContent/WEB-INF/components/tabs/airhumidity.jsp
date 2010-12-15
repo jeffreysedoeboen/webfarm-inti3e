@@ -2,8 +2,11 @@
 <br></br>
 <script>
 $(function() {
-		$( "#date_humidity" ).datepicker({ dateFormat: 'dd-mm-yy' });
+		$( "#date_humidity1" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});
+$(function() {
+	$( "#date_humidity2" ).datepicker({ dateFormat: 'dd-mm-yy' });
+});
 </script>
 
 	<table>
@@ -15,7 +18,7 @@ $(function() {
 		java.util.Calendar calendar = java.util.Calendar.getInstance(); 
 		out.print(calendar.get(java.util.Calendar.YEAR) + "-");
 		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
-		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH) + 1);
 		%>>
 		</td>
 	</tr>
