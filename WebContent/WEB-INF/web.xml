@@ -8,7 +8,7 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
-    <welcome-file>mainpage.jsp</welcome-file>
+    <welcome-file>RedirectServlet.do</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>
@@ -39,5 +39,15 @@
   <servlet-mapping>
     <servlet-name>DateServlet</servlet-name>
     <url-pattern>/DateServlet.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RedirectServlet</display-name>
+    <servlet-name>RedirectServlet</servlet-name>
+    <servlet-class>com.inti3e.web.RedirectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RedirectServlet</servlet-name>
+    <url-pattern>/RedirectServlet.do</url-pattern>
   </servlet-mapping>
 </web-app>
