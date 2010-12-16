@@ -17,7 +17,7 @@ import com.inti3e.model.DataManager;
 public class LightServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	LightSensorDao lsd = new LightSensorDao();
-	DataManager dm = new DataManager();
+	DataManager dm = DataManager.getInstance();
        
     /**
      * @see HttpServlet#HttpServlet()
