@@ -1,7 +1,9 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
+
 import org.junit.Test;
 
 import com.inti3e.database.dao.DoorDao;
@@ -82,7 +84,7 @@ public class TestDatabase {
 		for(Door door: doors) {
 			System.out.println(door.getDoor());
 		}
-		assertEquals("1",doors.get(doors.size() -1).getDoor());
+		assertEquals(1,doors.get(doors.size() -1).getDoor());
 	}
 
 }

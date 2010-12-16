@@ -11,9 +11,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import com.inti3e.model.Door;
-
 import com.inti3e.database.DBmanager;
+import com.inti3e.model.Door;
 
 
 public class DoorDao {
@@ -115,29 +114,32 @@ public class DoorDao {
 			se = se.getNextException();
 		}
 	}
-	
+
 	public ArrayList<Door> getDoorsOfDate(String dateFormat){
 		ArrayList<Door> doors = new ArrayList<Door>();
-		String[] splittedDateFormat = dateFormat.split("-");
-		int year 	= Integer.parseInt(splittedDateFormat[2]);
-		int month 	= Integer.parseInt(splittedDateFormat[1]);
-		int day 	= Integer.parseInt(splittedDateFormat[0]);
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.set(year, month - 1, day);
-		Date date = new Date(gc.getTimeInMillis());
-		try {
-			psGetDoorOfDate.setDate(1, date);
-			
-			ResultSet rs = psGetDoorOfDate.executeQuery();
-			while (rs.next()){
-				String time = rs.getString(1);
-				int doorInt = rs.getInt(2);
-				Door door = new Door(date, time, doorInt);
-				doors.add(door);
-			}
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
+		if(dateFormat != null) {
+			System.out.println(dateFormat);
+			String[] splittedDateFormat = dateFormat.split("-");
+			int year 	= Integer.parseInt(splittedDateFormat[2]);
+			int month 	= Integer.parseInt(splittedDateFormat[1]);
+			int day 	= Integer.parseInt(splittedDateFormat[0]);
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.set(year, month - 1, day);
+			Date date = new Date(gc.getTimeInMillis());
+			try {
+				psGetDoorOfDate.setDate(1, date);
+
+				ResultSet rs = psGetDoorOfDate.executeQuery();
+				while (rs.next()){
+					String time = rs.getString(1);
+					int doorInt = rs.getInt(2);
+					Door door = new Door(date, time, doorInt);
+					doors.add(door);
+				}
+			} catch (SQLException se) {
+				printSQLException(se) ;		
+			} 
+		}
 		return doors;
 	}
 

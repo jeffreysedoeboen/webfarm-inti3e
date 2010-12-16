@@ -137,12 +137,12 @@ public class DataManager extends Thread {
 						ld.addNewLight(lightSensor);
 					break;
 					case ('T'):
-						System.out.println("Temperature");
-						tempValues.add(Integer.parseInt(value));
+						TempDao td = new TempDao();
+						td.addNewTemp(value);
 					break;
 					case ('H'):
-						System.out.println("Luchtvochtigheid");
-						humidityValues.add(Integer.parseInt(value));
+						HumidityDao hd = new HumidityDao();
+						hd.addNewHumidity(Integer.parseInt(value));
 					break;
 				}
 //				synchronized(switchLight) {

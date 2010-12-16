@@ -60,13 +60,11 @@ function drawTempChart(json, time1, time2, date1, date2) {
 				max:100
 			},
 			xaxis: {
-				autoscale: true,
+				autoscale:true,
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
 				tickInterval:'1 hour',
-				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'},
-				min:  date1 + "/" +time1,
-				max:  date2 + "/" +time2
+				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'}
 			}
 		},
 		series:[{color:'#5FAB78'}]
@@ -134,12 +132,10 @@ function drawHumidityChart(json, time1, time2, date1, date2) {
 				max:100
 			},
 			xaxis: {
-				autoscale: true,
+				autoscale:true,
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
-				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'},
-				min:  date1 + "/" +time1,
-				max:  date2 + "/" +time2
+				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'}
 			}
 		},
 		series:[{color:'#5FAB78'}]
@@ -152,9 +148,9 @@ function autoupdate() {
 }
 
 function getDoorByDate() {
-	var date = document.getElementById("date_door");
+	var date1 = document.getElementById("date_door");
 	
-	$.getJSON("DateServlet.do?id=door&date="+date.value, function(json) {
+	$.getJSON("DateServlet.do?id=door&date1="+date1.value, function(json) {
 		fillDoorTable(json);
 	});
 }
@@ -188,9 +184,9 @@ function fillDoorTable(json) {
 }
 
 function getLightByDate() {
-	var date = document.getElementById("date_light");
+	var date1 = document.getElementById("date_light");
 	
-	$.getJSON("DateServlet.do?id=light&date="+date.value, function(json) {
+	$.getJSON("DateServlet.do?id=light&date1="+date1.value, function(json) {
 		fillLightTable(json);
 	});
 }
