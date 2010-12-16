@@ -20,8 +20,7 @@
 
 </head>
 <body onload="msgPrint('${errors}','${success}');">
-<div ID="errors"></div>
-<div ID="success"></div>
+<div ID="messages"></div>
 <script>
 	$(function() {
 		$( "#tabs" ).tabs();

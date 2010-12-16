@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.inti3e.model.Movement;
-
 import com.inti3e.database.DBmanager;
+import com.inti3e.model.Movement;
 
 
 public class MovementDao {

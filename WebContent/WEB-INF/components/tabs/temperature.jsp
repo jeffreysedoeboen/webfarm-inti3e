@@ -107,7 +107,7 @@ $(function() {
 </table>
 </div>
 <div id="tempdiv"
-	style="height: 400px; width: 800px; margin-left: 50px; float: left;">76</div>
+	style="height: 400px; width: 800px; margin-left: 50px; float: left;"></div>
 
 
 <br></br>

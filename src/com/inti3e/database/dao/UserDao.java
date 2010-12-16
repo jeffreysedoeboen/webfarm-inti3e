@@ -7,9 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.inti3e.model.User;
-
 import com.inti3e.database.DBmanager;
+import com.inti3e.model.User;
 
 
 public class UserDao {
