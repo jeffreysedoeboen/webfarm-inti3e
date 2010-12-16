@@ -5,10 +5,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedList;
 
-import com.inti3e.database.DBmanager;
 import com.inti3e.database.dao.DoorDao;
 import com.inti3e.database.dao.HumidityDao;
 import com.inti3e.database.dao.LightSensorDao;
@@ -17,28 +15,22 @@ import com.inti3e.database.dao.MovementDao;
 import com.inti3e.database.dao.TempDao;
 
 
-public class DataManager {
+public class DataManager extends Thread {
 	private static DataManager uniqueInstance = null;
 	
 	private ServerSocket welcomeSocket = null;
 	private Socket socket;
-	private boolean switchLight;
+	private Boolean switchLight;
 	private int outPut = 0;
 	private int previousMinute;
 	private LinkedList<Integer> tempValues;
 	private LinkedList<Integer> humidityValues;
 
-	public DataManager() {
-
+	private DataManager() {
+		socket = null;
+		switchLight = false;
 		tempValues 		= new LinkedList<Integer>();
 		humidityValues 	= new LinkedList<Integer>();
-
-		try {
-			welcomeSocket = new ServerSocket(4000);
-			socket = welcomeSocket.accept();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public static synchronized DataManager getInstance() {
@@ -47,12 +39,25 @@ public class DataManager {
 		}
 		return uniqueInstance;
 	}
-
-	public void setSwitchLight(boolean light) {
-		switchLight = light;
+	
+	public void run() {
+		try {
+			welcomeSocket = new ServerSocket(4000);
+			socket = welcomeSocket.accept();
+			System.out.println("Socket created");
+			read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void read() {
+	public synchronized void setSwitchLight(boolean light) {
+		synchronized(switchLight) {
+			switchLight = light;
+		}
+	}
+
+	private void read() {
 		System.out.println("start");
 		char in = 'p';
 		try {
@@ -120,19 +125,21 @@ public class DataManager {
 						humidityValues.add(Integer.parseInt(value));
 					break;
 				}
-				if (switchLight) {
-					OutputStream out = socket.getOutputStream();
-					System.out.println("SwitchLight = " + switchLight);
-					if(outPut == 1) {
-						outPut = 0;
-					} else {
-						outPut = 1;
+				synchronized(switchLight) {
+					if (switchLight) {
+						OutputStream out = socket.getOutputStream();
+						System.out.println("SwitchLight = " + switchLight);
+						if(outPut == 1) {
+							outPut = 0;
+						} else {
+							outPut = 1;
+						}
+						System.out.println(outPut);
+						out.write('L');
+						out.write(outPut + 48);//ASCI
+						out.write(':');
+						switchLight = false;
 					}
-					System.out.println(outPut);
-					out.write('L');
-					out.write(outPut + 48);//ASCI
-					out.write(':');
-					switchLight = false;
 				}
 
 				checkTempValues();

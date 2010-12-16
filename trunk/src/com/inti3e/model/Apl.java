@@ -5,7 +5,5 @@ public class Apl {
 
 	public static void main( String[] args ) {
 		DataManager dm = DataManager.getInstance();
-		System.out.println("test");
-		dm.read();
 	}
 }
