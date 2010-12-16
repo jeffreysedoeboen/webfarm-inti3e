@@ -22,13 +22,13 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>LightSwitch</display-name>
-    <servlet-name>LightSwitch</servlet-name>
-    <servlet-class>com.inti3e.web.LightSwitch</servlet-class>
+    <display-name>LightServlet</display-name>
+    <servlet-name>LightServlet</servlet-name>
+    <servlet-class>com.inti3e.web.LightServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LightSwitch</servlet-name>
-    <url-pattern>/LightSwitch.do</url-pattern>
+    <servlet-name>LightServlet</servlet-name>
+    <url-pattern>/LightServlet.do</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>

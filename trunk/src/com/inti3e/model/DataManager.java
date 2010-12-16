@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import com.inti3e.database.dao.DoorDao;
 import com.inti3e.database.dao.HumidityDao;
 import com.inti3e.database.dao.LightSensorDao;
-import com.inti3e.database.dao.LightSwitchDao;
+import com.inti3e.database.dao.SwitchDao;
 import com.inti3e.database.dao.MovementDao;
 import com.inti3e.database.dao.TempDao;
 
@@ -57,6 +57,26 @@ public class DataManager extends Thread {
 		}
 	}
 
+	public synchronized void turnLight(boolean light) {
+//		if (switchLight) {
+		try {
+			OutputStream out = socket.getOutputStream();
+//			System.out.println("SwitchLight = " + switchLight);
+			if(light) {
+				outPut = 1;
+			} else {
+				outPut = 0;
+			}
+			System.out.println(outPut);
+			out.write('L');
+			out.write(outPut + 48);//ASCI
+			out.write(':');
+//			switchLight = false;
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void read() {
 		System.out.println("start");
 		char in = 'p';
@@ -102,7 +122,7 @@ public class DataManager extends Thread {
 						} else {
 							manualSwitch = false;
 						}
-						LightSwitchDao lsd = new LightSwitchDao();
+						SwitchDao lsd = new SwitchDao();
 						lsd.addNewLightSwitch(manualSwitch);
 					break;
 					case ('L'):
@@ -125,22 +145,22 @@ public class DataManager extends Thread {
 						humidityValues.add(Integer.parseInt(value));
 					break;
 				}
-				synchronized(switchLight) {
-					if (switchLight) {
-						OutputStream out = socket.getOutputStream();
-						System.out.println("SwitchLight = " + switchLight);
-						if(outPut == 1) {
-							outPut = 0;
-						} else {
-							outPut = 1;
-						}
-						System.out.println(outPut);
-						out.write('L');
-						out.write(outPut + 48);//ASCI
-						out.write(':');
-						switchLight = false;
-					}
-				}
+//				synchronized(switchLight) {
+//					if (switchLight) {
+//						OutputStream out = socket.getOutputStream();
+//						System.out.println("SwitchLight = " + switchLight);
+//						if(outPut == 1) {
+//							outPut = 0;
+//						} else {
+//							outPut = 1;
+//						}
+//						System.out.println(outPut);
+//						out.write('L');
+//						out.write(outPut + 48);//ASCI
+//						out.write(':');
+//						switchLight = false;
+//					}
+//				}
 
 				checkTempValues();
 			}
@@ -157,20 +177,23 @@ public class DataManager extends Thread {
 			int totalValue = 0;
 			
 			//determine average temperature
-			for(int value: tempValues) {
-				totalValue += value;
+			if (tempValues.size() > 0) {
+				for(int value: tempValues) {
+					totalValue += value;
+				}
+				double averageValue = totalValue/tempValues.size();
+				TempDao td = new TempDao();
+				td.addNewTemp("" + averageValue);
 			}
-			int averageValue = totalValue/tempValues.size();
-			TempDao td = new TempDao();
-			td.addNewTemp("" + averageValue);
-			
 			//determine average humidity
-			for(int value: humidityValues) {
-				totalValue += value;
+			if (humidityValues.size() > 0) {
+				for(int value: humidityValues) {
+					totalValue += value;
+				}
+				int averageValue = totalValue/humidityValues.size();
+				HumidityDao hd = new HumidityDao();
+				hd.addNewHumidity(averageValue, previousMinute);
 			}
-			averageValue = totalValue/humidityValues.size();
-			HumidityDao hd = new HumidityDao();
-			hd.addNewHumidity(averageValue, previousMinute);
 		}
 
 	}
