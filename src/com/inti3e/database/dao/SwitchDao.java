@@ -17,7 +17,7 @@ import com.inti3e.database.DBmanager;
 
 
 
-public class LightSwitchDao {
+public class SwitchDao {
 
 
 	private String sqlGetAllLightSwitches 	= "SELECT date, time, LightSwitch FROM APP.LIGHTSWITCHES";
@@ -27,7 +27,7 @@ public class LightSwitchDao {
 	private PreparedStatement psGetAllLightSwitches = null ;
 	private PreparedStatement psNewLightSwitch = null;
 	
-	public LightSwitchDao(){
+	public SwitchDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
 		createTable();

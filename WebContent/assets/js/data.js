@@ -60,6 +60,7 @@ function drawTempChart(json, time1, time2, date1, date2) {
 				max:100
 			},
 			xaxis: {
+				autoscale: true,
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
 				tickInterval:'1 hour',
@@ -133,6 +134,7 @@ function drawHumidityChart(json, time1, time2, date1, date2) {
 				max:100
 			},
 			xaxis: {
+				autoscale: true,
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
 				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'},

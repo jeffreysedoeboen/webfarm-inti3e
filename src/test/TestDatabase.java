@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.inti3e.database.dao.DoorDao;
 import com.inti3e.database.dao.HumidityDao;
 import com.inti3e.database.dao.LightSensorDao;
-import com.inti3e.database.dao.LightSwitchDao;
+import com.inti3e.database.dao.SwitchDao;
 import com.inti3e.database.dao.MovementDao;
 import com.inti3e.database.dao.TempDao;
 import com.inti3e.model.Door;
@@ -54,7 +54,7 @@ public class TestDatabase {
 	
 	@Test
 	public void testLightSwitchDao() {
-		LightSwitchDao td = new LightSwitchDao();
+		SwitchDao td = new SwitchDao();
 		td.addNewLightSwitch(false);
 		ArrayList<LightSwitch> lightSwitches = td.getAllLightSwitches();
 		for(LightSwitch lightSwitch: lightSwitches) {

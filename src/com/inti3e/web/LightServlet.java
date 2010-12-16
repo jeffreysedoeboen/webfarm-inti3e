@@ -32,11 +32,15 @@ public class LightServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String state = request.getParameter("light");
-		
-		if(state.equals("on") && !lsd.getLightOn()) {
-			dm.setSwitchLight(true);
-		} else if(state.equals("off") && lsd.getLightOn()) {
-			dm.setSwitchLight(true);
+//		if(state.equals("on") && !lsd.getLightOn()) {
+//			dm.setSwitchLight(true);
+//		} else if(state.equals("off") && lsd.getLightOn()) {
+//			dm.setSwitchLight(false);
+//		}
+		if(state.equals("on")) {
+			dm.turnLight(true);
+		} else if(state.equals("off")) {
+			dm.turnLight(false);
 		}
 	}
 

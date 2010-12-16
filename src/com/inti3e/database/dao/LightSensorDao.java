@@ -70,13 +70,13 @@ public class LightSensorDao {
 	
 	public boolean getLightOn() {
 		ArrayList<LightSensor> lightMessures = getAllLights();
-		LightSensor s = lightMessures.get(lightMessures.size()-1);
-		if(s.getLight().equals("true")) {
-			return true;
-		} else {
-			return false;
+		if (lightMessures.size() >= 1) {
+			LightSensor s = lightMessures.get(lightMessures.size()-1);
+			if(s.getLight().equals("true")) {
+				return true;
+			}
 		}
-		
+		return false;
 	}
 
 	public ArrayList<LightSensor> getAllLights(){
