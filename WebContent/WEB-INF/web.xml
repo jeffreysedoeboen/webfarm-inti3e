@@ -50,4 +50,9 @@
     <servlet-name>RedirectServlet</servlet-name>
     <url-pattern>/RedirectServlet.do</url-pattern>
   </servlet-mapping>
+  <listener>
+    <listener-class>
+	  com.inti3e.listener.ContextListener
+    </listener-class>
+  </listener>
 </web-app>

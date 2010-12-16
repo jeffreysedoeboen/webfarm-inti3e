@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.inti3e.database.DBmanager;
 import com.inti3e.database.dao.DoorDao;
 import com.inti3e.database.dao.HumidityDao;
 import com.inti3e.database.dao.LightSensorDao;
@@ -17,6 +18,8 @@ import com.inti3e.database.dao.TempDao;
 
 
 public class DataManager {
+	private static DataManager uniqueInstance = null;
+	
 	private ServerSocket welcomeSocket = null;
 	private Socket socket;
 	private boolean switchLight;
@@ -26,6 +29,7 @@ public class DataManager {
 	private LinkedList<Integer> humidityValues;
 
 	public DataManager() {
+
 		tempValues 		= new LinkedList<Integer>();
 		humidityValues 	= new LinkedList<Integer>();
 
@@ -35,7 +39,13 @@ public class DataManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	public static synchronized DataManager getInstance() {
+		if (uniqueInstance == null) {
+			uniqueInstance = new DataManager();
+		}
+		return uniqueInstance;
 	}
 
 	public void setSwitchLight(boolean light) {
@@ -110,7 +120,7 @@ public class DataManager {
 						humidityValues.add(Integer.parseInt(value));
 					break;
 				}
-				if(switchLight) {
+				if (switchLight) {
 					OutputStream out = socket.getOutputStream();
 					System.out.println("SwitchLight = " + switchLight);
 					if(outPut == 1) {
