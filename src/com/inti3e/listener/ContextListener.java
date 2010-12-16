@@ -30,7 +30,7 @@ public class ContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		// TODO: create db tables
 		// TODO: dataManager object needed ??
-		//DataManager dataManager = DataManager.getInstance();
+		(DataManager.getInstance()).start();
 	}
 	
 	/* (non-Javadoc)
