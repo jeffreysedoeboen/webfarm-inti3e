@@ -46,7 +46,7 @@
 		<li><a href="#tabs-10">Sources</a></li>
 	</ul>
 	<div id="tabs-1">
-		<p><h1 align="center">Welcome to our application!</h1></p>
+		<h1 align="center">Welcome to our application!</h1>
 		<p></p>
 		<p align="center">On this page you will see the protection of the Saxion webfarm.</p>
 		<p align="center">You can look the stats with the tabs.</p>
@@ -75,24 +75,24 @@
 	</c:if>
 	</c:if>
 	<div id="tabs-10">
-	<p><h1 align="center">The sources we used:</h1></p>
-	<p><h2 align="center">Firewall & OS</h2></p>
+	<h1 align="center">The sources we used:</h1>
+	<h2 align="center">Firewall &amp; OS</h2>
 		<p align="center">* <a href="http://www.ipfire.org">IpFire</a></p>
 		<p align="center">* <a href="http://www.debian.org">Debian</a></p>
 		<p align="center">* <a href="http://distrowatch.com/search.php?category=Firewall#distrosearch">List of firewalls</a></p>
 	<br></br>
-	<p><h2 align="center">Web page</h2></p>
+	<h2 align="center">Web page</h2>
 		<p align="center">* <a href="http://www.jquery.com">jQuery</a></p>
 		<p align="center">* <a href="http://www.longtailvideo.com/players/jw-flv-player/">Video Player</a></p>
 	<br></br>
-	<p><h2 align="center">Webcam sources</h2></p>
+	<h2 align="center">Webcam sources</h2>
 		<p align="center">* <a href="http://ubuntuforums.org/showthread.php?t=191770">Driver install tutorial</a></p>
 		<p align="center">* <a href="http://home.mag.cx/messenger/source/">Driver download</a></p>
 		<p align="center">* <a href="http://code.google.com/p/gstreamer-java/">GStreamer Java Bindings</a></p>
 		<p align="center">* <a href="http://dev.fubbie.org/wiki/browser/fubbie-techtests/src/org/fubbie/techtests/snippets/GStreamerWebcam.java">Examples</a></p>
 		<p align="center">* <a href="http://www.twm-kd.com/linux/webcam-and-linux-gstreamer-tutorial/">Webcam and Linux</a></p>
 	<br></br>
-	<p><h2 align="center">Code conventies</h2></p>
+	<h2 align="center">Code conventies</h2>
 		<p align="center">* <a href="http://drupal.org/coding-standards">Coding Standards (Voorbeeld)</a></p>
 		<p align="center">* <a href="http://wiki.eclipse.org/index.php/Development_Conventions_and_Guidelines">Eclipse code conventies</a></p>
 	</div>
