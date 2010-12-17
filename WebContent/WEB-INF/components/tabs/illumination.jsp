@@ -7,7 +7,12 @@ $(function() {
 	});
 </script>
 <div style="float: left;">
-	<p>Date: <input name="datepicker" type="text" id="date_light" readonly="readonly"></p>
+	<p>Date: <input name="datepicker" type="text" value="<%
+		java.util.Calendar calendar = java.util.Calendar.getInstance(); 
+		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH) + "-");
+		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
+		out.print(calendar.get(java.util.Calendar.YEAR));
+		%>" id="date_light" readonly="readonly"></p>
 	<input type="button" onclick="getLightByDate()" value="submit"></input>
 </div>
 <br></br>

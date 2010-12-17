@@ -142,7 +142,7 @@ function drawHumidityChart(json, time1, time2, date1, date2) {
 	});
 }
 $(document).ready(function(){
-	setInterval("autoupdate", 10000);
+	setInterval("autoupdate()", 10000);
 });
 
 function autoupdate() {
