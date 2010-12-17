@@ -9,7 +9,8 @@ public class DBmanager {
 	
 	private Connection con = null ;
 	private final String driver = "org.apache.derby.jdbc.EmbeddedDriver" ;
-	private final String dbname = "jdbc:derby:" + System.getProperty("user.home") + "/db;create=true" ;
+	private final String dbname = "jdbc:derby:webfarmDB;create=true";
+	//private final String dbname = "jdbc:derby:" + System.getProperty("user.home") + "/db;create=true";
         
 	
 	private DBmanager(){
