@@ -3,11 +3,19 @@
 <br></br>
 <script>
 $(function() {
-		$( "#date_door" ).datepicker({ dateFormat: 'dd-mm-yy' });
+var date = new Date();
+	$( "#date_door" ).datepicker({
+		dateFormat: 'dd-mm-yy'
 	});
+});
 </script>
 <div style="float: left;">
-	<p>Date: <input name="datepicker" type="text" id="date_door" readonly="readonly"></p>
+	<p>Date: <input name="datepicker" type="text" id="date_door"  value="<%
+		java.util.Calendar calendar = java.util.Calendar.getInstance(); 
+		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH) + "-");
+		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
+		out.print(calendar.get(java.util.Calendar.YEAR));
+		%>" readonly="readonly"></p>
 	<input type="button" onclick="getDoorByDate()" value="submit"></input>
 </div>
 <br></br>
