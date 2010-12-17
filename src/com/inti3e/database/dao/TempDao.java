@@ -148,14 +148,14 @@ public class TempDao {
 		System.out.println("From: " + dateFormat1);
 		System.out.println("To: " + dateFormat2);
 		String[] splittedDate1 = dateFormat1.split("-");
-		int year1 	= Integer.parseInt(splittedDate1[0]);
+		int year1 	= Integer.parseInt(splittedDate1[2]);
 		int month1 	= Integer.parseInt(splittedDate1[1]);
-		int day1 	= Integer.parseInt(splittedDate1[2]);
+		int day1 	= Integer.parseInt(splittedDate1[0]);
 
 		String[] splittedDate2 = dateFormat2.split("-");
-		int year2 	= Integer.parseInt(splittedDate2[0]);
+		int year2 	= Integer.parseInt(splittedDate2[2]);
 		int month2 	= Integer.parseInt(splittedDate2[1]);
-		int day2 	= Integer.parseInt(splittedDate2[2]);
+		int day2 	= Integer.parseInt(splittedDate2[0]);
 
 		GregorianCalendar gc = new GregorianCalendar();
 
@@ -186,6 +186,7 @@ public class TempDao {
 
 	@SuppressWarnings("unchecked")
 	private ArrayList<Temperature> getDateBetweenHours( String time1, String time2,Date date1, Date date2, ArrayList<Temperature> tempArray ) {
+		System.out.println(tempArray.toString());
 		for(Temperature temp: (ArrayList<Temperature>)tempArray.clone()) {
 			String[] splittedTime = temp.getTime().split(":");
 			int hour = Integer.parseInt(splittedTime[0]);

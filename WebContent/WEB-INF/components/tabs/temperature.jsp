@@ -2,10 +2,10 @@
 <br></br>
 <script>
 $(function() {
-		$( "#date_temp1" ).datepicker({ dateFormat: 'yy-mm-dd' });
+		$( "#date_temp1" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});
 $(function() {
-	$( "#date_temp2" ).datepicker({ dateFormat: 'yy-mm-dd' });
+	$( "#date_temp2" ).datepicker({ dateFormat: 'dd-mm-yy' });
 });
 </script>
 <table>
@@ -15,9 +15,9 @@ $(function() {
 			readonly="readonly"
 			value=<%
 		java.util.Calendar calendar = java.util.Calendar.getInstance(); 
-		out.print(calendar.get(java.util.Calendar.YEAR) + "-");
+		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH) + "-");
 		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
-		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+		out.print(calendar.get(java.util.Calendar.YEAR));
 		%>>
 		</td>
 	</tr>
@@ -52,10 +52,10 @@ $(function() {
 		<td><input name="datepicker" type="text" id="date_temp2"
 			readonly="readonly"
 			value=<%
-		calendar = java.util.Calendar.getInstance(); 
-		out.print(calendar.get(java.util.Calendar.YEAR) + "-");
-		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
-		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH) + 1);
+			calendar = java.util.Calendar.getInstance(); 
+			out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH)+1 + "-");
+			out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
+			out.print(calendar.get(java.util.Calendar.YEAR));
 		%>>
 		</td>
 	</tr>
