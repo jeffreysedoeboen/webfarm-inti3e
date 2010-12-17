@@ -28,7 +28,7 @@
 </script>
 
 <div id="tabs">
-	<ul>
+	<ul onmouseup="msgCleanup()">
 		<li><a href="#tabs-1">Main</a></li>
 		<c:if test="${user != null}">
 		<li><a href="#tabs-2">Live stream</a></li>
