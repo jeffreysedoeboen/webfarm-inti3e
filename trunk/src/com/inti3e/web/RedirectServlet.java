@@ -31,12 +31,11 @@ public class RedirectServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String ip = request.getRemoteAddr();
 //		String ip = "192.168.2.";
-		if(ip.startsWith("192.168.2.")) {
-			response.sendRedirect("inlogpage.jsp");
-			
-		} else {
+		if(ip.startsWith("192.168.2.") || ip.startsWith("192.168.0.")) {
 			session.setAttribute("user", new User("admin", "admin", true));
 			response.sendRedirect("mainpage.jsp");
+		} else {
+			response.sendRedirect("inlogpage.jsp");
 		}
 	}
 
