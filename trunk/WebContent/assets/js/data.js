@@ -141,10 +141,15 @@ function drawHumidityChart(json, time1, time2, date1, date2) {
 		series:[{color:'#5FAB78'}]
 	});
 }
+$(document).ready(function(){
+	setInterval("autoupdate", 10000);
+});
 
 function autoupdate() {
 	getTempByDate();
 	getHumidityByDate();
+	getDoorByDate();
+	getLightByDate();
 }
 
 function getDoorByDate() {
