@@ -1,6 +1,6 @@
-<br></br>
-<br></br>
-<script>
+<br>
+<br>
+<script type="text/javascript">
 $(function() {
 		$( "#date_humidity1" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});
@@ -90,7 +90,7 @@ $(function() {
 </table>
 <input type="button" onclick="getHumidityByDate()()" value="submit"></input>
 
-<br></br>
+<br>
 <div id="humidity_table_div"
 style="left:screen.width / 3;
 top:screen.height / 2; 
@@ -115,16 +115,16 @@ overflow:auto;">
 <div id="humiditydiv" style="height:400px;width:800px;margin-left: 50px;float:left;"></div>
 
 
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
