@@ -16,8 +16,8 @@ $(function() {
 	<input type="button" onclick="getLightByDate()" value="submit"></input>
 </div>
 <br></br>
-<div style="
-margin-left: 200px;
+<div id="light_table_div"
+style="margin-left: 200px;
 position: relative;
 color:#ffffff;
 width:300px;

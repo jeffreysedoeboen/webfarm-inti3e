@@ -32,6 +32,9 @@ function fillTempTable(json) {
 		
 		table.appendChild(trElem);
 	}
+	
+	var objDiv = document.getElementById("temp_table_div");
+	objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 function drawTempChart(json, time1, time2, date1, date2) {
@@ -105,6 +108,9 @@ function fillHumidityTable(json) {
 		
 		table.appendChild(trElem);
 	}
+	
+	var objDiv = document.getElementById("humidity_table_div");
+	objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 function drawHumidityChart(json, time1, time2, date1, date2) {
@@ -186,6 +192,9 @@ function fillDoorTable(json) {
 		
 		table.appendChild(trElem);
 	}
+	
+	var objDiv = document.getElementById("door_table_div");
+	objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 function getLightByDate() {
@@ -222,4 +231,7 @@ function fillLightTable(json) {
 		
 		table.appendChild(trElem);
 	}
+	
+	var objDiv = document.getElementById("light_table_div");
+	objDiv.scrollTop = objDiv.scrollHeight;
 }

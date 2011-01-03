@@ -93,8 +93,15 @@ $(function() {
 <input type="button" onclick="getTempByDate()" value="submit"></input>
 
 <br></br>
-<div
-	style="left: screen.width/ 3; top: screen.height/ 2; color: #ffffff; width: 300px; height: 300px; border: 5px; float: left; background-color: #000000; overflow: auto;">
+<div id="temp_table_div"
+style="left: screen.width/ 3;
+top: screen.height/ 2;
+color: #ffffff;
+width: 300px;
+height: 300px; border: 5px;
+float: left;
+background-color: #000000;
+overflow: auto;">
 <table border="1">
 	<thead>
 		<tr>

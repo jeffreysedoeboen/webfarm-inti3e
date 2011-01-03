@@ -91,8 +91,8 @@ $(function() {
 <input type="button" onclick="getHumidityByDate()()" value="submit"></input>
 
 <br></br>
-<div style="
-left:screen.width / 3;
+<div id="humidity_table_div"
+style="left:screen.width / 3;
 top:screen.height / 2; 
 color:#ffffff;
 width:300px;
