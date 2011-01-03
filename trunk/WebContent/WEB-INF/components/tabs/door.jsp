@@ -19,8 +19,8 @@ var date = new Date();
 	<input type="button" onclick="getDoorByDate()" value="submit"></input>
 </div>
 <br></br>
-<div style="
-margin-left: 200px;
+<div id="door_table_div"
+style="margin-left: 200px;
 position: relative;
 color:#ffffff;
 width:300px;

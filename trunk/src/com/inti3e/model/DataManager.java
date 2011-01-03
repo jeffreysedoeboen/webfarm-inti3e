@@ -43,12 +43,6 @@ public class DataManager extends Thread {
 		}
 	}
 
-	public synchronized void setSwitchLight(boolean light) {
-		synchronized(switchLight) {
-			switchLight = light;
-		}
-	}
-
 	public synchronized void turnLight(boolean light) {
 		assert(socket != null);
 		try {
