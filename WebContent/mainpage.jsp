@@ -8,12 +8,12 @@
 <script type="text/javascript" src="assets/js/lib/jquery-1.4.4.js"></script>
 <script type="text/javascript" src="assets/js/lib/jquery-ui-1.8.6.js"></script>
 <script type="text/javascript" src="assets/js/messages.js"></script>
-<link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css" />
+<link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css"></link>
 <script language="javascript" type="text/javascript" src="assets/js/lib/jquery.jqplot.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.canvasAxisTickRenderer.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.dateAxisRenderer.min.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.cursor.min.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css"></link>
 <script type="text/javascript" src="assets/js/data.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Main Page</title>
@@ -21,7 +21,7 @@
 </head>
 <body onload="msgPrint('${errors}','${success}');">
 <div ID="messages"></div>
-<script>
+<script type="text/javascript">
 	$(function() {
 		$( "#tabs" ).tabs();
 	});
@@ -39,7 +39,7 @@
 		<li><a href="#tabs-6">Illumination</a></li>
 		<li><a href="#tabs-7">Door</a></li>
 		<li><a href="#tabs-8">Light switch</a></li>
-		<li><a href="#tabs-9">Create acount</a></li>
+		<li><a href="#tabs-9">Create account</a></li>
 		</c:if>
 		</c:if>
 		<li><a href="#tabs-10">Sources</a></li>
@@ -79,18 +79,18 @@
 		<p align="center">* <a href="http://www.ipfire.org">IpFire</a></p>
 		<p align="center">* <a href="http://www.debian.org">Debian</a></p>
 		<p align="center">* <a href="http://distrowatch.com/search.php?category=Firewall#distrosearch">List of firewalls</a></p>
-	<br></br>
+	<br>
 	<h2 align="center">Web page</h2>
 		<p align="center">* <a href="http://www.jquery.com">jQuery</a></p>
 		<p align="center">* <a href="http://www.longtailvideo.com/players/jw-flv-player/">Video Player</a></p>
-	<br></br>
+	<br>
 	<h2 align="center">Webcam sources</h2>
 		<p align="center">* <a href="http://ubuntuforums.org/showthread.php?t=191770">Driver install tutorial</a></p>
 		<p align="center">* <a href="http://home.mag.cx/messenger/source/">Driver download</a></p>
 		<p align="center">* <a href="http://code.google.com/p/gstreamer-java/">GStreamer Java Bindings</a></p>
 		<p align="center">* <a href="http://dev.fubbie.org/wiki/browser/fubbie-techtests/src/org/fubbie/techtests/snippets/GStreamerWebcam.java">Examples</a></p>
 		<p align="center">* <a href="http://www.twm-kd.com/linux/webcam-and-linux-gstreamer-tutorial/">Webcam and Linux</a></p>
-	<br></br>
+	<br>
 	<h2 align="center">Code conventies</h2>
 		<p align="center">* <a href="http://drupal.org/coding-standards">Coding Standards (Voorbeeld)</a></p>
 		<p align="center">* <a href="http://wiki.eclipse.org/index.php/Development_Conventions_and_Guidelines">Eclipse code conventies</a></p>
