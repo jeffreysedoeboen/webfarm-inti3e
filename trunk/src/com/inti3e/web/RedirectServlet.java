@@ -33,7 +33,7 @@ public class RedirectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String ip = request.getRemoteAddr();
-		//ip = "192.168.2.";
+//		ip = "192.168.2.";
 		
 		AnalyticsDAO analyticsDAO = new AnalyticsDAO();
 		Helper helper = new Helper();

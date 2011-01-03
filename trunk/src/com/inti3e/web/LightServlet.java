@@ -33,9 +33,9 @@ public class LightServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String state = request.getParameter("light");
-		if(state.equals("on")) {
+		if(state.equals("on") && !lsd.getLightOn()) {
 			dm.turnLight(true);
-		} else if(state.equals("off")) {
+		} else if(state.equals("off") && lsd.getLightOn()) {
 			dm.turnLight(false);
 		}
 		
