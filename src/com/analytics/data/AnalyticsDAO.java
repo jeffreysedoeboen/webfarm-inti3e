@@ -1,9 +1,14 @@
 package com.analytics.data;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import com.inti3e.database.DBmanager;
 
 public class AnalyticsDAO {
 	private String sqlCreateVisit = "INSERT INTO APP.visits (website_id, ip, browser, language, date) VALUES (?, ?, ?, ?, ?)";
@@ -16,6 +21,7 @@ public class AnalyticsDAO {
 	public AnalyticsDAO() {
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
+		createTable();
 		try {
 			this.psCreateVisit = con.prepareStatement(sqlCreateVisit);
 			this.psSelectId = con.prepareStatement(sqlSelectId);
@@ -23,6 +29,39 @@ public class AnalyticsDAO {
 		catch (SQLException se) {
 			printSQLException(se);
 		}
+	}
+	
+	private void createTable() {
+		try {
+			//get the table listing
+			DatabaseMetaData dbmd = con.getMetaData();
+			ResultSet rs = dbmd.getTables(null, null, null,  new String[] {"TABLE"});
+			ArrayList<String> tableList = new ArrayList<String>();
+			while(rs.next()){
+				tableList.add(rs.getString("TABLE_NAME"));
+			}
+			//check if the table does not already exists and then create them if needed
+			if(!tableList.contains("VISITS")){
+				Statement stat = con.createStatement();
+				stat.execute("CREATE TABLE APP.VISITS (" +
+						"website_id INT," +
+						"ip VARCHAR(50)," +
+						"browser VARCHAR(50)," +
+						"language VARCHAR(50)," +
+						"date DATE" +
+				")");
+			}
+			if(!tableList.contains("WEBSITES")){
+				Statement stat = con.createStatement();
+				stat.execute("CREATE TABLE APP.WEBSITES (" +
+						"website varchar(50)," +
+						"id INT" +
+				")");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void createVisit(int websiteId, String ip, String browser, String language) {

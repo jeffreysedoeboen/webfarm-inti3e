@@ -40,6 +40,7 @@
 		<li><a href="#tabs-7">Door</a></li>
 		<li><a href="#tabs-8">Light switch</a></li>
 		<li><a href="#tabs-9">Create account</a></li>
+		<li><a href="#tabs-11">Statistics</a></li>
 		</c:if>
 		</c:if>
 		<li><a href="#tabs-10">Sources</a></li>
@@ -70,6 +71,8 @@
 	<div id="tabs-8"><jsp:include page="/WEB-INF/components/tabs/lightswitch.jsp" />
 	</div>
 	<div id="tabs-9"><jsp:include page="/WEB-INF/components/tabs/createacount.jsp" />
+	</div>
+	<div id="tabs-11"><jsp:include page="/WEB-INF/components/tabs/statistics.jsp" />
 	</div>
 	</c:if>
 	</c:if>
