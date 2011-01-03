@@ -1,3 +1,17 @@
+var lastTempDate = "", lastDoorDate = "", lastHumidityDate = "", lastLightDate = "";
+var lastTempTime = "", lastDoorTime = "", lastHumidityTime = "", lastLightTime = "";
+
+$(document).ready(function(){
+	setInterval("autoupdate()", 10000);
+});
+
+function autoupdate() {
+	getTempByDate();
+	getHumidityByDate();
+	updateDoor();
+	getLightByDate();
+}
+
 function getTempByDate() {
 	var date1 = document.getElementById("date_temp1");
 	var date2 = document.getElementById("date_temp2");
@@ -147,39 +161,44 @@ function drawHumidityChart(json) {
 		series:[{color:'#5FAB78'}]
 	});
 }
-$(document).ready(function(){
-	setInterval("autoupdate()", 10000);
-});
 
-function autoupdate() {
-	getTempByDate();
-	getHumidityByDate();
-	getDoorByDate();
-	getLightByDate();
-}
-
-function getDoorByDate() {
-	var date1 = document.getElementById("date_door");
-	
-	$.getJSON("DateServlet.do?id=door&date1="+date1.value, function(json) {
+function getDoorByDate(date1, date2, time1, time2) {
+	$.getJSON("DateServlet.do?id=door&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
 		fillDoorTable(json);
 	});
 }
 
+
+function updateDoor() {
+	if (lastDoorDate != null && !lastDoorDate.equals("") &&
+			lastDoorTime != null && !lastDoorTime.equals("")) {
+		var date2 = document.getElementById("date_door2");
+		var time2 = document.getElementById("door_hour2").value + ":" + document.getElementById("door_minutes2").value;
+		getDoorByDate(lastDoorDate, date2, lastDoorTime, time2);
+	}
+}
+
+function createDoorTable() {
+	var table = document.getElementById("door_table_body");
+	var date1 = document.getElementById("date_door1");
+	var date2 = document.getElementById("date_door2");
+	var time1 = document.getElementById("door_hour1").value + ":" + document.getElementById("door_minutes1").value;
+	var time2 = document.getElementById("door_hour2").value + ":" + document.getElementById("door_minutes2").value;
+	table.innerHTML = "";
+	getDoorByDate(date1.value, date2.value, time1, time2);
+}
+
 function fillDoorTable(json) {
 	var table = document.getElementById("door_table_body");
-	table.innerHTML = "";
 	
 	for (var i = 0; i < json.door.length; i++) {
 		var trElem = document.createElement("tr");
-		
 		var tdDate = document.createElement("td");
-		tdDate.innerHTML = json.door[i].date;
-		
 		var tdTime = document.createElement("td");
-		tdTime.innerHTML = json.door[i].time;
-		
 		var tdDoor = document.createElement("td");
+		
+		tdDate.innerHTML = json.door[i].date;
+		tdTime.innerHTML = json.door[i].time;
 		if(json.door[i].door == 1) {
 			tdDoor.innerHTML = "OPEN";
 		} else {
@@ -189,13 +208,16 @@ function fillDoorTable(json) {
 		trElem.appendChild(tdDate);
 		trElem.appendChild(tdTime);
 		trElem.appendChild(tdDoor);
-		
 		table.appendChild(trElem);
+		
+		lastDoorDate = json.door[i].date;
+		lastDoorTime = json.door[i].time;
 	}
 	
 	var objDiv = document.getElementById("door_table_div");
 	objDiv.scrollTop = objDiv.scrollHeight;
 }
+
 
 function getLightByDate() {
 	var date1 = document.getElementById("date_light");
