@@ -38,13 +38,5 @@ public class Analytics extends HttpServlet {
 			response.setHeader("Set-Cookie", String.format("Time=%s;", System.currentTimeMillis() / 1000));
 		}
 		catch (NumberFormatException e) {}
-		
-		BufferedImage bufferedImage = new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB);  
-		Graphics g = bufferedImage.getGraphics();
-		g.setColor(Color.black);
-		g.dispose();
-		
-		response.setContentType("image/jpeg");
-		ImageIO.write(bufferedImage, "jpg", response.getOutputStream());
 	}
 }

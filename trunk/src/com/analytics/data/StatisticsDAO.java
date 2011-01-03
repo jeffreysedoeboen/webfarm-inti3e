@@ -1,10 +1,13 @@
 package com.analytics.data;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import com.inti3e.database.DBmanager;
 
 public class StatisticsDAO {
 	private String sqlHits = "SELECT COUNT(*) FROM APP.visits";
@@ -43,6 +46,8 @@ public class StatisticsDAO {
 		}
 	}
 	
+	
+
 	private void printSQLException(SQLException se) {
 		while (se != null) {
 			System.out.println("SQLException: State: " + se.getSQLState());
