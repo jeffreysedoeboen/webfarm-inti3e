@@ -6,7 +6,7 @@ function getTempByDate() {
 	
 	$.getJSON("DateServlet.do?id=temp&date1="+date1.value + "&date2=" + date2.value + "&time1=" + time1 + "&time2=" + time2, function(json) {
 		fillTempTable(json);
-		drawTempChart(json, time1, time2, date1.value, date2.value);
+		drawTempChart(json);
 	});
 }
 
@@ -37,7 +37,7 @@ function fillTempTable(json) {
 	objDiv.scrollTop = objDiv.scrollHeight;
 }
 
-function drawTempChart(json, time1, time2, date1, date2) {
+function drawTempChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
@@ -66,7 +66,7 @@ function drawTempChart(json, time1, time2, date1, date2) {
 				autoscale:true,
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
-				tickInterval:'1 hour',
+				//tickInterval:'1 hour', nodig??
 				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'}
 			}
 		},
@@ -82,7 +82,7 @@ function getHumidityByDate() {
 	var time2 = document.getElementById("humidity_hour2").value + ":" + document.getElementById("humidity_minutes2").value;
 	$.getJSON("DateServlet.do?id=humidity&date1="+date1.value + "&date2=" + date2.value + "&time1=" + time1 + "&time2=" + time2, function(json) {
 		fillHumidityTable(json);
-		drawHumidityChart(json, time1, time2, date1.value, date2.value);
+		drawHumidityChart(json);
 	});
 }
 
@@ -113,7 +113,7 @@ function fillHumidityTable(json) {
 	objDiv.scrollTop = objDiv.scrollHeight;
 }
 
-function drawHumidityChart(json, time1, time2, date1, date2) {
+function drawHumidityChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
