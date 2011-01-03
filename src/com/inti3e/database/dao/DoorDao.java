@@ -17,27 +17,29 @@ import com.inti3e.model.Door;
 
 public class DoorDao {
 
-
 	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.DOOR";
 	private String sqlNewDoor			= "INSERT INTO APP.DOOR (\"DATE\", \"TIME\", \"DOOR\" ) VALUES (?,?,?)";
 	private String sqlGetDoorOfDate		= "SELECT time, door FROM APP.DOOR WHERE date=?";
-
+	private String sqlGetDoorBetween	= "SELECT date,time,door FROM APP.DOOR WHERE date BETWEEN ? AND ?";
+	
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllDoor = null ;
 	private PreparedStatement psNewDoor = null;
 	private PreparedStatement psGetDoorOfDate = null;
+	private PreparedStatement psGetDoorBetween = null;
 
 
 	public DoorDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
 		createTable();
-		try{
+		try {
 
-			this.psGetAllDoor   = con.prepareStatement(sqlGetAllDoor);
-			this.psNewDoor 		= con.prepareStatement(sqlNewDoor);
-			this.psGetDoorOfDate= con.prepareStatement(sqlGetDoorOfDate);
-
+			this.psGetAllDoor   	= con.prepareStatement(sqlGetAllDoor);
+			this.psNewDoor 			= con.prepareStatement(sqlNewDoor);
+			this.psGetDoorOfDate	= con.prepareStatement(sqlGetDoorOfDate);
+			this.psGetDoorBetween 	= con.prepareStatement(sqlGetDoorBetween);
+			
 		} catch(SQLException se) {
 			printSQLException(se) ;
 		}
@@ -115,6 +117,7 @@ public class DoorDao {
 		}
 	}
 
+	//TODO NOT USED
 	public ArrayList<Door> getDoorsOfDate(String dateFormat){
 		ArrayList<Door> doors = new ArrayList<Door>();
 		if(dateFormat != null) {
@@ -142,5 +145,89 @@ public class DoorDao {
 		}
 		return doors;
 	}
+	
+	
+	public ArrayList<Door> getDoorsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
+		ArrayList<Door> doors = new ArrayList<Door>();
+		ArrayList<Door> doorArray = new ArrayList<Door>();
+		System.out.println(dateFormat1+" / "+dateFormat2);
+		String[] splittedDate1 = dateFormat1.split("-");
+		int day1 	= Integer.parseInt(splittedDate1[0]);
+		int month1 	= Integer.parseInt(splittedDate1[1]);
+		int year1 	= Integer.parseInt(splittedDate1[2]);
 
+		String[] splittedDate2 = dateFormat2.split("-");
+		int day2 	= Integer.parseInt(splittedDate2[0]);
+		int month2 	= Integer.parseInt(splittedDate2[1]);
+		int year2 	= Integer.parseInt(splittedDate2[2]);
+
+		GregorianCalendar gc = new GregorianCalendar();
+
+		gc.set(year1, month1 - 1, day1);
+		Date date1 = new java.sql.Date(gc.getTimeInMillis());
+		gc.set(year2, month2 - 1, day2);
+		Date date2 = new java.sql.Date(gc.getTimeInMillis());
+
+		try {
+			psGetDoorBetween.setDate(1, date1);
+			psGetDoorBetween.setDate(2, date2);
+
+			ResultSet rs = psGetDoorBetween.executeQuery();
+			while (rs.next()){
+				Date date 	= rs.getDate(1);
+				String time = rs.getString(2);
+				int door = rs.getInt(3);
+				Door adddoor = new Door(date, time, door);
+				doorArray.add(adddoor);
+			}
+
+			doors = getDateBetweenHours(time1, time2, date1, date2, doorArray);
+		} catch (SQLException se) {
+			printSQLException(se) ;		
+		} 
+		return doors;
+	}
+
+	@SuppressWarnings("unchecked")
+	private ArrayList<Door> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Door> doorArray) {
+		String[] splittedTime1 = time1.split(":");
+		String[] splittedTime2 = time2.split(":");
+		int hour1 = Integer.parseInt(splittedTime1[0]);
+		int hour2 = Integer.parseInt(splittedTime2[0]);
+		int minute1 = Integer.parseInt(splittedTime1[1]);
+		int minute2 = Integer.parseInt(splittedTime2[1]);
+		
+		ArrayList<Door> removeDoors = new ArrayList<Door>();
+		for (Door d : doorArray) {
+			java.util.Date doorDate = d.getDate();
+			String[] splittedTime = d.getTime().split(":");
+			int hour = Integer.parseInt(splittedTime[0]);
+			int minute = Integer.parseInt(splittedTime[1]);
+			
+			if (doorDate.getDay() == date1.getDay() &&
+					doorDate.getMonth() == date1.getMonth() &&
+					doorDate.getYear() == date1.getYear()) {
+				if(hour < hour1) {
+					removeDoors.add(d);
+				} else if (hour == hour1) {
+					if (minute < minute1) {
+						removeDoors.add(d);
+					}
+				}
+			}
+			if (doorDate.getDay() == date2.getDay() &&
+					doorDate.getMonth() == date2.getMonth() &&
+					doorDate.getYear() == date2.getYear()) {
+				if(hour > hour2) {
+					removeDoors.add(d);
+				} else if (hour == hour2) {
+					if (minute > minute2) {
+						removeDoors.add(d);
+					}
+				}
+			}
+		}
+		doorArray.removeAll(removeDoors);
+		return doorArray;
+	}
 }

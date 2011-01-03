@@ -68,7 +68,7 @@ public class DateServlet extends HttpServlet {
 			}
 		} else if(type.equals("door")) {
 			DoorDao doorDao = new DoorDao();
-			ArrayList<Door> door = doorDao.getDoorsOfDate(date1);
+			ArrayList<Door> door = doorDao.getDoorsBetweenDates(date1, time1, date2, time2);
 			
 			try {
 				json.put("door", door);
