@@ -1,5 +1,5 @@
-<br></br>
-<br></br>
+<br>
+<br>
 <script type="text/javascript">
 $(function() {
 		$( "#date_temp1" ).datepicker({ dateFormat: 'dd-mm-yy' });
@@ -92,7 +92,7 @@ $(function() {
 
 <input type="button" onclick="getTempByDate()" value="submit"></input>
 
-<br></br>
+<br>
 <div id="temp_table_div"
 style="left: screen.width/ 3;
 top: screen.height/ 2;
@@ -117,16 +117,16 @@ overflow: auto;">
 	style="height: 400px; width: 800px; margin-left: 50px; float: left;"></div>
 
 
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 

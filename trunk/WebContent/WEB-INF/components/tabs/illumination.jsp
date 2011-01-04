@@ -1,6 +1,6 @@
 <div>
-<br></br>
-<br></br>
+<br>
+<br>
 <script type="text/javascript">	
 $(function() {
 		$( "#date_light" ).datepicker({ dateFormat: 'dd-mm-yy' });
@@ -15,7 +15,7 @@ $(function() {
 		%>" id="date_light" readonly="readonly"></p>
 	<input type="button" onclick="getLightByDate()" value="submit"></input>
 </div>
-<br></br>
+<br>
 <div id="light_table_div"
 style="margin-left: 200px;
 position: relative;
@@ -37,12 +37,12 @@ overflow:auto;">
 <tbody id="light_table_body"></tbody>
 </table>
 </div>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </div>
