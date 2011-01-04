@@ -41,14 +41,14 @@ public class RedirectServlet extends HttpServlet {
 		try {
 			int id = 0;
 			// if user is 15 min inactive, count again
-			String time = helper.getCookieTimeValue(request.getCookies());
+			String time = (String) session.getAttribute("lastvisit");
 			
 			if (time == null || (System.currentTimeMillis() / 1000) - Long.parseLong(time) > 900 ) {
 				analyticsDAO.createVisit(id, request.getRemoteAddr(), helper.getBrowser(request.getHeader("User-Agent")),
 						helper.getLanguage(request.getHeader("Accept-Language")));
 			}
 			
-			response.setHeader("Set-Cookie", String.format("Time=%s;", System.currentTimeMillis() / 1000));
+			session.setAttribute("lastvisit", String.format("Time=%s;", System.currentTimeMillis() / 1000));
 		}
 		catch (NumberFormatException e) {}
 		
