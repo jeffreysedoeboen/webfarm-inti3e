@@ -1,7 +1,7 @@
 <div>
 <br></br>
 <br></br>
-<script>
+<script type="text/javascript">
 $(function() {
 	var date = new Date();
 	$( "#date_door1" ).datepicker({ dateFormat: 'dd-mm-yy' });

@@ -1,4 +1,4 @@
-<br></br>
+<br>
 		<h1 align="center">Please create acount</h1>
 <form method="post" action="LoginServlet.do">
 		<h2 align="center">Username:</h2>
