@@ -1,6 +1,6 @@
 <div>
-<br></br>
-<br></br>
+<br>
+<br>
 <script type="text/javascript">
 $(function() {
 	var date = new Date();
@@ -82,7 +82,7 @@ $(function() {
 </table>
 <input type="button" onclick="createDoorTable()" value="submit"></input>
 </div>
-<br></br>
+<br>
 <div id="door_table_div"
 style="margin-left: 200px;
 position: relative;
@@ -104,12 +104,12 @@ overflow:auto;">
 <tbody id="door_table_body"></tbody>
 </table>
 </div>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </div>
