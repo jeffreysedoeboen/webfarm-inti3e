@@ -8,6 +8,7 @@
 <script type="text/javascript" src="assets/js/lib/jquery-1.4.4.js"></script>
 <script type="text/javascript" src="assets/js/lib/jquery-ui-1.8.6.js"></script>
 <script type="text/javascript" src="assets/js/messages.js"></script>
+<link href="assets/css/stylestatistics.css" type="text/css" rel="stylesheet"></link>
 <link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css"></link>
 <script language="javascript" type="text/javascript" src="assets/js/lib/jquery.jqplot.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.canvasAxisTickRenderer.js"></script>
@@ -41,10 +42,10 @@
 		<li><a href="#tabs-7">Door</a></li>
 		<li><a href="#tabs-8">Light switch</a></li>
 		<li><a href="#tabs-9">Create account</a></li>
-		<li><a href="#tabs-11">Statistics</a></li>
+		<li><a href="#tabs-10">Statistics</a></li>
 		</c:if>
 		</c:if>
-		<li><a href="#tabs-10">Sources</a></li>
+		<li><a href="#tabs-11">Sources</a></li>
 	</ul>
 	<div id="tabs-1">
 		<h1 align="center">Welcome to our application!</h1>
@@ -73,11 +74,11 @@
 	</div>
 	<div id="tabs-9"><jsp:include page="/WEB-INF/components/tabs/createacount.jsp" />
 	</div>
-	<div id="tabs-11"><jsp:include page="/WEB-INF/components/tabs/statistics.jsp" />
+	<div id="tabs-10"><jsp:include page="/WEB-INF/components/tabs/statistics.jsp" />
 	</div>
 	</c:if>
 	</c:if>
-	<div id="tabs-10">
+	<div id="tabs-11">
 	<h1 align="center">The sources we used:</h1>
 	<h2 align="center">Firewall &amp; OS</h2>
 		<p align="center">* <a href="http://www.ipfire.org">IpFire</a></p>
