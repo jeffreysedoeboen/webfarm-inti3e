@@ -16,7 +16,7 @@
 <script type="text/javascript" src="assets/js/lib/jqplot.cursor.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css"></link>
 <script type="text/javascript" src="assets/js/data.js"></script>
-<script src="assets/js/flowplayer-3.2.4.min.js"></script>
+<script src="assets/js/flowplayer-3.2.4.min.js" type="text/javascript"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Main Page</title>
 

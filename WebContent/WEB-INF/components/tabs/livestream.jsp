@@ -6,7 +6,7 @@
 </a>
 
 
-<script language="JavaScript">
+<script language="JavaScript" type="text/javascript">
 flowplayer("player", "assets/flashplayer/flowplayer-3.2.5.swf");
 </script>
 </p>

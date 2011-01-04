@@ -1,6 +1,6 @@
 <br></br>
 <br></br>
-<script>
+<script type="text/javascript">
 $(function() {
 		$( "#date_temp1" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});

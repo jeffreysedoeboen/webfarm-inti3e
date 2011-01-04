@@ -8,7 +8,7 @@
 </head>
 <body>
 <p>Test site</p>
-<p><img src="analytics.jpg?id=1" /></p>
+<p><img src="analytics.jpg?id=1" alt="" /></p>
 <p><a href="statistics.jsp">Statistics</a></p>
 </body>
 </html>

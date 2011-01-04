@@ -1,7 +1,7 @@
 <div>
 <br></br>
 <br></br>
-<script>
+<script type="text/javascript">	
 $(function() {
 		$( "#date_light" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	});
