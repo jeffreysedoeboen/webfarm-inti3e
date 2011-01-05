@@ -1,0 +1,48 @@
+@CHARSET "UTF-8";
+body {
+	background-color:grey;
+}
+#wrapper {
+	background-color:white;
+	border:3px solid black;
+	margin:20px auto auto;
+	width:900px;
+}
+#menu {
+	background-color:red;
+	border-bottom:3px solid black;
+	padding:10px 0;
+}
+#menu span {
+	border-right:3px solid black;
+	font-weight:bold;
+	margin:auto;
+	padding:10px 20px;
+}
+#menu a {
+	color:black;
+	text-decoration:none;
+}
+#content {
+	min-height:500px;
+	padding:20px;
+}
+.infobox {
+	border:2px solid black;
+	float:left;
+	margin:10px;
+	padding:10px;
+	width:242px;
+}
+.infobox .left {
+	float:left;
+	font-weight:bold;
+	width:150px;
+}
+.infobox .right {
+	margin-left:150px;
+	text-align:right;
+}
+.infobox .row {
+	padding:5px 0;
+}
