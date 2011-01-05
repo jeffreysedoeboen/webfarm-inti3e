@@ -1,4 +1,6 @@
-package com.inti3e.model;
+package test;
+
+import com.inti3e.model.DataManager;
 
 
 public class Apl {
