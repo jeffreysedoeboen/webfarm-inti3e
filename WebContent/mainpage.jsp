@@ -30,22 +30,22 @@
 </script>
 
 <div id="tabs">
-	<ul onmouseup="msgCleanup()">
-		<li><a href="#tabs-1">Main</a></li>
+	<ul onmouseup="msgCleanup();">
+		<li><a onclick="hit('Main')" href="#tabs-1">Main</a></li>
 		<c:if test="${user != null}">
-		<li><a href="#tabs-2">Live stream</a></li>
-		<li><a href="#tabs-3">Video playback</a></li>
+		<li><a onclick="hit('Live stream')" href="#tabs-2">Live stream</a></li>
+		<li><a onclick="hit('Video playback')" href="#tabs-3">Video playback</a></li>
 		<c:if test="${user.admin}">
-		<li><a href="#tabs-4" onclick="getTempByDate()">Temperature</a></li>
-		<li><a href="#tabs-5" onclick="getHumidityByDate()">Air humidity</a></li>
-		<li><a href="#tabs-6">Illumination</a></li>
-		<li><a href="#tabs-7">Door</a></li>
-		<li><a href="#tabs-8">Light switch</a></li>
-		<li><a href="#tabs-9">Create account</a></li>
-		<li><a href="#tabs-10">Statistics</a></li>
+		<li><a onclick="hit('Temperature')" href="#tabs-4" onclick="getTempByDate()">Temperature</a></li>
+		<li><a onclick="hit('Air humidity')" href="#tabs-5" onclick="getHumidityByDate()">Air humidity</a></li>
+		<li><a onclick="hit('Illumination')" href="#tabs-6">Illumination</a></li>
+		<li><a onclick="hit('Door')" href="#tabs-7">Door</a></li>
+		<li><a onclick="hit('Light switch')" href="#tabs-8">Light switch</a></li>
+		<li><a onclick="hit('Create account')" href="#tabs-9">Create account</a></li>
+		<li><a onclick="hit('Statistics')" href="#tabs-10">Statistics</a></li>
 		</c:if>
 		</c:if>
-		<li><a href="#tabs-11">Sources</a></li>
+		<li><a onclick="hit('Sources')" href="#tabs-11">Sources</a></li>
 	</ul>
 	<div id="tabs-1">
 		<h1 align="center">Welcome to our application!</h1>
@@ -105,5 +105,6 @@
 session.removeAttribute("errors");
 session.removeAttribute("success");
 %>
+<img src="analytics.jpg" />
 </body>
 </html>

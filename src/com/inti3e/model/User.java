@@ -1,11 +1,13 @@
 package com.inti3e.model;
 
 public class User {
+	private int id;
 	private String name;
 	private String password;
 	private boolean admin;
 
-	public User(String name, String password, boolean admin) {
+	public User(int id, String name, String password, boolean admin) {
+		this.setId(id);
 		this.name = name;
 		this.password = password;
 		this.admin = admin;
@@ -41,5 +43,13 @@ public class User {
 	
 	public boolean isAdmin() {
 		return admin;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

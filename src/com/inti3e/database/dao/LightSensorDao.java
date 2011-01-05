@@ -31,7 +31,7 @@ public class LightSensorDao {
 	public LightSensorDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
-		createTable();
+		
 		try{
 
 			this.psGetAllLights   = con.prepareStatement(sqlGetAllLights);
@@ -40,31 +40,6 @@ public class LightSensorDao {
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
-		}
-	}
-
-	public void createTable(){
-
-		try {
-			//get the table listing
-			DatabaseMetaData dbmd = con.getMetaData();
-			ResultSet rs = dbmd.getTables(null, null, null,  new String[] {"TABLE"});
-			ArrayList<String> tableList = new ArrayList<String>();
-			while(rs.next()){
-				tableList.add(rs.getString("TABLE_NAME"));
-			}
-			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("LIGHTSENSOR")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.LIGHTSENSOR (" +
-						"date DATE," +
-						"time VARCHAR(50)," +
-						"light VARCHAR(25)" +
-				")");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 	

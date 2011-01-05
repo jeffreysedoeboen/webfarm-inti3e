@@ -70,6 +70,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Analytics</servlet-name>
-    <url-pattern>/Analytics.do</url-pattern>
+    <url-pattern>/analytics.jpg</url-pattern>
   </servlet-mapping>
 </web-app>

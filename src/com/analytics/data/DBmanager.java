@@ -10,7 +10,7 @@ public class DBmanager {
 	
 	private Connection con = null ;
 	private final String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-	private final String dbname = "jdbc:derby:/home/marco/workspace/db";
+	private final String dbname = "jdbc:derby:statisticsDB;create=true";
 	
 	private DBmanager(){
 		if(!dbExists(dbname)) {

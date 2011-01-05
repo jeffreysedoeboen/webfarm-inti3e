@@ -13,7 +13,7 @@ import com.inti3e.model.User;
 
 public class UserDao {
 	
-	private String sqlGetAllUsers		= "SELECT NAME, PASSWORD FROM APP.USERS";
+	private String sqlGetAllUsers		= "SELECT ID, NAME, PASSWORD FROM APP.USERS";
 	private String sqlNewUser 			= "INSERT INTO APP.USERS (\"NAME\", \"PASSWORD\" ) VALUES (?,?)";
 
 	private Connection        con      = null ;
@@ -24,7 +24,7 @@ public class UserDao {
 	public UserDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
-		createTable();
+		
 		try{
 
 			this.psGetAllUsers   = con.prepareStatement(sqlGetAllUsers);
@@ -35,38 +35,15 @@ public class UserDao {
 		}
 	}
 	
-	public void createTable(){
-		
-		try {
-			//get the table listing
-			DatabaseMetaData dbmd = con.getMetaData();
-			ResultSet rs = dbmd.getTables(null, null, null,  new String[] {"TABLE"});
-			ArrayList<String> tableList = new ArrayList<String>();
-			while(rs.next()){
-				tableList.add(rs.getString("TABLE_NAME"));
-			}
-			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("USERS")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.USERS (" +
-						"NAME VARCHAR(50) PRIMARY KEY," +
-						"PASSWORD VARCHAR(50)" +
-						")");
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public ArrayList<User> getAllUsers(){
 		ArrayList<User> users = new ArrayList<User>();
 		try {
 			ResultSet rs = psGetAllUsers.executeQuery();
 			while (rs.next()){
-				String name = rs.getString(1);
-				String password = rs.getString(2);
-				User s = new User(name, password, false);
+				int id = rs.getInt(1);
+				String name = rs.getString(2);
+				String password = rs.getString(3);
+				User s = new User(id, name, password, false);
 				users.add(s);
 			}
 		} catch (SQLException se) {
