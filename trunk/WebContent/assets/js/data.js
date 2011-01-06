@@ -17,6 +17,33 @@ function autoupdate() {
 	updateLight();
 }
 
+function getVidListByDate() {
+	alert("Henk");
+	var date1 = document.getElementById("date_vidplayback");
+	$.getJSON("VideoServlet.do?id=playback&date1="+date1, function(json) {
+		fillPlaybackTable(json);
+	});
+}
+
+function fillPlaybackTable(json) {
+	var table = document.getElementById("playback_table_body");
+	table.innerHTML = "";
+	
+		for (var i = 0; i < json.temp.length; i++) {
+			var trElem = document.createElement("tr");
+			var tdVideo = document.createElement("td");
+		
+			tdVideo.innerHTML = changeDateFormat(json.video[i].name);
+		
+			trElem.appendChild(tdVideo);
+			table.appendChild(trElem);
+		}
+}
+
+function showPlayer(name) {
+	var player = document.getElementById("videoplayer");
+	player.innerHTML = "<a href='" + name + "'	style='display:block;width:425px;height:300px;'	id='player'></a>";
+}
 
 function getTempByDate(date1, date2, time1, time2) {
 	$.getJSON("DateServlet.do?id=temp&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
