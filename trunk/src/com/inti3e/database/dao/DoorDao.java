@@ -17,10 +17,10 @@ import com.inti3e.model.Door;
 
 public class DoorDao {
 
-	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.DOOR";
+	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.DOOR ORDER BY date ASC";
 	private String sqlNewDoor			= "INSERT INTO APP.DOOR (\"DATE\", \"TIME\", \"DOOR\" ) VALUES (?,?,?)";
 	private String sqlGetDoorOfDate		= "SELECT time, door FROM APP.DOOR WHERE date=?";
-	private String sqlGetDoorBetween	= "SELECT date,time,door FROM APP.DOOR WHERE date BETWEEN ? AND ?";
+	private String sqlGetDoorBetween	= "SELECT date,time,door FROM APP.DOOR WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 	
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllDoor = null ;
@@ -62,17 +62,21 @@ public class DoorDao {
 	}
 
 	public void addNewDoor( boolean open ){
+		String doorHour = "";
 		String doorMin = "";
+		String doorSec = "";
 		try {
 			Calendar calendar = Calendar.getInstance();
+			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { doorHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+			else { doorHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+			if(calendar.get(Calendar.MINUTE) < 10) { doorMin = "0" + calendar.get(Calendar.MINUTE); }
+			else { doorMin = "" + calendar.get(Calendar.MINUTE); }
+			if(calendar.get(Calendar.SECOND) < 10) { doorSec = "0" + calendar.get(Calendar.SECOND); }
+			else { doorSec = "" + calendar.get(Calendar.SECOND); }
+			
 			psNewDoor.clearParameters();
 			psNewDoor.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			if(calendar.get(Calendar.MINUTE) < 10) {
-				doorMin = "0" + calendar.get(Calendar.MINUTE);
-			} else {
-				doorMin = "" + calendar.get(Calendar.MINUTE);
-			}
-			psNewDoor.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + doorMin + ":" + calendar.get(Calendar.SECOND));
+			psNewDoor.setString(2, "" + doorHour + ":" + doorMin + ":" + doorSec);
 			psNewDoor.setInt(3, open ? 1:0);
 			psNewDoor.executeUpdate();
 		} catch (SQLException se) {
@@ -145,7 +149,7 @@ public class DoorDao {
 		try {
 			psGetDoorBetween.setDate(1, date1);
 			psGetDoorBetween.setDate(2, date2);
-
+			System.out.println(date1.toGMTString() + " / " + date2.toGMTString() + " <> " + time1 + " / " + time2);
 			ResultSet rs = psGetDoorBetween.executeQuery();
 			while (rs.next()){
 				Date date 	= rs.getDate(1);
@@ -177,6 +181,7 @@ public class DoorDao {
 			String[] splittedTime = d.getTime().split(":");
 			int hour = Integer.parseInt(splittedTime[0]);
 			int minute = Integer.parseInt(splittedTime[1]);
+			int second = Integer.parseInt(splittedTime[2]);
 			
 			if (doorDate.getDay() == date1.getDay() &&
 					doorDate.getMonth() == date1.getMonth() &&
@@ -184,8 +189,12 @@ public class DoorDao {
 				if(hour < hour1) {
 					removeDoors.add(d);
 				} else if (hour == hour1) {
-					if (minute < minute1) {
+					if (minute <= minute1) {
 						removeDoors.add(d);
+					} else if (minute == minute1) {
+						if (second <= 0) {
+							removeDoors.add(d);
+						}
 					}
 				}
 			}
@@ -197,6 +206,10 @@ public class DoorDao {
 				} else if (hour == hour2) {
 					if (minute > minute2) {
 						removeDoors.add(d);
+					} else if (minute == minute2) { 
+						if (second > 0) {
+							removeDoors.add(d);
+						}
 					}
 				}
 			}

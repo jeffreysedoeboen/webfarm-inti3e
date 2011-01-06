@@ -2,10 +2,9 @@
 <br>
 <script type="text/javascript">
 $(function() {
-		$( "#date_temp1" ).datepicker({ dateFormat: 'dd-mm-yy' });
-	});
-$(function() {
+	$( "#date_temp1" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#date_temp2" ).datepicker({ dateFormat: 'dd-mm-yy' });
+	createTempTable();
 });
 </script>
 <table>
@@ -90,7 +89,7 @@ $(function() {
 
 
 
-<input type="button" onclick="getTempByDate()" value="submit"></input>
+<input type="button" onclick="createTempTable()" value="submit"></input>
 
 <br>
 <div id="temp_table_div"

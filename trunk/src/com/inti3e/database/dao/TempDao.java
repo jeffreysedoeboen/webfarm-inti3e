@@ -17,10 +17,10 @@ import com.inti3e.model.Temperature;
 public class TempDao {
 
 
-	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp";
+	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp ORDER BY date ASC";
 	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE\", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
 	private String sqlGetTempOfDate		= "SELECT time, temp FROM APP.Temp WHERE date=?";
-	private String sqlGetTempBetween	= "SELECT date,time, temp FROM APP.Temp WHERE date BETWEEN ? AND ?";
+	private String sqlGetTempBetween	= "SELECT date,time, temp FROM APP.Temp WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllTemps = null ;
@@ -63,17 +63,21 @@ public class TempDao {
 	}
 
 	public void addNewTemp(String temperature){
+		String tempHour = "";
 		String tempMin = "";
+		String tempSec = "";
 		try {
 			Calendar calendar = Calendar.getInstance();
+			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { tempHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+			else { tempHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+			if(calendar.get(Calendar.MINUTE) < 10) { tempMin = "0" + calendar.get(Calendar.MINUTE); }
+			else { tempMin = "" + calendar.get(Calendar.MINUTE); }
+			if(calendar.get(Calendar.SECOND) < 10) { tempSec = "0" + calendar.get(Calendar.SECOND); }
+			else { tempSec = "" + calendar.get(Calendar.SECOND); }
+			
 			psNewTemp.clearParameters();
 			psNewTemp.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			if(calendar.get(Calendar.MINUTE) < 10) {
-				tempMin = "0" + calendar.get(Calendar.MINUTE);
-			} else {
-				tempMin = "" + calendar.get(Calendar.MINUTE);
-			}
-			psNewTemp.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + tempMin);
+			psNewTemp.setString(2, "" + tempHour + ":" + tempMin + ":" + tempSec);
 			psNewTemp.setString(3, temperature);
 			psNewTemp.executeUpdate();
 		} catch (SQLException se) {
@@ -160,51 +164,54 @@ public class TempDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	private ArrayList<Temperature> getDateBetweenHours( String time1, String time2,Date date1, Date date2, ArrayList<Temperature> tempArray ) {
-		System.out.println(tempArray.toString());
-		for(Temperature temp: (ArrayList<Temperature>)tempArray.clone()) {
-			String[] splittedTime = temp.getTime().split(":");
+	private ArrayList<Temperature> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Temperature> temperatureArray) {
+		String[] splittedTime1 = time1.split(":");
+		String[] splittedTime2 = time2.split(":");
+		int hour1 = Integer.parseInt(splittedTime1[0]);
+		int hour2 = Integer.parseInt(splittedTime2[0]);
+		int minute1 = Integer.parseInt(splittedTime1[1]);
+		int minute2 = Integer.parseInt(splittedTime2[1]);
+		
+		ArrayList<Temperature> removeTemperatures = new ArrayList<Temperature>();
+		for (Temperature d : temperatureArray) {
+			java.util.Date temperatureDate = d.getDate();
+			String[] splittedTime = d.getTime().split(":");
 			int hour = Integer.parseInt(splittedTime[0]);
 			int minute = Integer.parseInt(splittedTime[1]);
-
-			System.out.println(temp.getTime());
-			if((temp.getDate().getDay() == date1.getDay()) && (temp.getDate().getMonth() == date1.getMonth())) {
-				String[] splittedTime1 = time1.split(":");
-				int hour1 = Integer.parseInt(splittedTime1[0]);
-				int minute1 = Integer.parseInt(splittedTime1[1]);
-
-				System.out.println("Hour:" +hour + " <= " + hour1);
-				if(hour <= hour1) {
-					if(hour == hour1) {
-						System.out.println("Minute:" +minute + " < " + minute1);
-						if(minute < minute1) {
-							System.out.println(temp.getTime() + ": removed");
-							tempArray.remove(temp);
+			int second = Integer.parseInt(splittedTime[2]);
+			
+			if (temperatureDate.getDay() == date1.getDay() &&
+					temperatureDate.getMonth() == date1.getMonth() &&
+					temperatureDate.getYear() == date1.getYear()) {
+				if(hour < hour1) {
+					removeTemperatures.add(d);
+				} else if (hour == hour1) {
+					if (minute <= minute1) {
+						removeTemperatures.add(d);
+					} else if (minute == minute1) {
+						if (second <= 0) {
+							removeTemperatures.add(d);
 						}
-					} else {
-						tempArray.remove(temp);
 					}
 				}
 			}
-
-			if((temp.getDate().getDay() == date2.getDay()) && (temp.getDate().getMonth() == date2.getMonth())) {
-				String[] splittedTime2 = time2.split(":");
-				int hour2 = Integer.parseInt(splittedTime2[0]);
-				int minute2 = Integer.parseInt(splittedTime2[1]);
-				System.out.println("Hour:" +hour + " >= " + hour2);
-				if(hour >= hour2) {
-					if(hour == hour2) {
-						System.out.println("Minute:" +minute + " > " + minute2);
-						if(minute > minute2) {
-							System.out.println(temp.getTime() + ": removed");
-							tempArray.remove(temp);
+			if (temperatureDate.getDay() == date2.getDay() &&
+					temperatureDate.getMonth() == date2.getMonth() &&
+					temperatureDate.getYear() == date2.getYear()) {
+				if(hour > hour2) {
+					removeTemperatures.add(d);
+				} else if (hour == hour2) {
+					if (minute > minute2) {
+						removeTemperatures.add(d);
+					} else if (minute == minute2) { 
+						if (second > 0) {
+							removeTemperatures.add(d);
 						}
-					} else {
-						tempArray.remove(temp);
 					}
 				}
 			}
 		}
-		return tempArray;
+		temperatureArray.removeAll(removeTemperatures);
+		return temperatureArray;
 	}
 }

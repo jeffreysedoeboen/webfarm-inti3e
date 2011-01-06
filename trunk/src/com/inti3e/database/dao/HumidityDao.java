@@ -18,10 +18,10 @@ import com.inti3e.model.Humidity;
 public class HumidityDao {
 
 
-	private String sqlGetAllTemps		= "SELECT date, time, humidity FROM APP.Humidity";
+	private String sqlGetAllTemps		= "SELECT date, time, humidity FROM APP.Humidity ORDER BY date ASC";
 	private String sqlNewTemp 			= "INSERT INTO APP.Humidity (\"DATE\", \"TIME\", \"HUMIDITY\" ) VALUES (?,?,?)";
 	private String sqlGetHumidOfDate	= "SELECT time, humidity FROM APP.Humidity WHERE date=?";
-	private String sqlGetHumidityBetween= "SELECT date,time, humidity FROM APP.Humidity WHERE date BETWEEN ? AND ?";
+	private String sqlGetHumidityBetween= "SELECT date,time, humidity FROM APP.Humidity WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 	
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllHumids = null ;
@@ -63,36 +63,21 @@ public class HumidityDao {
 	}
 
 	public void addNewHumidity(int humidity){
+		String humidHour = "";
 		String humidMin = "";
+		String humidSec = "";
 		try {
 			Calendar calendar = Calendar.getInstance();
+			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { humidHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+			else { humidHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+			if(calendar.get(Calendar.MINUTE) < 10) { humidMin = "0" + calendar.get(Calendar.MINUTE); }
+			else { humidMin = "" + calendar.get(Calendar.MINUTE); }
+			if(calendar.get(Calendar.SECOND) < 10) { humidSec = "0" + calendar.get(Calendar.SECOND); }
+			else { humidSec = "" + calendar.get(Calendar.SECOND); }
+			
 			psNewHumid.clearParameters();
 			psNewHumid.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			if(calendar.get(Calendar.MINUTE) < 10) {
-				humidMin = "0" + calendar.get(Calendar.MINUTE);
-			} else {
-				humidMin = "" + calendar.get(Calendar.MINUTE);
-			}
-			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + humidMin);
-			psNewHumid.setInt(3, humidity);
-			psNewHumid.executeUpdate();
-		} catch (SQLException se) {
-			printSQLException(se) ;
-		}
-	}
-
-	public void addNewHumidity(int humidity, int minuut){
-		String humidMin = "";
-		try {
-			Calendar calendar = Calendar.getInstance();
-			psNewHumid.clearParameters();
-			psNewHumid.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			if(minuut < 10) {
-				humidMin = "0" + minuut;
-			} else {
-				humidMin = "" + minuut;
-			}
-			psNewHumid.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + humidMin);
+			psNewHumid.setString(2, "" + humidHour + ":" + humidMin + ":" + humidSec);
 			psNewHumid.setInt(3, humidity);
 			psNewHumid.executeUpdate();
 		} catch (SQLException se) {
@@ -178,34 +163,54 @@ public class HumidityDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	private ArrayList<Humidity> getDateBetweenHours( String time1, String time2,Date date1, Date date2, ArrayList<Humidity> tempArray ) {
-		for(Humidity humidity: (ArrayList<Humidity>)tempArray.clone()) {
-			String[] splittedTime = humidity.getTime().split(":");
+	private ArrayList<Humidity> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Humidity> humidityArray) {
+		String[] splittedTime1 = time1.split(":");
+		String[] splittedTime2 = time2.split(":");
+		int hour1 = Integer.parseInt(splittedTime1[0]);
+		int hour2 = Integer.parseInt(splittedTime2[0]);
+		int minute1 = Integer.parseInt(splittedTime1[1]);
+		int minute2 = Integer.parseInt(splittedTime2[1]);
+		
+		ArrayList<Humidity> removeHumiditys = new ArrayList<Humidity>();
+		for (Humidity d : humidityArray) {
+			java.util.Date humidityDate = d.getDate();
+			String[] splittedTime = d.getTime().split(":");
 			int hour = Integer.parseInt(splittedTime[0]);
 			int minute = Integer.parseInt(splittedTime[1]);
-
-			if((humidity.getDate().getDay() == date1.getDay()) && (humidity.getDate().getMonth() == date1.getMonth())) {
-				String[] splittedTime1 = time1.split(":");
-				int hour1 = Integer.parseInt(splittedTime1[0]);
-				int minute1 = Integer.parseInt(splittedTime1[1]);
+			int second = Integer.parseInt(splittedTime[2]);
+			
+			if (humidityDate.getDay() == date1.getDay() &&
+					humidityDate.getMonth() == date1.getMonth() &&
+					humidityDate.getYear() == date1.getYear()) {
 				if(hour < hour1) {
-					if(minute < minute1) {
-						tempArray.remove(humidity);
+					removeHumiditys.add(d);
+				} else if (hour == hour1) {
+					if (minute <= minute1) {
+						removeHumiditys.add(d);
+					} else if (minute == minute1) {
+						if (second <= 0) {
+							removeHumiditys.add(d);
+						}
 					}
 				}
 			}
-
-			if((humidity.getDate().getDay() == date2.getDay()) && (humidity.getDate().getMonth() == date2.getMonth())) {
-				String[] splittedTime2 = time2.split(":");
-				int hour2 = Integer.parseInt(splittedTime2[0]);
-				int minute2 = Integer.parseInt(splittedTime2[1]);
+			if (humidityDate.getDay() == date2.getDay() &&
+					humidityDate.getMonth() == date2.getMonth() &&
+					humidityDate.getYear() == date2.getYear()) {
 				if(hour > hour2) {
-					if(minute > minute2) {
-						tempArray.remove(humidity);
+					removeHumiditys.add(d);
+				} else if (hour == hour2) {
+					if (minute > minute2) {
+						removeHumiditys.add(d);
+					} else if (minute == minute2) { 
+						if (second > 0) {
+							removeHumiditys.add(d);
+						}
 					}
 				}
 			}
 		}
-		return tempArray;
+		humidityArray.removeAll(removeHumiditys);
+		return humidityArray;
 	}
 }

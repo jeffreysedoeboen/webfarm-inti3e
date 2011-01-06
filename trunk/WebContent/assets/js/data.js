@@ -1,5 +1,6 @@
 var lastTempDate = "", lastDoorDate = "", lastHumidityDate = "", lastLightDate = "";
 var lastTempTime = "", lastDoorTime = "", lastHumidityTime = "", lastLightTime = "";
+var lastTempJson = null, lastDoorJson = null, lastHumidityJson = null, lastLightJson = null;
 
 $(document).ready(function(){
 	setInterval("autoupdate()", 10000);
@@ -10,45 +11,64 @@ function hit(page) {
 }
 
 function autoupdate() {
-	getTempByDate();
-	getHumidityByDate();
-	updateDoor();
-	getLightByDate();
+	getTempByDate(); //TODO updateTemp();
+	getHumidityByDate(); //TODO updateHumidity()
+	getDoorByDate(); //TODO updateDoor();
+	getLightByDate(); //TODO updateLight()
 }
 
-function getTempByDate() {
-	var date1 = document.getElementById("date_temp1");
-	var date2 = document.getElementById("date_temp2");
+function getTempByDate(date1, date2, time1, time2) {
+	$.getJSON("DateServlet.do?id=temp&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
+		if (lastTempJson == null) {
+			lastTempJson = json;
+		} else {
+			lastTempJson = mergeJson(lastTempJson,json);
+		}
+		fillTempTable(json);
+		drawTempChart(lastTempJson);
+	});
+}
+
+function updateTemp() {
+	if (lastTempDate != null && !lastTempDate == "" &&
+			lastTempTime != null && !lastTempTime == "") {
+		var date2 = document.getElementById("date_temp2").value;
+		var time2 = document.getElementById("temp_hour2").value + ":" + document.getElementById("temp_minutes2").value;
+		getTempByDate(lastTempDate, date2, lastTempTime, time2);
+	}
+}
+
+function createTempTable() {
+	var table = document.getElementById("temp_table_body");
+	var date1 = document.getElementById("date_temp1").value;
+	var date2 = document.getElementById("date_temp2").value;
 	var time1 = document.getElementById("temp_hour1").value + ":" + document.getElementById("temp_minutes1").value;
 	var time2 = document.getElementById("temp_hour2").value + ":" + document.getElementById("temp_minutes2").value;
-	
-	$.getJSON("DateServlet.do?id=temp&date1="+date1.value + "&date2=" + date2.value + "&time1=" + time1 + "&time2=" + time2, function(json) {
-		fillTempTable(json);
-		drawTempChart(json);
-	});
+	table.innerHTML = "";
+	lastTempJson = null;
+	getTempByDate(date1, date2, time1, time2);
 }
 
 function fillTempTable(json) {
 	var table = document.getElementById("temp_table_body");
-	table.innerHTML = "";
 	
 	for (var i = 0; i < json.temp.length; i++) {
 		var trElem = document.createElement("tr");
-		
 		var tdDate = document.createElement("td");
-		tdDate.innerHTML = json.temp[i].date;
-		
 		var tdTime = document.createElement("td");
-		tdTime.innerHTML = json.temp[i].time;
-		
 		var tdTemp = document.createElement("td");
+		
+		tdDate.innerHTML = changeDateFormat(json.temp[i].date);
+		tdTime.innerHTML = json.temp[i].time;
 		tdTemp.innerHTML = json.temp[i].temp + " &deg;C";
 		
 		trElem.appendChild(tdDate);
 		trElem.appendChild(tdTime);
 		trElem.appendChild(tdTemp);
-		
 		table.appendChild(trElem);
+		
+		lastTempDate = changeDateFormat(json.temp[i].date);
+		lastTempTime = json.temp[i].time;
 	}
 	
 	var objDiv = document.getElementById("temp_table_div");
@@ -88,6 +108,11 @@ function drawTempChart(json) {
 				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'}
 			}
 		},
+		seriesDefaults: {
+			markerOptions: {
+				show: false
+			}
+		},
 		series:[{color:'#5FAB78'}]
 	});
 }
@@ -112,7 +137,7 @@ function fillHumidityTable(json) {
 		var trElem = document.createElement("tr");
 		
 		var tdDate = document.createElement("td");
-		tdDate.innerHTML = json.Humidity[i].date;
+		tdDate.innerHTML = changeDateFormat(json.Humidity[i].date);
 		
 		var tdTime = document.createElement("td");
 		tdTime.innerHTML = json.Humidity[i].time;
@@ -168,28 +193,37 @@ function drawHumidityChart(json) {
 
 function getDoorByDate(date1, date2, time1, time2) {
 	$.getJSON("DateServlet.do?id=door&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
+		if (lastDoorJson == null) {
+			lastDoorJson = json;
+		} else {
+			lastDoorJson = mergeJson(lastDoorJson,json);
+		}
 		fillDoorTable(json);
+		drawDoorChart(lastDoorJson);
 	});
 }
 
 
 function updateDoor() {
-	if (lastDoorDate != null && !lastDoorDate.equals("") &&
-			lastDoorTime != null && !lastDoorTime.equals("")) {
-		var date2 = document.getElementById("date_door2");
-		var time2 = document.getElementById("door_hour2").value + ":" + document.getElementById("door_minutes2").value;
+	if (lastDoorDate != null && !lastDoorDate == "" &&
+			lastDoorTime != null && !lastDoorTime == "") {
+		var date2 = document.getElementById("date_door2").value;
+		var time2 = document.getElementById("door_hour2").value + ":" + document.getElementById("door_minutes2").value + ":00";
 		getDoorByDate(lastDoorDate, date2, lastDoorTime, time2);
 	}
 }
 
 function createDoorTable() {
 	var table = document.getElementById("door_table_body");
-	var date1 = document.getElementById("date_door1");
-	var date2 = document.getElementById("date_door2");
-	var time1 = document.getElementById("door_hour1").value + ":" + document.getElementById("door_minutes1").value;
-	var time2 = document.getElementById("door_hour2").value + ":" + document.getElementById("door_minutes2").value;
+	var date1 = document.getElementById("date_door1").value;
+	var date2 = document.getElementById("date_door2").value;
+	var time1 = document.getElementById("door_hour1").value + ":" + document.getElementById("door_minutes1").value + ":00";
+	var time2 = document.getElementById("door_hour2").value + ":" + document.getElementById("door_minutes2").value + ":00";
 	table.innerHTML = "";
-	getDoorByDate(date1.value, date2.value, time1, time2);
+	lastDoorDate = "";
+	lastDoorTime = "";
+	lastDoorJson = null;
+	getDoorByDate(date1, date2, time1, time2);
 }
 
 function fillDoorTable(json) {
@@ -201,7 +235,7 @@ function fillDoorTable(json) {
 		var tdTime = document.createElement("td");
 		var tdDoor = document.createElement("td");
 		
-		tdDate.innerHTML = json.door[i].date;
+		tdDate.innerHTML = changeDateFormat(json.door[i].date);
 		tdTime.innerHTML = json.door[i].time;
 		if(json.door[i].door == 1) {
 			tdDoor.innerHTML = "OPEN";
@@ -214,7 +248,7 @@ function fillDoorTable(json) {
 		trElem.appendChild(tdDoor);
 		table.appendChild(trElem);
 		
-		lastDoorDate = json.door[i].date;
+		lastDoorDate = changeDateFormat(json.door[i].date);
 		lastDoorTime = json.door[i].time;
 	}
 	
@@ -222,6 +256,56 @@ function fillDoorTable(json) {
 	objDiv.scrollTop = objDiv.scrollHeight;
 }
 
+function drawDoorChart(json) {
+	var tempArray = new Array();
+	var tempArray2 = new Array();
+	
+	for (var i = 0; i < json.door.length; i++) {
+		var invertedValueSet = new Array();
+		var valueSet = new Array();
+
+		
+		var testtime = json.door[i].time.split(":");
+		var test = parseInt(testtime[2])-1;
+		if (test < 0) { test = 0; }
+		invertedValueSet[0] = json.door[i].date + "/" + testtime[0]+":"+testtime[1]+":"+test;//json.door[i].time;
+		if (i-1 >= 0) {
+			if (json.door[i-1].door == 1) {
+				invertedValueSet[1] = 1;
+			} else {
+				invertedValueSet[1] = 0;
+			}
+		}
+		valueSet[0] = json.door[i].date + "/" + json.door[i].time;
+		valueSet[1] = json.door[i].door;
+		
+		tempArray2[i*2] = invertedValueSet;
+		tempArray2[i*2+1] = valueSet;
+	}
+	tempArray[0] = tempArray2;
+	
+	var plot = document.getElementById("doordiv");
+	plot.innerHTML = "";
+	
+	$.jqplot('doordiv', tempArray, {
+		title:'Door',
+		axes:{
+			yaxis:{
+				label: "State(0/1)",
+				min:-1,
+				max:2
+			},
+			xaxis: {
+				autoscale:true,
+				label: "Time",
+				renderer:$.jqplot.DateAxisRenderer,
+				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M:%S'},
+				numberTicks: 5
+			}
+		},
+		series:[{color:'#5FAB78'}]
+	});
+}
 
 function getLightByDate() {
 	var date1 = document.getElementById("date_light");
@@ -239,7 +323,7 @@ function fillLightTable(json) {
 		var trElem = document.createElement("tr");
 		
 		var tdDate = document.createElement("td");
-		tdDate.innerHTML = json.light[i].date;
+		tdDate.innerHTML = changeDateFormat(json.light[i].date);
 		
 		var tdTime = document.createElement("td");
 		tdTime.innerHTML = json.light[i].time;
@@ -260,4 +344,15 @@ function fillLightTable(json) {
 	
 	var objDiv = document.getElementById("light_table_div");
 	objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+function changeDateFormat(date) {
+	var dateArray = date.split("-");
+	return dateArray[2]+"-"+dateArray[1]+"-"+dateArray[0];
+}
+function mergeJson(json1, json2) {
+	for (var i=0; i<json2.lenght; i++) {
+		json1[json1.length+i] = json2[i];
+	}
+	return json1;
 }

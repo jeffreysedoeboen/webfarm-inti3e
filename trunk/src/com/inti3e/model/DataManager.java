@@ -35,9 +35,11 @@ public class DataManager extends Thread {
 	public void run() {
 		try {
 			welcomeSocket = new ServerSocket(4000);
-			socket = welcomeSocket.accept();
-			System.out.println("Socket created");
-			read();
+			while (true) {
+				socket = welcomeSocket.accept();
+				System.out.println("Socket created");
+				read();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -52,7 +54,7 @@ public class DataManager extends Thread {
 			} else {
 				outPut = 0;
 			}
-			System.out.println(outPut);
+			System.out.println("Turn Light: "+outPut);
 			out.write('L');
 			out.write(outPut + 48); //ASCI
 			out.write(':');
