@@ -53,15 +53,6 @@
   <listener>
     <listener-class>com.inti3e.listener.ContextListener</listener-class>
   </listener>
-<!--  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>securedapp</web-resource-name>
-      <url-pattern>/*</url-pattern>
-    </web-resource-collection>
-    <user-data-constraint>
-      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-    </user-data-constraint>
-  </security-constraint> -->
   <servlet>
     <description></description>
     <display-name>Analytics</display-name>
@@ -71,5 +62,15 @@
   <servlet-mapping>
     <servlet-name>Analytics</servlet-name>
     <url-pattern>/analytics.jpg</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>VideoServlet</display-name>
+    <servlet-name>VideoServlet</servlet-name>
+    <servlet-class>com.inti3e.web.VideoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VideoServlet</servlet-name>
+    <url-pattern>/VideoServlet.do</url-pattern>
   </servlet-mapping>
 </web-app>
