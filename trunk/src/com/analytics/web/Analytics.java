@@ -28,7 +28,7 @@ public class Analytics extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		String page = (String) request.getParameter("page");
 		
-		assert(user != null);
+		//TODO assert(user != null);
 		if (user == null) {
 			user = new User(0, "", "", false);
 		}

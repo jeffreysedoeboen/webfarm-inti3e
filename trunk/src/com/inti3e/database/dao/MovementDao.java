@@ -17,7 +17,7 @@ import com.inti3e.model.Movement;
 public class MovementDao {
 
 
-	private String sqlGetAllMovements	= "SELECT date, time, movement FROM APP.MOVEMENT ORDER BY date ASC";
+	private String sqlGetAllMovements	= "SELECT date, time, movement FROM APP.MOVEMENT";
 	private String sqlNewMovement		= "INSERT INTO APP.MOVEMENT (\"DATE\", \"TIME\", \"MOVEMENT\" ) VALUES (?,?,?)";
 
 	private Connection        con      			= null ;

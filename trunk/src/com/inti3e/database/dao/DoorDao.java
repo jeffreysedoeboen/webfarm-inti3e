@@ -17,7 +17,7 @@ import com.inti3e.model.Door;
 
 public class DoorDao {
 
-	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.DOOR ORDER BY date ASC";
+	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.DOOR";
 	private String sqlNewDoor			= "INSERT INTO APP.DOOR (\"DATE\", \"TIME\", \"DOOR\" ) VALUES (?,?,?)";
 	private String sqlGetDoorOfDate		= "SELECT time, door FROM APP.DOOR WHERE date=?";
 	private String sqlGetDoorBetween	= "SELECT date,time,door FROM APP.DOOR WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";

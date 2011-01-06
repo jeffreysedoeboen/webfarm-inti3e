@@ -1,10 +1,33 @@
 var lastTempDate = "", lastDoorDate = "", lastHumidityDate = "", lastLightDate = "";
 var lastTempTime = "", lastDoorTime = "", lastHumidityTime = "", lastLightTime = "";
 var lastTempJson = null, lastDoorJson = null, lastHumidityJson = null, lastLightJson = null;
+var buttonIsPressed = false;
 
 $(document).ready(function(){
 	setInterval("autoupdate()", 10000);
 });
+
+function autoupdate() {
+	updateTemp();
+	updateHumidity();
+	updateDoor();
+	updateLight();
+}
+
+function createAllTables() {
+	if (!buttonIsPressed) {
+		buttonIsPressed = true;
+		buttonTimeout = setTimeout("resetButtonPress()", 3000);
+		createTempTable();
+		createHumidityTable();
+		createDoorTable();
+		createLightTable();
+	}
+}
+
+function resetButtonPress() {
+	buttonIsPressed = false;
+}
 
 function hit(page) {
 	if(page == "User Statistics") {
@@ -14,12 +37,6 @@ function hit(page) {
 	}
 }
 
-function autoupdate() {
-	updateTemp();
-	updateHumidity();
-	updateDoor();
-	updateLight();
-}
 
 function getVidListByDate() {
 	var date1 = document.getElementById("date_vidplayback");
@@ -35,6 +52,8 @@ function fillPlaybackTable(json) {
 		for (var i = 0; i < json.temp.length; i++) {
 			var trElem = document.createElement("tr");
 			var tdVideo = document.createElement("td");
+
+			tdVideo.setAttribute('align','center');
 		
 			tdVideo.innerHTML = changeDateFormat(json.video[i].name);
 		
@@ -47,6 +66,7 @@ function showPlayer(name) {
 	var player = document.getElementById("videoplayer");
 	player.innerHTML = "<a href='" + name + "'	style='display:block;width:425px;height:300px;'	id='player'></a>";
 }
+
 
 function getTempByDate(date1, date2, time1, time2) {
 	$.getJSON("DateServlet.do?id=temp&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
@@ -63,18 +83,18 @@ function getTempByDate(date1, date2, time1, time2) {
 function updateTemp() {
 	if (lastTempDate != null && !lastTempDate == "" &&
 			lastTempTime != null && !lastTempTime == "") {
-		var date2 = document.getElementById("date_temp2").value;
-		var time2 = document.getElementById("temp_hour2").value + ":" + document.getElementById("temp_minutes2").value;
+		var date2 = document.getElementById("date_pick2").value;
+		var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
 		getTempByDate(lastTempDate, date2, lastTempTime, time2);
 	}
 }
 
 function createTempTable() {
 	var table = document.getElementById("temp_table_body");
-	var date1 = document.getElementById("date_temp1").value;
-	var date2 = document.getElementById("date_temp2").value;
-	var time1 = document.getElementById("temp_hour1").value + ":" + document.getElementById("temp_minutes1").value;
-	var time2 = document.getElementById("temp_hour2").value + ":" + document.getElementById("temp_minutes2").value;
+	var date1 = document.getElementById("date_pick1").value;
+	var date2 = document.getElementById("date_pick2").value;
+	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
+	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
 	table.innerHTML = "";
 	lastTempJson = null;
 	getTempByDate(date1, date2, time1, time2);
@@ -88,6 +108,10 @@ function fillTempTable(json) {
 		var tdDate = document.createElement("td");
 		var tdTime = document.createElement("td");
 		var tdTemp = document.createElement("td");
+
+		tdDate.setAttribute('align','center');
+		tdTime.setAttribute('align','center');
+		tdTemp.setAttribute('align','center');
 		
 		tdDate.innerHTML = changeDateFormat(json.temp[i].date);
 		tdTime.innerHTML = json.temp[i].time;
@@ -164,18 +188,18 @@ function getHumidityByDate(date1, date2, time1, time2) {
 function updateHumidity() {
 	if (lastHumidityDate != null && !lastHumidityDate == "" &&
 			lastHumidityTime != null && !lastHumidityTime == "") {
-		var date2 = document.getElementById("date_humidity2").value;
-		var time2 = document.getElementById("humidity_hour2").value + ":" + document.getElementById("humidity_minutes2").value;
+		var date2 = document.getElementById("date_pick2").value;
+		var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
 		getHumidityByDate(lastHumidityDate, date2, lastHumidityTime, time2);
 	}
 }
 
 function createHumidityTable() {
 	var table = document.getElementById("humidity_table_body");
-	var date1 = document.getElementById("date_humidity1").value;
-	var date2 = document.getElementById("date_humidity2").value;
-	var time1 = document.getElementById("humidity_hour1").value + ":" + document.getElementById("humidity_minutes1").value;
-	var time2 = document.getElementById("humidity_hour2").value + ":" + document.getElementById("humidity_minutes2").value;
+	var date1 = document.getElementById("date_pick1").value;
+	var date2 = document.getElementById("date_pick2").value;
+	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
+	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
 	table.innerHTML = "";
 	lastHumidityJson = null;
 	getHumidityByDate(date1, date2, time1, time2);
@@ -189,6 +213,10 @@ function fillHumidityTable(json) {
 		var tdDate = document.createElement("td");
 		var tdTime = document.createElement("td");
 		var tdHumidity = document.createElement("td");
+
+		tdDate.setAttribute('align','center');
+		tdTime.setAttribute('align','center');
+		tdHumidity.setAttribute('align','center');
 		
 		tdDate.innerHTML = changeDateFormat(json.humidity[i].date);
 		tdTime.innerHTML = json.humidity[i].time;
@@ -211,10 +239,10 @@ function drawHumidityChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
-	for (var i = 0; i < json.Humidity.length; i++) {
+	for (var i = 0; i < json.humidity.length; i++) {
 		var valueSet = new Array();
-		valueSet[0] = json.Humidity[i].date + "/" + json.Humidity[i].time;
-		valueSet[1] = json.Humidity[i].humidity;
+		valueSet[0] = json.humidity[i].date + "/" + json.humidity[i].time;
+		valueSet[1] = json.humidity[i].humidity;
 		
 		tempArray2[i] = valueSet;
 	}
@@ -264,18 +292,18 @@ function getDoorByDate(date1, date2, time1, time2) {
 function updateDoor() {
 	if (lastDoorDate != null && !lastDoorDate == "" &&
 			lastDoorTime != null && !lastDoorTime == "") {
-		var date2 = document.getElementById("date_door2").value;
-		var time2 = document.getElementById("door_hour2").value + ":" + document.getElementById("door_minutes2").value + ":00";
+		var date2 = document.getElementById("date_pick2").value;
+		var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
 		getDoorByDate(lastDoorDate, date2, lastDoorTime, time2);
 	}
 }
 
 function createDoorTable() {
 	var table = document.getElementById("door_table_body");
-	var date1 = document.getElementById("date_door1").value;
-	var date2 = document.getElementById("date_door2").value;
-	var time1 = document.getElementById("door_hour1").value + ":" + document.getElementById("door_minutes1").value + ":00";
-	var time2 = document.getElementById("door_hour2").value + ":" + document.getElementById("door_minutes2").value + ":00";
+	var date1 = document.getElementById("date_pick1").value;
+	var date2 = document.getElementById("date_pick2").value;
+	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value + ":00";
+	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value + ":00";
 	table.innerHTML = "";
 	lastDoorDate = "";
 	lastDoorTime = "";
@@ -291,6 +319,10 @@ function fillDoorTable(json) {
 		var tdDate = document.createElement("td");
 		var tdTime = document.createElement("td");
 		var tdDoor = document.createElement("td");
+
+		tdDate.setAttribute('align','center');
+		tdTime.setAttribute('align','center');
+		tdDoor.setAttribute('align','center');
 		
 		tdDate.innerHTML = changeDateFormat(json.door[i].date);
 		tdTime.innerHTML = json.door[i].time;
@@ -385,18 +417,18 @@ function getLightByDate(date1, date2, time1, time2) {
 function updateLight() {
 	if (lastLightDate != null && !lastLightDate == "" &&
 			lastLightTime != null && !lastLightTime == "") {
-		var date2 = document.getElementById("date_light2").value;
-		var time2 = document.getElementById("light_hour2").value + ":" + document.getElementById("light_minutes2").value;
+		var date2 = document.getElementById("date_pick2").value;
+		var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("light_minutes2").value;
 		getLightByDate(lastLightDate, date2, lastLightTime, time2);
 	}
 }
 
 function createLightTable() {
 	var table = document.getElementById("light_table_body");
-	var date1 = document.getElementById("date_light1").value;
-	var date2 = document.getElementById("date_light2").value;
-	var time1 = document.getElementById("light_hour1").value + ":" + document.getElementById("light_minutes1").value;
-	var time2 = document.getElementById("light_hour2").value + ":" + document.getElementById("light_minutes2").value;
+	var date1 = document.getElementById("date_pick1").value;
+	var date2 = document.getElementById("date_pick2").value;
+	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
+	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
 	table.innerHTML = "";
 	lastLightJson = null;
 	getLightByDate(date1, date2, time1, time2);
@@ -410,6 +442,10 @@ function fillLightTable(json) {
 		var tdDate = document.createElement("td");
 		var tdTime = document.createElement("td");
 		var tdLight = document.createElement("td");
+
+		tdDate.setAttribute('align','center');
+		tdTime.setAttribute('align','center');
+		tdLight.setAttribute('align','center');
 		
 		tdDate.innerHTML = changeDateFormat(json.light[i].date);
 		tdTime.innerHTML = json.light[i].time;
@@ -436,10 +472,10 @@ function drawLightChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
-	for (var i = 0; i < json.Light.length; i++) {
+	for (var i = 0; i < json.light.length; i++) {
 		var valueSet = new Array();
-		valueSet[0] = json.Light[i].date + "/" + json.Light[i].time;
-		valueSet[1] = json.Light[i].light;
+		valueSet[0] = json.light[i].date + "/" + json.light[i].time;
+		valueSet[1] = json.light[i].light;
 		
 		tempArray2[i] = valueSet;
 	}

@@ -1,93 +1,22 @@
-<br>
-<br>
 <script type="text/javascript">
 $(function() {
-	$( "#date_humidity1" ).datepicker({ dateFormat: 'dd-mm-yy' });
-	$( "#date_humidity2" ).datepicker({ dateFormat: 'dd-mm-yy' });
+	createHumidityTable();
 });
 </script>
 
-<table>
-	<tr>
-		<td>From:</td>
-		<td><input name="datepicker" type="text" id="date_humidity1"
-			readonly="readonly"
-			value=<%
-			java.util.Calendar calendar = java.util.Calendar.getInstance(); 
-			out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH) + "-");
-			out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
-			out.print(calendar.get(java.util.Calendar.YEAR));
-		%>>
-		</td>
-	</tr>
-	<tr>
-		<td>Time:</td>
-		<td><select id="humidity_hour1">
-			<% for(int hour = 0; hour <= 23; hour++) {
-					if(hour < 10) {
-						out.print("<option> 0" + hour + "</option>");
-					} else {
-						out.print("<option>" + hour + "</option>");
-					}
-					}%>
-		</select> : <select id="humidity_minutes1">
-			<% for(int minute = 0; minute <= 59; minute++) {
-					if(minute < 10) {
-						out.print("<option> 0" + minute + "</option>");
-					} else {
-						out.print("<option>" + minute + "</option>");
-					}
-					}%>
-		</select></td>
-	</tr>
-	<tr>
-		<td>To:</td>
-		<td><input name="datepicker" type="text" id="date_humidity2"
-			readonly="readonly"
-			value=<%
-			calendar = java.util.Calendar.getInstance(); 
-			out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH)+1 + "-");
-			out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
-			out.print(calendar.get(java.util.Calendar.YEAR));
-		%>>
-		</td>
-	</tr>
-	<tr>
-		<td>Time:</td>
-		<td><select id="humidity_hour2">
-			<% for(int hour = 0; hour <= 23; hour++) {
-					if(hour < 10) {
-						out.print("<option> 0" + hour + "</option>");
-					} else {
-						out.print("<option>" + hour + "</option>");
-					}
-					}%>
-		</select> : <select id="humidity_minutes2">
-			<% for(int minute = 0; minute <= 59; minute++) {
-					if(minute < 10) {
-						out.print("<option> 0" + minute + "</option>");
-					} else {
-						out.print("<option>" + minute + "</option>");
-					}
-					}%>
-		</select></td>
-	</tr>
+<table align="center" width="1000"><tr><td>
+<div id="humiditydiv" style="height:400px;width:800px;margin-left: 50px;float:left;"></div>
+</td></tr></table>
 
-</table>
-<input type="button" onclick="createHumidityTable()" value="submit"></input>
-
-<br>
 <div id="humidity_table_div"
-style="left:screen.width / 3;
-top:screen.height / 2; 
-color:#ffffff;
-width:300px;
+style="color:#ffffff;
+width:100%;
 height:300px;
-border: 5px;
-float: left;
+border:5px;
 background-color:#000000;
 overflow:auto;">
-<table border="1">
+<table style="border:3px #363636 solid"
+align="center" width="50%" bgcolor="#222222">
 <thead>
 <tr>
 	<th>Date:</th>
@@ -98,19 +27,5 @@ overflow:auto;">
 <tbody id="humidity_table_body"></tbody>
 </table>
 </div>
-<div id="humiditydiv" style="height:400px;width:800px;margin-left: 50px;float:left;"></div>
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<br><br>
 
