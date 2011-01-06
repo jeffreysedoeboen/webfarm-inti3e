@@ -18,7 +18,7 @@ import com.inti3e.model.LightSensor;
 public class LightSensorDao {
 
 
-	private String sqlGetAllLights		= "SELECT date, time, light FROM APP.LIGHTSENSOR";
+	private String sqlGetAllLights		= "SELECT date, time, light FROM APP.LIGHTSENSOR ORDER BY date ASC";
 	private String sqlNewLight 			= "INSERT INTO APP.LIGHTSENSOR (\"DATE\", \"TIME\", \"LIGHT\" ) VALUES (?,?,?)";
 	private String sqlGetLightOfDate	= "SELECT time, light FROM APP.LIGHTSENSOR WHERE date=?";
 
@@ -72,17 +72,21 @@ public class LightSensorDao {
 	}
 
 	public void addNewLight(boolean light) {
+		String lightHour = "";
 		String lightMin = "";
+		String lightSec = "";
 		try {
 			Calendar calendar = Calendar.getInstance();
+			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { lightHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+			else { lightHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+			if(calendar.get(Calendar.MINUTE) < 10) { lightMin = "0" + calendar.get(Calendar.MINUTE); }
+			else { lightMin = "" + calendar.get(Calendar.MINUTE); }
+			if(calendar.get(Calendar.SECOND) < 10) { lightSec = "0" + calendar.get(Calendar.SECOND); }
+			else { lightSec = "" + calendar.get(Calendar.SECOND); }
+			
 			psNewLight.clearParameters();
 			psNewLight.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			if(calendar.get(Calendar.MINUTE) < 10) {
-				lightMin = "0" + calendar.get(Calendar.MINUTE);
-			} else {
-				lightMin = "" + calendar.get(Calendar.MINUTE);
-			}
-			psNewLight.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + lightMin + ":" + calendar.get(Calendar.SECOND));
+			psNewLight.setString(2, "" + lightHour + ":" + lightMin + ":" + lightSec);
 			psNewLight.setInt(3, light ? 1:0);
 			psNewLight.executeUpdate();
 		} catch (SQLException se) {

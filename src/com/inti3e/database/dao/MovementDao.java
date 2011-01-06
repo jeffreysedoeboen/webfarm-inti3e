@@ -17,7 +17,7 @@ import com.inti3e.model.Movement;
 public class MovementDao {
 
 
-	private String sqlGetAllMovements	= "SELECT date, time, movement FROM APP.MOVEMENT";
+	private String sqlGetAllMovements	= "SELECT date, time, movement FROM APP.MOVEMENT ORDER BY date ASC";
 	private String sqlNewMovement		= "INSERT INTO APP.MOVEMENT (\"DATE\", \"TIME\", \"MOVEMENT\" ) VALUES (?,?,?)";
 
 	private Connection        con      			= null ;
@@ -57,11 +57,21 @@ public class MovementDao {
 	}
 
 	public void addNewMovement(boolean movement){
+		String moveHour = "";
+		String moveMin = "";
+		String moveSec = "";
 		try {
 			Calendar calendar = Calendar.getInstance();
+			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { moveHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+			else { moveHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+			if(calendar.get(Calendar.MINUTE) < 10) { moveMin = "0" + calendar.get(Calendar.MINUTE); }
+			else { moveMin = "" + calendar.get(Calendar.MINUTE); }
+			if(calendar.get(Calendar.SECOND) < 10) { moveSec = "0" + calendar.get(Calendar.SECOND); }
+			else { moveSec = "" + calendar.get(Calendar.SECOND); }
+			
 			psNewMovement.clearParameters();
 			psNewMovement.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewMovement.setString(2, "" + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND));
+			psNewMovement.setString(2, "" + moveHour + ":" + moveMin + ":" + moveSec);
 			psNewMovement.setInt(3, movement ? 1:0);
 			psNewMovement.executeUpdate();
 		} catch (SQLException se) {
