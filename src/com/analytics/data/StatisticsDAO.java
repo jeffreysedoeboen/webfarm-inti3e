@@ -1,13 +1,12 @@
 package com.analytics.data;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import com.inti3e.database.DBmanager;
+import com.analytics.data.DBmanager;
+import com.analytics.data.beans.RowBean;
 
 public class StatisticsDAO {
 	private String sqlHits = "SELECT COUNT(*) FROM APP.visits";
@@ -45,8 +44,6 @@ public class StatisticsDAO {
 			printSQLException(se);
 		}
 	}
-	
-	
 
 	private void printSQLException(SQLException se) {
 		while (se != null) {

@@ -18,9 +18,9 @@
 
 <div id="tabs">
 	<ul>
-		<li><a href="#tabs-1">Start page</a></li>
-		<li><a href="#tabs-2">No Login</a></li>
-		<li><a href="#tabs-3">Login</a></li>
+		<li><a onclick="hit('Start page')" href="#tabs-1">Start page</a></li>
+		<li><a onclick="hit('No Login')" href="#tabs-2">No Login</a></li>
+		<li><a onclick="hit('Login')" href="#tabs-3">Login</a></li>
 	</ul>
 	<div id="tabs-1">
 		<p></p>
@@ -45,5 +45,6 @@
 	</form>
 	</div>
 </div>
+<img src="analytics.jpg" />
 </body>
 </html>

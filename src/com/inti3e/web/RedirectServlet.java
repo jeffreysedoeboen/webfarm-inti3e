@@ -33,30 +33,14 @@ public class RedirectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String ip = request.getRemoteAddr();
-//		ip = "192.168.2.";
-		
-		AnalyticsDAO analyticsDAO = new AnalyticsDAO();
-		Helper helper = new Helper();
-		
-		try {
-			int id = 0;
-			// if user is 15 min inactive, count again
-			String time = (String) session.getAttribute("lastvisit");
-			
-			if (time == null || (System.currentTimeMillis() / 1000) - Long.parseLong(time) > 900 ) {
-				analyticsDAO.createVisit(id, request.getRemoteAddr(), helper.getBrowser(request.getHeader("User-Agent")),
-						helper.getLanguage(request.getHeader("Accept-Language")));
-			}
-			
-			session.setAttribute("lastvisit", String.format("Time=%s;", System.currentTimeMillis() / 1000));
-		}
-		catch (NumberFormatException e) {}
+//		String ip = "192.168.2.";
 		
 		if(ip.startsWith("192.168.2.") || ip.startsWith("192.168.0.")) {
-			session.setAttribute("user", new User("admin", "admin", true));
-			response.sendRedirect("mainpage.jsp");
-		} else {
 			response.sendRedirect("inlogpage.jsp");
+			
+		} else {
+			session.setAttribute("user", new User(0, "admin", "admin", true));
+			response.sendRedirect("mainpage.jsp");
 		}
 	}
 

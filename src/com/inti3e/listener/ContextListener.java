@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.inti3e.database.CreateDBTables;
 import com.inti3e.model.DataManager;
 
 /**
@@ -28,8 +29,10 @@ public class ContextListener implements ServletContextListener {
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
 	public void contextInitialized(ServletContextEvent event) {
-		// TODO: create db tables
-		// TODO: dataManager object needed ??
+		new CreateDBTables();
+		new com.analytics.data.CreateDBTables();
+		
+		// nodig voor DK51 !!!
 		(DataManager.getInstance()).start();
 	}
 	

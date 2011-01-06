@@ -33,41 +33,15 @@ public class HumidityDao {
 	public HumidityDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
-		createTable();
+		
 		try{
-
 			this.psGetAllHumids   = con.prepareStatement(sqlGetAllTemps);
 			this.psNewHumid 	  = con.prepareStatement(sqlNewTemp);
 			this.psGetHumidOfDate = con.prepareStatement(sqlGetHumidOfDate);
 			this.psGetHumidityBetween = con.prepareStatement(sqlGetHumidityBetween);
-
-		} catch(SQLException se) {
+		} 
+		catch(SQLException se) {
 			printSQLException(se) ;
-		}
-	}
-
-	public void createTable(){
-
-		try {
-			//get the table listing
-			DatabaseMetaData dbmd = con.getMetaData();
-			ResultSet rs = dbmd.getTables(null, null, null,  new String[] {"TABLE"});
-			ArrayList<String> tableList = new ArrayList<String>();
-			while(rs.next()){
-				tableList.add(rs.getString("TABLE_NAME"));
-			}
-			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("HUMIDITY")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.HUMIDITY (" +
-						"DATE DATE," +
-						"TIME VARCHAR(50)," +
-						"HUMIDITY INTEGER" +
-				")");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 

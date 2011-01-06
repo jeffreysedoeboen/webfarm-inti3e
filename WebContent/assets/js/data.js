@@ -5,6 +5,10 @@ $(document).ready(function(){
 	setInterval("autoupdate()", 10000);
 });
 
+function hit(page) {
+	$.getJSON("analytics.jpg?page=" + page, function(json) {});
+}
+
 function autoupdate() {
 	getTempByDate();
 	getHumidityByDate();

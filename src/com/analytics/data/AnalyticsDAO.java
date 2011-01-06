@@ -5,17 +5,18 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.inti3e.database.DBmanager;
+import com.analytics.data.DBmanager;
 
 public class AnalyticsDAO {
-	private String sqlCreateVisit = "INSERT INTO APP.visits (website_id, ip, browser, language, date) VALUES (?, ?, ?, ?, ?)";
+	private String sqlCreateVisit = "INSERT INTO APP.visits (website_id, ip, user_id, browser, language, date) VALUES (?, ?, ?, ?, ?, ?)";
+	private String sqlCreateHit = "INSERT INTO APP.hits (website_id, ip, user_id, page, date) VALUES (?, ?, ?, ?, ?)";
 	private String sqlSelectId = "SELECT id FROM APP.websites WHERE website = ?";
 
 	private Connection con = null;
 	private PreparedStatement psCreateVisit = null;
+	private PreparedStatement psCreateHit = null;
 	private PreparedStatement psSelectId = null;
 	
 	public AnalyticsDAO() {
@@ -24,6 +25,7 @@ public class AnalyticsDAO {
 		createTable();
 		try {
 			this.psCreateVisit = con.prepareStatement(sqlCreateVisit);
+			this.psCreateHit = con.prepareStatement(sqlCreateHit);
 			this.psSelectId = con.prepareStatement(sqlSelectId);
 		}
 		catch (SQLException se) {
@@ -40,41 +42,44 @@ public class AnalyticsDAO {
 			while(rs.next()){
 				tableList.add(rs.getString("TABLE_NAME"));
 			}
-			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("VISITS")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.VISITS (" +
-						"website_id INT," +
-						"ip VARCHAR(50)," +
-						"browser VARCHAR(50)," +
-						"language VARCHAR(50)," +
-						"date DATE" +
-				")");
-			}
-			if(!tableList.contains("WEBSITES")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.WEBSITES (" +
-						"website varchar(50)," +
-						"id INT" +
-				")");
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 	}
 	
-	public void createVisit(int websiteId, String ip, String browser, String language) {
+	public void createVisit(int websiteId, String ip, int userId, String browser, String language) {
 		try {
 			psCreateVisit.clearParameters();
 			
 			psCreateVisit.setInt(1, websiteId);
 			psCreateVisit.setString(2, ip);
-			psCreateVisit.setString(3, browser);
-			psCreateVisit.setString(4, language);
-			psCreateVisit.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+			psCreateVisit.setInt(3, userId);
+			psCreateVisit.setString(4, browser);
+			psCreateVisit.setString(5, language);
+			psCreateVisit.setDate(6, new java.sql.Date(System.currentTimeMillis()));
 			
 			int resultaat = psCreateVisit.executeUpdate();
+			if (resultaat == 0) {
+				System.out.println("unsuccessfull insert");
+			}
+		} 
+		catch (SQLException se) {
+			printSQLException(se);
+		}
+	}
+	
+	public void createHit(int websiteId, String ip, int userId, String page) {
+		try {
+			psCreateHit.clearParameters();
+			
+			psCreateHit.setInt(1, websiteId);
+			psCreateHit.setString(2, ip);
+			psCreateHit.setInt(3, userId);
+			psCreateHit.setString(4, page);
+			psCreateHit.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+			
+			int resultaat = psCreateHit.executeUpdate();
 			if (resultaat == 0) {
 				System.out.println("unsuccessfull insert");
 			}

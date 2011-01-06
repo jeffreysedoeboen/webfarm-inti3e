@@ -15,8 +15,6 @@ import com.inti3e.model.LightSwitch;
 import com.inti3e.database.DBmanager;
 
 
-
-
 public class SwitchDao {
 
 
@@ -30,7 +28,7 @@ public class SwitchDao {
 	public SwitchDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
-		createTable();
+		
 		try{
 
 			this.psGetAllLightSwitches   = con.prepareStatement(sqlGetAllLightSwitches);
@@ -38,33 +36,6 @@ public class SwitchDao {
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
-		}
-	}
-
-
-
-	public void createTable(){
-
-		try {
-			//get the table listing
-			DatabaseMetaData dbmd = con.getMetaData();
-			ResultSet rs = dbmd.getTables(null, null, null,  new String[] {"TABLE"});
-			ArrayList<String> tableList = new ArrayList<String>();
-			while(rs.next()){
-				tableList.add(rs.getString("TABLE_NAME"));
-			}
-			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("LIGHTSWITCHES")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.LIGHTSWITCHES (" +
-						"date DATE," +
-						"time VARCHAR(50)," +
-						"LightSwitch VARCHAR(25)" +
-				")");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 

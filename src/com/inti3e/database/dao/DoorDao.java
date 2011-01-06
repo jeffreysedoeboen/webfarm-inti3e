@@ -32,41 +32,15 @@ public class DoorDao {
 	public DoorDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
-		createTable();
+		
 		try {
-
 			this.psGetAllDoor   	= con.prepareStatement(sqlGetAllDoor);
 			this.psNewDoor 			= con.prepareStatement(sqlNewDoor);
 			this.psGetDoorOfDate	= con.prepareStatement(sqlGetDoorOfDate);
-			this.psGetDoorBetween 	= con.prepareStatement(sqlGetDoorBetween);
-			
-		} catch(SQLException se) {
-			printSQLException(se) ;
+			this.psGetDoorBetween 	= con.prepareStatement(sqlGetDoorBetween);	
 		}
-	}
-
-	public void createTable(){
-
-		try {
-			//get the table listing
-			DatabaseMetaData dbmd = con.getMetaData();
-			ResultSet rs = dbmd.getTables(null, null, null,  new String[] {"TABLE"});
-			ArrayList<String> tableList = new ArrayList<String>();
-			while(rs.next()){
-				tableList.add(rs.getString("TABLE_NAME"));
-			}
-			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("DOOR")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.DOOR (" +
-						"DATE DATE," +
-						"TIME VARCHAR(50)," +
-						"DOOR SMALLINT" +
-				")");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
+		catch(SQLException se) {
+			printSQLException(se) ;
 		}
 	}
 
