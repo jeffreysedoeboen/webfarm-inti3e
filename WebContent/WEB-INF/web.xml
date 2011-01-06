@@ -65,6 +65,26 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>statistics</display-name>
+    <servlet-name>statistics</servlet-name>
+    <servlet-class>com.analytics.web.statistics</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>statistics</servlet-name>
+    <url-pattern>/statistics</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Statistics</display-name>
+    <servlet-name>Statistics</servlet-name>
+    <servlet-class>com.analytics.web.Statistics</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Statistics</servlet-name>
+    <url-pattern>/statistics.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>VideoServlet</display-name>
     <servlet-name>VideoServlet</servlet-name>
     <servlet-class>com.inti3e.web.VideoServlet</servlet-class>

@@ -7,7 +7,11 @@ $(document).ready(function(){
 });
 
 function hit(page) {
-	$.getJSON("analytics.jpg?page=" + page, function(json) {});
+	if(page == "User Statistics") {
+		getStatistics();
+	} else {
+		$.getJSON("analytics.jpg?page=" + page, function(json) {});
+	}
 }
 
 function autoupdate() {
@@ -480,4 +484,24 @@ function mergeJson(json1, json2) {
 		json1[json1.length+i] = json2[i];
 	}
 	return json1;
+}
+
+function getStatistics() {
+	var selectedIp = document.getElementById("selectedIp").value;
+	$.getJSON("statistics.do?selectedIp=" + selectedIp, function(json) {
+		var pages = json.pages;
+		var pagesObject = document.getElementById("pages");
+		pagesObject.innerHTML = "";
+		document.getElementById("ipAdress").innerHTML = selectedIp;
+
+		for(var i = 0; i < pages.length; i++) {
+			pagesObject.innerHTML += "<div class='row'> <div class='left'>Page:</div> <div class='right'>";
+			pagesObject.innerHTML += pages[i].page;
+			pagesObject.innerHTML += pages[i].hits;
+			pagesObject.innerHTML += 'X';
+			pagesObject.innerHTML += '</div></div>';
+			
+		}
+	});
+	
 }

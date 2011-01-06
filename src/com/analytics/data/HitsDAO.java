@@ -10,12 +10,14 @@ import com.analytics.data.beans.PageHit;
 import com.inti3e.model.User;
 
 public class HitsDAO {
-	private String sqlGetPagesByUserId = "SELECT page, COUNT(page) FROM APP.hits WHERE user_id = ?";
-	private String sqlGetPagesByIp = "SELECT page, COUNT(page) FROM APP.hits WHERE ip = ?";
+	private String sqlGetPagesByUserId = "SELECT page, COUNT(page) FROM APP.hits WHERE user_id = ? GROUP BY PAGE";
+	private String sqlGetPagesByIp = "SELECT PAGE, COUNT(PAGE) FROM APP.HITS WHERE IP = ? GROUP BY PAGE";
+	private String sqlGetAllIp = "SELECT ip FROM APP.HITS GROUP BY ip";
 
 	private Connection con = null;
 	private PreparedStatement psGetPagesByUserId = null;
 	private PreparedStatement psGetPagesByIp = null;
+	private PreparedStatement psGetAllIp = null;
 	
 	public HitsDAO() {
 		DBmanager myDb = DBmanager.getInstance();
@@ -23,6 +25,7 @@ public class HitsDAO {
 		try {
 			this.psGetPagesByUserId = con.prepareStatement(sqlGetPagesByUserId);
 			this.psGetPagesByIp = con.prepareStatement(sqlGetPagesByIp);
+			this.psGetAllIp = con.prepareStatement(sqlGetAllIp);
 		}
 		catch (SQLException se) {
 			printSQLException(se);
@@ -60,7 +63,7 @@ public class HitsDAO {
 	
 	public ArrayList<PageHit> getPagesByIp(String ip) {
 		ArrayList<PageHit> pageHits = new ArrayList<PageHit>();
-		
+		System.out.println(ip);
 		try {
 			psGetPagesByIp.setString(1, ip);
 			
@@ -75,5 +78,20 @@ public class HitsDAO {
 			e.printStackTrace();
 		}
 		return pageHits;
+	}
+	
+	public ArrayList<String> getAllIp() {
+		ArrayList<String> IpList = new ArrayList<String>();
+		try {
+			ResultSet results = psGetAllIp.executeQuery();
+			while (results.next()) {
+				String ip = results.getString(1);
+
+				IpList.add(ip);
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return IpList;
 	}
 }

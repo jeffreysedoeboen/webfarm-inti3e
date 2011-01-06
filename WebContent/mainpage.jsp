@@ -35,6 +35,7 @@
 		<c:if test="${user != null}">
 			<li><a onclick="hit('Live stream')" href="#tabs-2">Live stream</a></li>
 			<li><a onclick="hit('Video playback')" href="#tabs-3">Video playback</a></li>
+			<li><a onclick="hit('User Statistics')" href="#tabs-12">User Statistics</a></li>
 			<c:if test="${user.admin}">
 				<li><a onclick="hit('Temperature')" href="#tabs-4">Temperature</a></li>
 				<li><a onclick="hit('Air humidity')" href="#tabs-5">Air humidity</a></li>
@@ -60,6 +61,8 @@
 	<div id="tabs-2"><jsp:include page="/WEB-INF/components/tabs/livestream.jsp" />
 	</div>
 	<div id="tabs-3"><jsp:include page="/WEB-INF/components/tabs/videoplayback.jsp" />
+	</div>
+	<div id="tabs-12"><jsp:include page="/WEB-INF/components/tabs/statistics-user.jsp" />
 	</div>
 	<c:if test="${user.admin}">
 	<div id="tabs-4"><jsp:include page="/WEB-INF/components/tabs/temperature.jsp" />
