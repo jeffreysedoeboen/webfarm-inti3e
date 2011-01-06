@@ -49,7 +49,7 @@ public class DateServlet extends HttpServlet {
 		
 		if(type.equals("humidity")) {
 			HumidityDao humidityDao = new HumidityDao();
-			ArrayList<Humidity> humidity = humidityDao.getTempsBetweenDates(date1, time1, date2, time2);
+			ArrayList<Humidity> humidity = humidityDao.getHumiditysBetweenDates(date1, time1, date2, time2);
 			
 			try {
 				json.put("Humidity", humidity);
@@ -77,7 +77,7 @@ public class DateServlet extends HttpServlet {
 			}
 		} else if(type.equals("light")) {
 			LightSensorDao lightDao = new LightSensorDao();
-			ArrayList<LightSensor> light = lightDao.getLightsOfDate(date1);
+			ArrayList<LightSensor> light = lightDao.getLightsBetweenDates(date1, time1, date2, time2);//TODO .getLightsOfDate(date1);
 			
 			try {
 				json.put("light", light);

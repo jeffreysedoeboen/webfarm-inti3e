@@ -11,11 +11,12 @@ function hit(page) {
 }
 
 function autoupdate() {
-	getTempByDate(); //TODO updateTemp();
-	getHumidityByDate(); //TODO updateHumidity()
-	getDoorByDate(); //TODO updateDoor();
-	getLightByDate(); //TODO updateLight()
+	updateTemp();
+	updateHumidity();
+	updateDoor();
+	updateLight();
 }
+
 
 function getTempByDate(date1, date2, time1, time2) {
 	$.getJSON("DateServlet.do?id=temp&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
@@ -104,8 +105,8 @@ function drawTempChart(json) {
 				autoscale:true,
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
-				//tickInterval:'1 hour', nodig??
-				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'}
+				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'},
+				numberTicks: 5
 			}
 		},
 		seriesDefaults: {
@@ -118,38 +119,58 @@ function drawTempChart(json) {
 }
 
 
-function getHumidityByDate() {
-	var date1 = document.getElementById("date_humidity1");
-	var date2 = document.getElementById("date_humidity2");
+function getHumidityByDate(date1, date2, time1, time2) {
+	$.getJSON("DateServlet.do?id=humidity&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
+		if (lastHumidityJson == null) {
+			lastHumidityJson = json;
+		} else {
+			lastHumidityJson = mergeJson(lastHumidityJson,json);
+		}
+		fillHumidityTable(json);
+		drawHumidityChart(lastHumidityJson);
+	});
+}
+
+function updateHumidity() {
+	if (lastHumidityDate != null && !lastHumidityDate == "" &&
+			lastHumidityTime != null && !lastHumidityTime == "") {
+		var date2 = document.getElementById("date_humidity2").value;
+		var time2 = document.getElementById("humidity_hour2").value + ":" + document.getElementById("humidity_minutes2").value;
+		getHumidityByDate(lastHumidityDate, date2, lastHumidityTime, time2);
+	}
+}
+
+function createHumidityTable() {
+	var table = document.getElementById("humidity_table_body");
+	var date1 = document.getElementById("date_humidity1").value;
+	var date2 = document.getElementById("date_humidity2").value;
 	var time1 = document.getElementById("humidity_hour1").value + ":" + document.getElementById("humidity_minutes1").value;
 	var time2 = document.getElementById("humidity_hour2").value + ":" + document.getElementById("humidity_minutes2").value;
-	$.getJSON("DateServlet.do?id=humidity&date1="+date1.value + "&date2=" + date2.value + "&time1=" + time1 + "&time2=" + time2, function(json) {
-		fillHumidityTable(json);
-		drawHumidityChart(json);
-	});
+	table.innerHTML = "";
+	lastHumidityJson = null;
+	getHumidityByDate(date1, date2, time1, time2);
 }
 
 function fillHumidityTable(json) {
 	var table = document.getElementById("humidity_table_body");
-	table.innerHTML = "";
 	
-	for (var i = 0; i < json.Humidity.length; i++) {
+	for (var i = 0; i < json.humidity.length; i++) {
 		var trElem = document.createElement("tr");
-		
 		var tdDate = document.createElement("td");
-		tdDate.innerHTML = changeDateFormat(json.Humidity[i].date);
-		
 		var tdTime = document.createElement("td");
-		tdTime.innerHTML = json.Humidity[i].time;
+		var tdHumidity = document.createElement("td");
 		
-		var tdTemp = document.createElement("td");
-		tdTemp.innerHTML = json.Humidity[i].humidity + "%";
+		tdDate.innerHTML = changeDateFormat(json.humidity[i].date);
+		tdTime.innerHTML = json.humidity[i].time;
+		tdHumidity.innerHTML = json.humidity[i].humidity + " &deg;C";
 		
 		trElem.appendChild(tdDate);
 		trElem.appendChild(tdTime);
-		trElem.appendChild(tdTemp);
-		
+		trElem.appendChild(tdHumidity);
 		table.appendChild(trElem);
+		
+		lastHumidityDate = changeDateFormat(json.humidity[i].date);
+		lastHumidityTime = json.humidity[i].time;
 	}
 	
 	var objDiv = document.getElementById("humidity_table_div");
@@ -184,12 +205,19 @@ function drawHumidityChart(json) {
 				autoscale:true,
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
-				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'}
+				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'},
+				numberTicks: 5
+			}
+		},
+		seriesDefaults: {
+			markerOptions: {
+				show: false
 			}
 		},
 		series:[{color:'#5FAB78'}]
 	});
 }
+
 
 function getDoorByDate(date1, date2, time1, time2) {
 	$.getJSON("DateServlet.do?id=door&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
@@ -202,7 +230,6 @@ function getDoorByDate(date1, date2, time1, time2) {
 		drawDoorChart(lastDoorJson);
 	});
 }
-
 
 function updateDoor() {
 	if (lastDoorDate != null && !lastDoorDate == "" &&
@@ -299,36 +326,63 @@ function drawDoorChart(json) {
 				autoscale:true,
 				label: "Time",
 				renderer:$.jqplot.DateAxisRenderer,
-				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M:%S'},
+				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'},
 				numberTicks: 5
+			}
+		},
+		seriesDefaults: {
+			markerOptions: {
+				show: false
 			}
 		},
 		series:[{color:'#5FAB78'}]
 	});
 }
 
-function getLightByDate() {
-	var date1 = document.getElementById("date_light");
-	
-	$.getJSON("DateServlet.do?id=light&date1="+date1.value, function(json) {
+
+function getLightByDate(date1, date2, time1, time2) {
+	$.getJSON("DateServlet.do?id=light&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
+		if (lastLightJson == null) {
+			lastLightJson = json;
+		} else {
+			lastLightJson = mergeJson(lastLightJson,json);
+		}
 		fillLightTable(json);
+		drawLightChart(lastLightJson);
 	});
+}
+
+function updateLight() {
+	if (lastLightDate != null && !lastLightDate == "" &&
+			lastLightTime != null && !lastLightTime == "") {
+		var date2 = document.getElementById("date_light2").value;
+		var time2 = document.getElementById("light_hour2").value + ":" + document.getElementById("light_minutes2").value;
+		getLightByDate(lastLightDate, date2, lastLightTime, time2);
+	}
+}
+
+function createLightTable() {
+	var table = document.getElementById("light_table_body");
+	var date1 = document.getElementById("date_light1").value;
+	var date2 = document.getElementById("date_light2").value;
+	var time1 = document.getElementById("light_hour1").value + ":" + document.getElementById("light_minutes1").value;
+	var time2 = document.getElementById("light_hour2").value + ":" + document.getElementById("light_minutes2").value;
+	table.innerHTML = "";
+	lastLightJson = null;
+	getLightByDate(date1, date2, time1, time2);
 }
 
 function fillLightTable(json) {
 	var table = document.getElementById("light_table_body");
-	table.innerHTML = "";
 	
 	for (var i = 0; i < json.light.length; i++) {
 		var trElem = document.createElement("tr");
-		
 		var tdDate = document.createElement("td");
-		tdDate.innerHTML = changeDateFormat(json.light[i].date);
-		
 		var tdTime = document.createElement("td");
-		tdTime.innerHTML = json.light[i].time;
-		
 		var tdLight = document.createElement("td");
+		
+		tdDate.innerHTML = changeDateFormat(json.light[i].date);
+		tdTime.innerHTML = json.light[i].time;
 		if(json.light[i].light == 1) {
 			tdLight.innerHTML = "ON";
 		} else {
@@ -338,18 +392,63 @@ function fillLightTable(json) {
 		trElem.appendChild(tdDate);
 		trElem.appendChild(tdTime);
 		trElem.appendChild(tdLight);
-		
 		table.appendChild(trElem);
+		
+		lastLightDate = changeDateFormat(json.light[i].date);
+		lastLightTime = json.light[i].time;
 	}
 	
 	var objDiv = document.getElementById("light_table_div");
 	objDiv.scrollTop = objDiv.scrollHeight;
 }
 
+function drawLightChart(json) {
+	var tempArray = new Array();
+	var tempArray2 = new Array();
+	
+	for (var i = 0; i < json.Light.length; i++) {
+		var valueSet = new Array();
+		valueSet[0] = json.Light[i].date + "/" + json.Light[i].time;
+		valueSet[1] = json.Light[i].light;
+		
+		tempArray2[i] = valueSet;
+	}
+	tempArray[0] = tempArray2;
+	
+	var plot = document.getElementById("lightdiv");
+	plot.innerHTML = "";
+	
+	$.jqplot('lightdiv', tempArray, {
+		title:'Light',
+		axes:{
+			yaxis:{
+				label: "Light(%)",
+				min:0,
+				max:100
+			},
+			xaxis: {
+				autoscale:true,
+				label: "Time",
+				renderer:$.jqplot.DateAxisRenderer,
+				tickOptions:{formatString:'%Y-%#m-%#d-%H:%M'},
+				numberTicks: 5
+			}
+		},
+		seriesDefaults: {
+			markerOptions: {
+				show: false
+			}
+		},
+		series:[{color:'#5FAB78'}]
+	});
+}
+
+
 function changeDateFormat(date) {
 	var dateArray = date.split("-");
 	return dateArray[2]+"-"+dateArray[1]+"-"+dateArray[0];
 }
+
 function mergeJson(json1, json2) {
 	for (var i=0; i<json2.lenght; i++) {
 		json1[json1.length+i] = json2[i];
