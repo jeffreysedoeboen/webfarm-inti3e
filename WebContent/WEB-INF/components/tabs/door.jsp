@@ -106,7 +106,6 @@ overflow:auto;">
 </div>
 <div id="doordiv"
 	style="height: 400px; width: 800px; margin-left: 50px; float: left;"></div>
-
 <br>
 <br>
 <br>
