@@ -4,7 +4,7 @@ $(function() {
 	});
 </script>
 <div style="position: relative;">
-<div style="float:left; width:30%;">
+<div style="float:left; width:30%; height:300px;">
 <p>Date:</p>
 <input name="datepicker" type="text" id="date_vidplayback"
 			readonly="readonly"
@@ -14,10 +14,10 @@ $(function() {
 		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
 		out.print(calendar.get(java.util.Calendar.YEAR));
 		%>>
-<input type="button" onclick="getVidListByDate()" value="submit"></input>
-<br>
-<br>
-<table border="1">
+<input type="button" onclick="getVidListByDate()" value="Submit"></input>
+<br><br>
+<table style="border:3px #363636 solid"
+align="left" width="50%" bgcolor="#222222">
 	<thead>
 		<tr>
 			<th>Video:</th>
@@ -28,8 +28,7 @@ $(function() {
 </div>
 <div style="width:70%; margin-left: 30%;">
 <div id="videoplayer">
-<a
-	href="http://localhost:8088"
+<a href="http://localhost:8088"
 	style="display:block;width:425px;height:300px;"
 	id="player">
 </a>
@@ -39,3 +38,4 @@ flowplayer("player", "assets/flashplayer/flowplayer-3.2.5.swf");
 </script>
 </div>
 </div>
+<br><br><br><br><br><br><br>

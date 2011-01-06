@@ -3,7 +3,7 @@
 		$( "button, input:submit, a", ".demo" ).button();
 		$( "a", ".demo" ).click(function() { return false; });
 	});
-	</script>
+</script>
 <div align="center">
 <a
 	href="http://localhost:8088"

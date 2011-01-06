@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.inti3e.database.dao.LightSensorDao;
 import com.inti3e.model.DataManager;
 
@@ -32,14 +35,32 @@ public class LightServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String state = request.getParameter("light");
-		if(state.equals("on")) {
-			dm.turnLight(true);
-		} else if(state.equals("off")) {
-			dm.turnLight(false);
+		String param = request.getParameter("param");
+		if (param != null) {
+			if (param.equals("state")) {
+				LightSensorDao lsd = new LightSensorDao();
+				boolean lightOn = lsd.getLightOn();
+				
+				JSONObject json = new JSONObject();
+				try {
+					json.put("lightOn", lightOn);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				System.out.println(json.toString());
+				response.getWriter().print(json.toString());
+			} else if (param.equals("turn")) {
+				String light = request.getParameter("light");
+				if (light != null) {
+					if(light.equals("on")) {
+						dm.turnLight(true);
+					} else if(light.equals("off")) {
+						dm.turnLight(false);
+					}
+					response.sendRedirect("mainpage.jsp#tabs-8"); //QUICK AND DIRTY
+				}
+			}
 		}
-		
-		response.sendRedirect("mainpage.jsp#tabs-8"); //QUICK AND DIRTY
 	}
 
 	/**

@@ -18,7 +18,7 @@ import com.inti3e.database.DBmanager;
 public class SwitchDao {
 
 
-	private String sqlGetAllLightSwitches 	= "SELECT date, time, LightSwitch FROM APP.LIGHTSWITCHES ORDER BY date ASC";
+	private String sqlGetAllLightSwitches 	= "SELECT date, time, LightSwitch FROM APP.LIGHTSWITCHES";
 	private String sqlNewLightSwitch		= "INSERT INTO APP.LIGHTSWITCHES (\"DATE\", \"TIME\", \"LIGHTSWITCH\" ) VALUES (?,?,?)";
 
 	private Connection        con      = null ;

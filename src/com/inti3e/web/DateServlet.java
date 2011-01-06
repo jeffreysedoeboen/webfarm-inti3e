@@ -52,7 +52,7 @@ public class DateServlet extends HttpServlet {
 			ArrayList<Humidity> humidity = humidityDao.getHumiditysBetweenDates(date1, time1, date2, time2);
 			
 			try {
-				json.put("Humidity", humidity);
+				json.put("humidity", humidity);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
