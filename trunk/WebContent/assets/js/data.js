@@ -18,7 +18,6 @@ function autoupdate() {
 }
 
 function getVidListByDate() {
-	alert("Henk");
 	var date1 = document.getElementById("date_vidplayback");
 	$.getJSON("VideoServlet.do?id=playback&date1="+date1, function(json) {
 		fillPlaybackTable(json);
