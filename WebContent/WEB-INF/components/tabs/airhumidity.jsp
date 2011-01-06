@@ -74,7 +74,7 @@ $(function() {
 	</tr>
 
 </table>
-<input type="button" onclick="getHumidityByDate()()" value="submit"></input>
+<input type="button" onclick="createHumidityTable()" value="submit"></input>
 
 <br>
 <div id="humidity_table_div"

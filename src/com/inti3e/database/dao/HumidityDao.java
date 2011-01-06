@@ -120,7 +120,7 @@ public class HumidityDao {
 		} 
 		return humids;
 	}
-	public ArrayList<Humidity> getTempsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
+	public ArrayList<Humidity> getHumiditysBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		ArrayList<Humidity> temps = new ArrayList<Humidity>();
 		ArrayList<Humidity> tempArray = new ArrayList<Humidity>();
 		System.out.println("From: " + dateFormat1);

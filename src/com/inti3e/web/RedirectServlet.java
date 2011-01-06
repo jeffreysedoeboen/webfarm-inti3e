@@ -32,13 +32,12 @@ public class RedirectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String ip = request.getRemoteAddr();
-		//ip = "192.168.2.";
+		ip = "192.168.2.";
 		if(ip.startsWith("192.168.2.") || ip.startsWith("192.168.0.")) {
-			response.sendRedirect("inlogpage.jsp");
-			
-		} else {
 			session.setAttribute("user", new User(0, "admin", "admin", true));
 			response.sendRedirect("mainpage.jsp");
+		} else {
+			response.sendRedirect("inlogpage.jsp");
 		}
 	}
 
