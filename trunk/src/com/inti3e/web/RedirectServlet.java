@@ -7,9 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.analytics.data.AnalyticsDAO;
-import com.analytics.model.Helper;
 import com.inti3e.model.User;
 
 /**
@@ -32,7 +29,7 @@ public class RedirectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String ip = request.getRemoteAddr();
-		ip = "192.168.2.";
+		//ip = "192.168.2.";
 		if(ip.startsWith("192.168.2.") || ip.startsWith("192.168.0.")) {
 			session.setAttribute("user", new User(0, "admin", "admin", true));
 			response.sendRedirect("mainpage.jsp");
