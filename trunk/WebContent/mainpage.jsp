@@ -54,7 +54,7 @@
 		<p align="center">You can look the stats with the tabs.</p>
 		<br></br>
 		<p align="center">Here you can see the current stats:</p>
-		<p align="center">KOMT NOG! :D</p>
+		<div id="currentstats"></div>
 	</div>
 	<c:if test="${user != null}">
 	<div id="tabs-2"><jsp:include page="/WEB-INF/components/tabs/livestream.jsp" />
@@ -81,7 +81,7 @@
 	<div id="tabs-11">
 	<h1 align="center">The sources we used:</h1>
 	<h2 align="center">Firewall &amp; OS</h2>
-		<p align="center">* <a href="http://www.ipfire.org">IpFire</a></p>
+		<p align="center">* <a href="http://www.smoothwall.org">SmoothWall</a></p>
 		<p align="center">* <a href="http://www.debian.org">Debian</a></p>
 		<p align="center">* <a href="http://distrowatch.com/search.php?category=Firewall#distrosearch">List of firewalls</a></p>
 	<br>
