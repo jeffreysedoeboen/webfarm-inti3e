@@ -28,7 +28,7 @@ public class MovementDao {
 	public MovementDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
-		createTable();
+		
 		try{
 
 			this.psGetAllMovements   = con.prepareStatement(sqlGetAllMovements);
@@ -36,31 +36,6 @@ public class MovementDao {
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
-		}
-	}
-
-	public void createTable(){
-
-		try {
-			//get the table listing
-			DatabaseMetaData dbmd = con.getMetaData();
-			ResultSet rs = dbmd.getTables(null, null, null,  new String[] {"TABLE"});
-			ArrayList<String> tableList = new ArrayList<String>();
-			while(rs.next()){
-				tableList.add(rs.getString("TABLE_NAME"));
-			}
-			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("MOVEMENT")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.MOVEMENT (" +
-						"DATE DATE," +
-						"TIME VARCHAR(50)," +
-						"MOVEMENT VARCHAR(25)" +
-				")");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 

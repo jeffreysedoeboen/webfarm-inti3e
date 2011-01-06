@@ -1,26 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<%@page import="com.analytics.data.StatisticsDAO"%>
+<%@page import="com.analytics.data.HitsDAO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.analytics.data.beans.RowBean"%>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="style.css" type="text/css" rel="stylesheet">
-<title>Website statistics</title>
-</head>
-<body>
+<%@page import="com.analytics.data.beans.PageHit"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%
-StatisticsDAO statistics = new StatisticsDAO();
-pageContext.setAttribute("hits", statistics.getHits());
-pageContext.setAttribute("browsers", statistics.getHitsPerBrowser());
-pageContext.setAttribute("languages", statistics.getHitsPerLanguages());
-pageContext.setAttribute("ips", statistics.getHitsPerIp());
+HitsDAO hits = new HitsDAO();
+//pageContext.setAttribute("pagesByUser", hits.getPagesByUserId());
+pageContext.setAttribute("pagesByIp", hits.getPagesByIp(request.getRemoteAddr()));
 %>
+
 <div id="wrapper">
 	<div id="content">
 		<h1>Statistics</h1>
@@ -56,5 +44,3 @@ pageContext.setAttribute("ips", statistics.getHitsPerIp());
 		</div>
 	</div>
 </div>
-</body>
-</html>

@@ -1,6 +1,6 @@
 <%@page import="com.analytics.data.StatisticsDAO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.analytics.data.RowBean"%>
+<%@page import="com.analytics.data.beans.RowBean"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%

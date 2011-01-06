@@ -1,4 +1,4 @@
-package com.analytics.data;
+package com.analytics.data.beans;
 
 public class RowBean {
 	private int count = 0;

@@ -1,6 +1,19 @@
 package com.analytics.model;
 
+import javax.servlet.http.Cookie;
+
 public class Helper {
+	
+	public String getCookieTimeValue(Cookie[] cookies) {
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("Time")) {
+					return cookies[i].getValue();
+				}
+			}
+		}
+		return null;
+	}
 	
 	public String getBrowser(String userAgent) {
 		userAgent = userAgent.toLowerCase();

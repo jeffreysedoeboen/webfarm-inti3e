@@ -32,7 +32,7 @@ public class TempDao {
 	public TempDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
-		createTable();
+		
 		try{
 
 			this.psGetAllTemps   = con.prepareStatement(sqlGetAllTemps);
@@ -42,31 +42,6 @@ public class TempDao {
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
-		}
-	}
-
-	public void createTable(){
-
-		try {
-			//get the table listing
-			DatabaseMetaData dbmd = con.getMetaData();
-			ResultSet rs = dbmd.getTables(null, null, null,  new String[] {"TABLE"});
-			ArrayList<String> tableList = new ArrayList<String>();
-			while(rs.next()){
-				tableList.add(rs.getString("TABLE_NAME"));
-			}
-			//check if the table does not already exists and then create them if needed
-			if(!tableList.contains("TEMP")){
-				Statement stat = con.createStatement();
-				stat.execute("CREATE TABLE APP.Temp (" +
-						"DATE DATE," +
-						"TIME VARCHAR(50)," +
-						"TEMP VARCHAR(25)" +
-				")");
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
