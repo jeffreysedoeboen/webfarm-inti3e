@@ -16,6 +16,7 @@
 <script type="text/javascript" src="assets/js/lib/jqplot.cursor.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css"></link>
 <script type="text/javascript" src="assets/js/data.js"></script>
+<script type="text/javascript" src="assets/js/ontabclicks.js"></script>
 <script src="assets/js/flowplayer-3.2.4.min.js" type="text/javascript"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Main Page</title>
@@ -31,22 +32,22 @@
 
 <div id="tabs">
 	<ul onmouseup="msgCleanup();">
-		<li><a onclick="hit('Main');datepick.style.display='none';" href="#tabs-1">Main</a></li>
+		<li><a onclick="onMainTabClick();" href="#tabs-1">Main</a></li>
 		<c:if test="${user != null}">
-			<li><a onclick="hit('Live stream');datepick.style.display='none';" href="#tabs-2">Live stream</a></li>
-			<li><a onclick="hit('Video playback');datepick.style.display='none';" href="#tabs-3">Video playback</a></li>
-			<li><a onclick="hit('User Statistics');datepick.style.display='none';" href="#tabs-12">User Statistics</a></li>
+			<li><a onclick="onLiveTabClick();" href="#tabs-2">Live stream</a></li>
+			<li><a onclick="onPlayTabClick();" href="#tabs-3">Video playback</a></li>
+			<li><a onclick="onUserstatsTabClick();" href="#tabs-12">User Statistics</a></li>
 			<c:if test="${user.admin}">
-				<li><a onclick="hit('Temperature');datepick.style.display='block';" href="#tabs-4">Temperature</a></li>
-				<li><a onclick="hit('Air humidity');datepick.style.display='block';" href="#tabs-5">Air humidity</a></li>
-				<li><a onclick="hit('Illumination');datepick.style.display='block';" href="#tabs-6">Illumination</a></li>
-				<li><a onclick="hit('Door');datepick.style.display='block';" href="#tabs-7">Door</a></li>
-				<li><a onclick="hit('Light switch');datepick.style.display='none';" href="#tabs-8">Light switch</a></li>
-				<li><a onclick="hit('Create account');datepick.style.display='none';" href="#tabs-9">Create account</a></li>
-				<li><a onclick="hit('Statistics');datepick.style.display='none';" href="#tabs-10">Statistics</a></li>
+				<li><a onclick="onTempTabClick();" href="#tabs-4">Temperature</a></li>
+				<li><a onclick="onHumidTabClick();" href="#tabs-5">Air humidity</a></li>
+				<li><a onclick="onIllumTabClick();" href="#tabs-6">Illumination</a></li>
+				<li><a onclick="onDoorTabClick();" href="#tabs-7">Door</a></li>
+				<li><a onclick="onSwitchTabClick();" href="#tabs-8">Light switch</a></li>
+				<li><a onclick="onCreateTabClick();" href="#tabs-9">Create account</a></li>
+				<li><a onclick="onStatsTabClick();" href="#tabs-10">Statistics</a></li>
 			</c:if>
 		</c:if>
-		<li><a onclick="hit('Sources');datepick.style.display='none';" href="#tabs-11">Sources</a></li>
+		<li><a onclick="onSourcesTabClick();" href="#tabs-11">Sources</a></li>
 	</ul>
 	<div id="datepick" style="display:none" align="center"><jsp:include page="/WEB-INF/components/datepick.jsp" /></div>
 	<div id="tabs-1">

@@ -2,9 +2,11 @@ var lastTempDate = "", lastDoorDate = "", lastHumidityDate = "", lastLightDate =
 var lastTempTime = "", lastDoorTime = "", lastHumidityTime = "", lastLightTime = "";
 var lastTempJson = null, lastDoorJson = null, lastHumidityJson = null, lastLightJson = null;
 var buttonIsPressed = false;
+var resetGraph = 5;
 
 $(document).ready(function(){
-	setInterval("autoupdate()", 10000);
+	createAllTables();
+	setInterval("autoupdate()", 5000);
 });
 
 function autoupdate() {
@@ -12,6 +14,12 @@ function autoupdate() {
 	updateHumidity();
 	updateDoor();
 	updateLight();
+	lowerResetGraph();
+}
+
+function lowerResetGraph() {
+	resetGraph--;
+	if (resetGraph < 0) { resetGraph = 5; }
 }
 
 function createAllTables() {
@@ -95,6 +103,7 @@ function createTempTable() {
 	var date2 = document.getElementById("date_pick2").value;
 	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
 	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
+	document.getElementById("tempdiv").innerHTML = "";
 	table.innerHTML = "";
 	lastTempJson = null;
 	getTempByDate(date1, date2, time1, time2);
@@ -134,17 +143,22 @@ function drawTempChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
-	for (var i = 0; i < json.temp.length; i++) {
-		var valueSet = new Array();
-		valueSet[0] = json.temp[i].date + "/" + json.temp[i].time;
-		valueSet[1] = json.temp[i].temp;
-		
-		tempArray2[i] = valueSet;
+	if (json == null || json.temp.length <= 0) {
+		var date = document.getElementById("date_pick1").value;
+		var time = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
+		tempArray2[0] = [ changeDateFormat(date) + "/" + time, 0 ];
+	} else {
+		for (var i = 0; i < json.temp.length; i++) {
+			var valueSet = new Array();
+			valueSet[0] = json.temp[i].date + "/" + json.temp[i].time;
+			valueSet[1] = json.temp[i].temp;
+			tempArray2[i] = valueSet;
+		}
 	}
 	tempArray[0] = tempArray2;
 	
 	var plot = document.getElementById("tempdiv");
-	plot.innerHTML = "";
+	if (resetGraph <= 0) { plot.innerHTML = ""; }
 	
 	$.jqplot('tempdiv', tempArray, {
 		title:'Temperature',
@@ -200,6 +214,7 @@ function createHumidityTable() {
 	var date2 = document.getElementById("date_pick2").value;
 	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
 	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
+	document.getElementById("humiditydiv").innerHTML = "";
 	table.innerHTML = "";
 	lastHumidityJson = null;
 	getHumidityByDate(date1, date2, time1, time2);
@@ -239,17 +254,22 @@ function drawHumidityChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
-	for (var i = 0; i < json.humidity.length; i++) {
-		var valueSet = new Array();
-		valueSet[0] = json.humidity[i].date + "/" + json.humidity[i].time;
-		valueSet[1] = json.humidity[i].humidity;
-		
-		tempArray2[i] = valueSet;
+	if (json == null || json.humidity.length <= 0) {
+		var date = document.getElementById("date_pick1").value;
+		var time = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
+		tempArray2[0] = [ changeDateFormat(date) + "/" + time, 0 ];
+	} else {
+		for (var i = 0; i < json.humidity.length; i++) {
+			var valueSet = new Array();
+			valueSet[0] = json.humidity[i].date + "/" + json.humidity[i].time;
+			valueSet[1] = json.humidity[i].humidity;
+			tempArray2[i] = valueSet;
+		}
 	}
 	tempArray[0] = tempArray2;
 	
 	var plot = document.getElementById("humiditydiv");
-	plot.innerHTML = "";
+	if (resetGraph <= 0) { plot.innerHTML = ""; }
 	
 	$.jqplot('humiditydiv', tempArray, {
 		title:'Humidity',
@@ -304,6 +324,7 @@ function createDoorTable() {
 	var date2 = document.getElementById("date_pick2").value;
 	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value + ":00";
 	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value + ":00";
+	document.getElementById("doordiv").innerHTML = "";
 	table.innerHTML = "";
 	lastDoorDate = "";
 	lastDoorTime = "";
@@ -349,31 +370,36 @@ function drawDoorChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
-	for (var i = 0; i < json.door.length; i++) {
-		var invertedValueSet = new Array();
-		var valueSet = new Array();
+	if (json == null || json.door.length <= 0) {
+		var date = document.getElementById("date_pick1").value;
+		var time = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
+		tempArray2[0] = [ changeDateFormat(date) + "/" + time, 0 ];
+	} else {
+		for (var i = 0; i < json.door.length; i++) {
+			var invertedValueSet = new Array();
+			var valueSet = new Array();
 
-		var testtime = json.door[i].time.split(":");
-		var test = parseInt(testtime[2])-1;
-		if (test < 0) { test = 0; }
-		invertedValueSet[0] = json.door[i].date + "/" + testtime[0]+":"+testtime[1]+":"+test;//json.door[i].time;
-		if (i-1 >= 0) {
-			if (json.door[i-1].door == 1) {
-				invertedValueSet[1] = 1;
-			} else {
-				invertedValueSet[1] = 0;
+			var testtime = json.door[i].time.split(":");
+			var test = parseInt(testtime[2])-1;
+			if (test < 0) { test = 0; }
+			invertedValueSet[0] = json.door[i].date + "/" + testtime[0]+":"+testtime[1]+":"+test;//json.door[i].time;
+			if (i-1 >= 0) {
+				if (json.door[i-1].door == 1) {
+					invertedValueSet[1] = 1;
+				} else {
+					invertedValueSet[1] = 0;
+				}
 			}
+			valueSet[0] = json.door[i].date + "/" + json.door[i].time;
+			valueSet[1] = json.door[i].door;
+			tempArray2[i*2] = invertedValueSet;
+			tempArray2[i*2+1] = valueSet;
 		}
-		valueSet[0] = json.door[i].date + "/" + json.door[i].time;
-		valueSet[1] = json.door[i].door;
-		
-		tempArray2[i*2] = invertedValueSet;
-		tempArray2[i*2+1] = valueSet;
 	}
 	tempArray[0] = tempArray2;
 	
 	var plot = document.getElementById("doordiv");
-	plot.innerHTML = "";
+	if (resetGraph <= 0) { plot.innerHTML = ""; }
 	
 	$.jqplot('doordiv', tempArray, {
 		title:'Door',
@@ -417,7 +443,7 @@ function updateLight() {
 	if (lastLightDate != null && !lastLightDate == "" &&
 			lastLightTime != null && !lastLightTime == "") {
 		var date2 = document.getElementById("date_pick2").value;
-		var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("light_minutes2").value;
+		var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
 		getLightByDate(lastLightDate, date2, lastLightTime, time2);
 	}
 }
@@ -428,6 +454,7 @@ function createLightTable() {
 	var date2 = document.getElementById("date_pick2").value;
 	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
 	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value;
+	document.getElementById("lightdiv").innerHTML = "";
 	table.innerHTML = "";
 	lastLightJson = null;
 	getLightByDate(date1, date2, time1, time2);
@@ -471,17 +498,22 @@ function drawLightChart(json) {
 	var tempArray = new Array();
 	var tempArray2 = new Array();
 	
-	for (var i = 0; i < json.light.length; i++) {
-		var valueSet = new Array();
-		valueSet[0] = json.light[i].date + "/" + json.light[i].time;
-		valueSet[1] = json.light[i].light;
-		
-		tempArray2[i] = valueSet;
+	if (json == null || json.light.length <= 0) {
+		var date = document.getElementById("date_pick1").value;
+		var time = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value;
+		tempArray2[0] = [ changeDateFormat(date) + "/" + time, 0 ];
+	} else {
+		for (var i = 0; i < json.light.length; i++) {
+			var valueSet = new Array();
+			valueSet[0] = json.light[i].date + "/" + json.light[i].time;
+			valueSet[1] = json.light[i].light;
+			tempArray2[i] = valueSet;
+		}
 	}
 	tempArray[0] = tempArray2;
 	
 	var plot = document.getElementById("lightdiv");
-	plot.innerHTML = "";
+	if (resetGraph <= 0) { plot.innerHTML = ""; }
 	
 	$.jqplot('lightdiv', tempArray, {
 		title:'Light',
@@ -520,6 +552,7 @@ function mergeJson(json1, json2) {
 	}
 	return json1;
 }
+
 
 function getStatistics() {
 	var selectedIp = document.getElementById("selectedIp").value;
