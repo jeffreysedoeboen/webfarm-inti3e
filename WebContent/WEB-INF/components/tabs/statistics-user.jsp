@@ -24,7 +24,7 @@
 		<div class="infobox" style="float:none;">
 			<div class="row">
 				<div class="left">IP: </div>
-				<div id='ipAdress' class="right"></div>
+				<div id='ipAdress' class="middle"></div>
 			</div>
 			<div id='pages'></div>
 		</div>

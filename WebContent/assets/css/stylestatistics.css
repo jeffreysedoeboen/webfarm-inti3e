@@ -13,15 +13,21 @@
 	float:left;
 	margin:10px;
 	padding:10px;
-	width:400px;
+	width:500px;
 }
 .infobox .left {
 	float:left;
 	font-weight:bold;
 	width:150px;
 }
-.infobox .right {
+
+.infobox .middle {
 	margin-left:150px;
+	text-align:left;
+}
+
+.infobox .right {
+	margin-left:300px;
 	text-align:left;
 }
 
