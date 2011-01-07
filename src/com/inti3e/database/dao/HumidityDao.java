@@ -18,7 +18,7 @@ import com.inti3e.model.Humidity;
 public class HumidityDao {
 
 
-	private String sqlGetAllTemps		= "SELECT date, time, humidity FROM APP.Humidity";
+	private String sqlGetAllTemps		= "SELECT date, time, humidity FROM APP.Humidity ORDER BY date,time ASC";
 	private String sqlNewTemp 			= "INSERT INTO APP.Humidity (\"DATE\", \"TIME\", \"HUMIDITY\" ) VALUES (?,?,?)";
 	private String sqlGetHumidOfDate	= "SELECT time, humidity FROM APP.Humidity WHERE date=?";
 	private String sqlGetHumidityBetween= "SELECT date,time, humidity FROM APP.Humidity WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";

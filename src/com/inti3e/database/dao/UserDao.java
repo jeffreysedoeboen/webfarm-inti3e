@@ -13,7 +13,7 @@ import com.inti3e.model.User;
 
 public class UserDao {
 	
-	private String sqlGetAllUsers		= "SELECT ID, NAME, PASSWORD FROM APP.USERS";
+	private String sqlGetAllUsers		= "SELECT ID, NAME, PASSWORD FROM APP.USERS ORDER BY ID ASC";
 	private String sqlNewUser 			= "INSERT INTO APP.USERS (\"NAME\", \"PASSWORD\" ) VALUES (?,?)";
 
 	private Connection        con      = null ;

@@ -151,7 +151,7 @@ function drawTempChart(json) {
 		cursor: {tooltipLocation:'sw', zoom:true, clickReset:true},
 		axes:{
 			yaxis:{
-				label: "Temperature",
+				label: "Temperature(%)",
 				min:-10,
 				max:100
 			},
@@ -256,7 +256,7 @@ function drawHumidityChart(json) {
 		axes:{
 			yaxis:{
 				label: "Humidity(%)",
-				min:0,
+				min:-10,
 				max:100
 			},
 			xaxis: {
@@ -353,7 +353,6 @@ function drawDoorChart(json) {
 		var invertedValueSet = new Array();
 		var valueSet = new Array();
 
-		
 		var testtime = json.door[i].time.split(":");
 		var test = parseInt(testtime[2])-1;
 		if (test < 0) { test = 0; }
@@ -488,9 +487,9 @@ function drawLightChart(json) {
 		title:'Light',
 		axes:{
 			yaxis:{
-				label: "Light(%)",
-				min:0,
-				max:100
+				label: "State(0/1)",
+				min:-1,
+				max:2
 			},
 			xaxis: {
 				autoscale:true,
