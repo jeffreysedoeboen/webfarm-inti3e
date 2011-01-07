@@ -5,7 +5,6 @@
  */
 package com.inti3e.listener;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -32,12 +31,14 @@ public class ContextListener implements ServletContextListener {
 		new CreateDBTables();
 		new com.analytics.data.CreateDBTables();
 		
-		// nodig voor DK51 !!!
+		// nodig voor receiving DK51 !!!
 		(DataManager.getInstance()).start();
 	}
 	
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
 	 */
-	public void contextDestroyed(ServletContextEvent event) {}
+	public void contextDestroyed(ServletContextEvent event) {
+		(DataManager.getInstance()).shutdown();
+	}
 }

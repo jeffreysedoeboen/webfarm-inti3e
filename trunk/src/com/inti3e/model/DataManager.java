@@ -17,12 +17,10 @@ public class DataManager extends Thread {
 	
 	private ServerSocket welcomeSocket = null;
 	private Socket socket;
-	private Boolean switchLight;
 	private int outPut = 0;
 
 	private DataManager() {
 		socket = null;
-		switchLight = false;
 	}
 	
 	public static synchronized DataManager getInstance() {
@@ -35,11 +33,21 @@ public class DataManager extends Thread {
 	public void run() {
 		try {
 			welcomeSocket = new ServerSocket(4000);
-			while (true) {
+			while (!welcomeSocket.isClosed()) {
 				socket = welcomeSocket.accept();
 				System.out.println("Socket created");
 				read();
+				socket.close();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void shutdown() {
+		try {
+			welcomeSocket.close();
+			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
