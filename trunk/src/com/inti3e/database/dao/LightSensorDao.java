@@ -18,7 +18,7 @@ import com.inti3e.model.LightSensor;
 public class LightSensorDao {
 
 
-	private String sqlGetAllLights		= "SELECT date, time, light FROM APP.LIGHTSENSOR";
+	private String sqlGetAllLights		= "SELECT date, time, light FROM APP.LIGHTSENSOR ORDER BY date,time ASC";
 	private String sqlNewLight 			= "INSERT INTO APP.LIGHTSENSOR (\"DATE\", \"TIME\", \"LIGHT\" ) VALUES (?,?,?)";
 	private String sqlGetLightOfDate	= "SELECT time, light FROM APP.LIGHTSENSOR WHERE date=?";
 	private String sqlGetLightBetween	= "SELECT date,time,light FROM APP.LIGHTSENSOR WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
@@ -163,7 +163,7 @@ public class LightSensorDao {
 			while (rs.next()){
 				Date date 	= rs.getDate(1);
 				String time = rs.getString(2);
-				String light = rs.getString(2);
+				String light = rs.getString(3);
 				LightSensor addlight = new LightSensor(date, time, light);
 				lightArray.add(addlight);
 			}

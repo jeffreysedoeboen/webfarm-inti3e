@@ -17,7 +17,7 @@ import com.inti3e.model.Temperature;
 public class TempDao {
 
 
-	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp";
+	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp ORDER BY date,time ASC";
 	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE\", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
 	private String sqlGetTempOfDate		= "SELECT time, temp FROM APP.Temp WHERE date=?";
 	private String sqlGetTempBetween	= "SELECT date,time, temp FROM APP.Temp WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
