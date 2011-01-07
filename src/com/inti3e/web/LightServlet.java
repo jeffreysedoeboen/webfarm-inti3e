@@ -57,7 +57,6 @@ public class LightServlet extends HttpServlet {
 					} else if(light.equals("off")) {
 						dm.turnLight(false);
 					}
-					response.sendRedirect("mainpage.jsp#tabs-8"); //QUICK AND DIRTY
 				}
 			}
 		}

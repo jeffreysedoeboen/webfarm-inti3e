@@ -1,9 +1,3 @@
-<script type="text/javascript">
-$(function() {
-	createLightTable();
-});
-</script>
-
 <table align="center" width="1000"><tr><td>
 <div id="lightdiv" style="height: 400px; width: 800px; margin-left: 50px; float: left;"></div>
 </td></tr></table>
