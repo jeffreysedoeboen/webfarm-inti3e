@@ -9,6 +9,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.inti3e.database.CreateDBTables;
+import com.inti3e.database.DBmanager;
 import com.inti3e.model.DataManager;
 
 /**
@@ -40,5 +41,7 @@ public class ContextListener implements ServletContextListener {
 	 */
 	public void contextDestroyed(ServletContextEvent event) {
 		(DataManager.getInstance()).shutdown();
+		DBmanager.getInstance().close();
+		com.analytics.data.DBmanager.getInstance().close();
 	}
 }
