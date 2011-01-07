@@ -76,7 +76,7 @@
 	</div>
 	<div id="tabs-8"><jsp:include page="/WEB-INF/components/tabs/lightswitch.jsp" />
 	</div>
-	<div id="tabs-9"><jsp:include page="/WEB-INF/components/tabs/createacount.jsp" />
+	<div id="tabs-9"><jsp:include page="/WEB-INF/components/tabs/createaccount.jsp" />
 	</div>
 	<div id="tabs-10"><jsp:include page="/WEB-INF/components/tabs/statistics.jsp" />
 	</div>
