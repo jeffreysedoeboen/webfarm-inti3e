@@ -5,6 +5,7 @@ $(function() {
 	var date = new Date();
 	$( "#date_pick1" ).datepicker({ dateFormat: 'dd-mm-yy' });
 	$( "#date_pick2" ).datepicker({ dateFormat: 'dd-mm-yy' });
+	$( "#pickbutton" ).button();
 });
 </script>
 <div style="background: #363636;" >
@@ -73,7 +74,7 @@ $(function() {
 		</select></td>
 		<td width="25"></td>
 		<td>
-			<input type="button" onclick="createAllTables()" value="Submit"></input>
+			<button type="submit" onclick="createAllTables()" id="pickbutton">Submit</button>
 		</td>
 	</tr>
 </table>

@@ -1,6 +1,7 @@
 <script type="text/javascript">
 $(function() {
 		$( "#date_vidplayback" ).datepicker({ dateFormat: 'dd-mm-yy' });
+		$( "#vidlistbutton" ).button();
 	});
 </script>
 <div style="position: relative;">
@@ -14,7 +15,8 @@ $(function() {
 		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
 		out.print(calendar.get(java.util.Calendar.YEAR));
 		%>>
-<input type="button" onclick="getVidListByDate()" value="Submit"></input>
+		
+<button type="submit" onclick="getVidListByDate()" id="vidlistbutton">Submit</button>
 <br><br>
 <table style="border:3px #363636 solid"
 align="left" width="50%" bgcolor="#222222">

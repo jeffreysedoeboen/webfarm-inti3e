@@ -1,7 +1,6 @@
 <script type="text/javascript">
 	$(function() {
-		$( "button, input:submit, a", ".demo" ).button();
-		$( "a", ".demo" ).click(function() { return false; });
+		$( "#recordbutton" ).button();
 	});
 </script>
 <div align="center">
@@ -13,9 +12,9 @@
   <param name="audio" value="false"/>
   <param name="bufferLow" value="0"/>
   <param name="bufferHigh" value="1"/>
-  <param name="bufferSize" value="200"/>
+  <param name="bufferSize" value="1"/>
 </applet>
 </div>
 <div align="center" class="demo">
-<button>Record</button>
+<button type="submit" onclick="return false;" id="recordbutton">Record</button>
 </div>
