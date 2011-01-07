@@ -11,7 +11,7 @@ import com.inti3e.model.User;
 
 public class HitsDAO {
 	private String sqlGetPagesByUserId = "SELECT page, COUNT(page) FROM APP.hits WHERE user_id = ? GROUP BY PAGE";
-	private String sqlGetPagesByIp = "SELECT PAGE, COUNT(PAGE) FROM APP.HITS WHERE IP = ? GROUP BY PAGE";
+	private String sqlGetPagesByIp = "SELECT PAGE, COUNT(PAGE) hits FROM APP.HITS WHERE IP = ? GROUP BY PAGE ORDER BY hits desc";
 	private String sqlGetAllIp = "SELECT ip FROM APP.HITS GROUP BY ip";
 
 	private Connection con = null;
