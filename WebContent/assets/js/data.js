@@ -165,7 +165,7 @@ function drawTempChart(json) {
 		cursor: {tooltipLocation:'sw', zoom:true, clickReset:true},
 		axes:{
 			yaxis:{
-				label: "Temperature(%)",
+				label: "Temperature(&deg;C)",
 				min:-10,
 				max:100
 			},
@@ -235,7 +235,7 @@ function fillHumidityTable(json) {
 		
 		tdDate.innerHTML = changeDateFormat(json.humidity[i].date);
 		tdTime.innerHTML = json.humidity[i].time;
-		tdHumidity.innerHTML = json.humidity[i].humidity + " &deg;C";
+		tdHumidity.innerHTML = json.humidity[i].humidity + "%";
 		
 		trElem.appendChild(tdDate);
 		trElem.appendChild(tdTime);
