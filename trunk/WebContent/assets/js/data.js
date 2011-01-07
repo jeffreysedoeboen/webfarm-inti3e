@@ -530,11 +530,12 @@ function getStatistics() {
 		document.getElementById("ipAdress").innerHTML = selectedIp;
 
 		for(var i = 0; i < pages.length; i++) {
-			pagesObject.innerHTML += "<div class='row'><div class=\"left\">Page:</div><div class=\"middle\">";
-			pagesObject.innerHTML += pages[i].page;
-			pagesObject.innerHTML += "</div><div class=\"right\">";
-			pagesObject.innerHTML += pages[i].hits;
-			pagesObject.innerHTML += 'X</div></div>';
+			var pageHTML = "<div class='row'><div class=\"left\">Page:</div><div class=\"middle\">";
+			pageHTML += pages[i].page;
+			pageHTML += "</div><div class=\"right\">";
+			pageHTML += pages[i].hits;
+			pageHTML += 'X</div></div>';
+			pagesObject.innerHTML += pageHTML;
 		}
 	});
 	
