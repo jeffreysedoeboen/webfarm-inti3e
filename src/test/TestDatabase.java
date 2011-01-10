@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import com.inti3e.database.CreateDBTables;
 import com.inti3e.database.dao.DoorDao;
 import com.inti3e.database.dao.HumidityDao;
 import com.inti3e.database.dao.LightSensorDao;
@@ -20,6 +21,7 @@ import com.inti3e.model.Movement;
 import com.inti3e.model.Temperature;
 
 public class TestDatabase {
+	CreateDBTables createTables = new CreateDBTables();
 	
 	@Test
 	public void testTempDao() {
