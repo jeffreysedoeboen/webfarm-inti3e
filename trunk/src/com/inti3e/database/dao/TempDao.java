@@ -12,7 +12,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.inti3e.database.DBmanager;
-import com.inti3e.model.LightSensor;
 import com.inti3e.model.Temperature;
 
 public class TempDao {
@@ -168,9 +167,9 @@ public class TempDao {
 
 			temps = getDateBetweenHours(time1, time2, date1, date2, tempArray);
 		} catch (SQLException se) {
-			printSQLException(se) ;		
+			printSQLException(se);
 		} 
-		return temps;
+		return filterTempList(temps);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -223,5 +222,67 @@ public class TempDao {
 		}
 		temperatureArray.removeAll(removeTemperatures);
 		return temperatureArray;
+	}
+	
+	private ArrayList<Temperature> filterTempList(ArrayList<Temperature> temps) {
+		ArrayList<Temperature> temperatures = null;
+		if (temps.size() > 25) {
+			temperatures = new ArrayList<Temperature>();
+			Temperature firstValue = temps.get(0);
+			Temperature lastValue = temps.get(temps.size()-6);
+			long amountOfSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),
+														lastValue.getDate(),lastValue.getTime());
+			long avgSeconds = amountOfSeconds/20;
+			long currentSeconds = avgSeconds;
+			ArrayList<Temperature> tempTemps = new ArrayList<Temperature>();
+			for (Temperature t : temps) {
+				long diffSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),t.getDate(),t.getTime());
+				if (diffSeconds > currentSeconds || t == temps.get(temps.size()-1)) {
+					Temperature firstTempValue = tempTemps.get(0);
+					double avgValue = 0;
+					for (Temperature tempT : tempTemps) {
+						avgValue += Integer.parseInt(tempT.getTemp());
+					}
+					avgValue /= tempTemps.size();
+					if (tempTemps.size() > 0) {
+						temperatures.add(new Temperature(firstTempValue.getDate(), 
+								firstTempValue.getTime(), ""+Math.round(avgValue)));
+					}
+					tempTemps.clear();
+					currentSeconds += avgSeconds;
+				}
+				tempTemps.add(t);
+			}
+			
+			temperatures.addAll(temps.subList(temps.size()-6, temps.size()));
+		} else {
+			temperatures = temps;
+		}
+		return temperatures;
+	}
+	
+	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
+		String[] splittedTime1 = time1.split(":");
+		int hour1 	= Integer.parseInt(splittedTime1[0]);
+		int minute1 = Integer.parseInt(splittedTime1[1]);
+		int second1 = Integer.parseInt(splittedTime1[2]);
+		String[] splittedTime2 = time2.split(":");
+		int hour2 	= Integer.parseInt(splittedTime2[0]);
+		int minute2 = Integer.parseInt(splittedTime2[1]);
+		int second2 = Integer.parseInt(splittedTime2[2]);
+		
+		int time1Seconds = hour1*3600+minute1*60+second1;
+		int time2Seconds = hour2*3600+minute2*60+second2;
+		
+		long amountOfSeconds = time2Seconds-time1Seconds;
+		
+		int date1Days = date1.getDate()+date1.getMonth()*30+date1.getYear()*365;
+		int date2Days = date2.getDate()+date2.getMonth()*30+date2.getYear()*365;
+		
+		int amountOfDays = date2Days-date1Days;
+		
+		amountOfSeconds += amountOfDays*86400;
+		
+		return amountOfSeconds;
 	}
 }
