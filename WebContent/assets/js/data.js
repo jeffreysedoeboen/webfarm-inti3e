@@ -185,7 +185,7 @@ function drawTempChart(json) {
 			yaxis:{
 				label: "Temperature(&deg;C)",
 				min:-10,
-				max:100
+				max:50
 			},
 			xaxis: {
 				autoscale:true,
@@ -295,7 +295,7 @@ function drawHumidityChart(json) {
 			yaxis:{
 				label: "Humidity(%)",
 				min:-10,
-				max:100
+				max:50
 			},
 			xaxis: {
 				autoscale:true,
@@ -394,23 +394,23 @@ function drawDoorChart(json) {
 		tempArray2[0] = [ changeDateFormat(date) + "/" + time, 0 ];
 	} else {
 		for (var i = 0; i < json.door.length; i++) {
-			var invertedValueSet = new Array();
+//			var invertedValueSet = new Array();
 			var valueSet = new Array();
 
-			var testtime = json.door[i].time.split(":");
-			var test = parseInt(testtime[2])-1;
-			if (test < 0) { test = 0; }
-			invertedValueSet[0] = json.door[i].date + "/" + testtime[0]+":"+testtime[1]+":"+test;//json.door[i].time;
-			if (i-1 >= 0) {
-				if (json.door[i-1].door == 1) {
-					invertedValueSet[1] = 1;
-				} else {
-					invertedValueSet[1] = 0;
-				}
-			}
+//			var testtime = json.door[i].time.split(":");
+//			var test = parseInt(testtime[2])-1;
+//			if (test < 0) { test = 0; }
+//			invertedValueSet[0] = json.door[i].date + "/" + testtime[0]+":"+testtime[1]+":"+test;//json.door[i].time;
+//			if (i-1 >= 0) {
+//				if (json.door[i-1].door == 1) {
+//					invertedValueSet[1] = 1;
+//				} else {
+//					invertedValueSet[1] = 0;
+//				}
+//			}
 			valueSet[0] = json.door[i].date + "/" + json.door[i].time;
 			valueSet[1] = json.door[i].door;
-			tempArray2[i*2] = invertedValueSet;
+//			tempArray2[i*2] = invertedValueSet;
 			tempArray2[i*2+1] = valueSet;
 		}
 	}

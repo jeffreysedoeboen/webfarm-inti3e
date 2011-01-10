@@ -131,7 +131,7 @@ public class HumidityDao {
 		return humids;
 	}
 	public ArrayList<Humidity> getHumiditysBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
-		ArrayList<Humidity> temps = new ArrayList<Humidity>();
+		ArrayList<Humidity> humids = new ArrayList<Humidity>();
 		ArrayList<Humidity> tempArray = new ArrayList<Humidity>();
 		System.out.println("From: " + dateFormat1);
 		System.out.println("To: " + dateFormat2);
@@ -165,11 +165,11 @@ public class HumidityDao {
 				tempArray.add(humidity);
 			}
 
-			temps = getDateBetweenHours(time1, time2, date1, date2, tempArray);
+			humids = getDateBetweenHours(time1, time2, date1, date2, tempArray);
 		} catch (SQLException se) {
 			printSQLException(se) ;		
 		} 
-		return temps;
+		return filterHumidityList(humids);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -222,5 +222,67 @@ public class HumidityDao {
 		}
 		humidityArray.removeAll(removeHumiditys);
 		return humidityArray;
+	}
+	
+	private ArrayList<Humidity> filterHumidityList(ArrayList<Humidity> humids) {
+		ArrayList<Humidity> humiditys = null;
+		if (humids.size() > 25) {
+			humiditys = new ArrayList<Humidity>();
+			Humidity firstValue = humids.get(0);
+			Humidity lastValue = humids.get(humids.size()-6);
+			long amountOfSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),
+														lastValue.getDate(),lastValue.getTime());
+			long avgSeconds = amountOfSeconds/20;
+			long currentSeconds = avgSeconds;
+			ArrayList<Humidity> tempHumiditys = new ArrayList<Humidity>();
+			for (Humidity t : humids) {
+				long diffSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),t.getDate(),t.getTime());
+				if (diffSeconds > currentSeconds || t == humids.get(humids.size()-1)) {
+					Humidity firstHumidityValue = tempHumiditys.get(0);
+					double avgValue = 0;
+					for (Humidity tempT : tempHumiditys) {
+						avgValue += tempT.getHumidity();
+					}
+					avgValue /= tempHumiditys.size();
+					if (tempHumiditys.size() > 0) {
+						humiditys.add(new Humidity(firstHumidityValue.getDate(), 
+								firstHumidityValue.getTime(), (int)Math.round(avgValue)));
+					}
+					tempHumiditys.clear();
+					currentSeconds += avgSeconds;
+				}
+				tempHumiditys.add(t);
+			}
+			
+			humiditys.addAll(humids.subList(humids.size()-6, humids.size()));
+		} else {
+			humiditys = humids;
+		}
+		return humiditys;
+	}
+	
+	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
+		String[] splittedTime1 = time1.split(":");
+		int hour1 	= Integer.parseInt(splittedTime1[0]);
+		int minute1 = Integer.parseInt(splittedTime1[1]);
+		int second1 = Integer.parseInt(splittedTime1[2]);
+		String[] splittedTime2 = time2.split(":");
+		int hour2 	= Integer.parseInt(splittedTime2[0]);
+		int minute2 = Integer.parseInt(splittedTime2[1]);
+		int second2 = Integer.parseInt(splittedTime2[2]);
+		
+		int time1Seconds = hour1*3600+minute1*60+second1;
+		int time2Seconds = hour2*3600+minute2*60+second2;
+		
+		long amountOfSeconds = time2Seconds-time1Seconds;
+		
+		int date1Days = date1.getDate()+date1.getMonth()*30+date1.getYear()*365;
+		int date2Days = date2.getDate()+date2.getMonth()*30+date2.getYear()*365;
+		
+		int amountOfDays = date2Days-date1Days;
+		
+		amountOfSeconds += amountOfDays*86400;
+		
+		return amountOfSeconds;
 	}
 }
