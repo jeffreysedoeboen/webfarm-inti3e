@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.inti3e.database.DBmanager;
+import com.inti3e.model.LightSensor;
 import com.inti3e.model.Temperature;
 
 public class TempDao {
@@ -44,7 +45,16 @@ public class TempDao {
 			printSQLException(se) ;
 		}
 	}
-
+	
+	public String getCurrentTemp() {
+		Temperature t = null;
+		ArrayList<Temperature> tempMeasures = getAllTemps();
+		if (tempMeasures.size() >= 1) {
+			t = tempMeasures.get(tempMeasures.size()-1);
+		}
+		return t.getTemp();
+	}
+	
 	public ArrayList<Temperature> getAllTemps(){
 		ArrayList<Temperature> temps = new ArrayList<Temperature>();
 		try {
