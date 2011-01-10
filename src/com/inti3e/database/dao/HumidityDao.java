@@ -13,6 +13,7 @@ import java.util.GregorianCalendar;
 
 import com.inti3e.database.DBmanager;
 import com.inti3e.model.Humidity;
+import com.inti3e.model.Temperature;
 
 
 public class HumidityDao {
@@ -43,6 +44,15 @@ public class HumidityDao {
 		catch(SQLException se) {
 			printSQLException(se) ;
 		}
+	}
+	
+	public int getCurrentHumidity() {
+		Humidity h = null;
+		ArrayList<Humidity> humidMeasures = getAllHumids();
+		if (humidMeasures.size() >= 1) {
+			h = humidMeasures.get(humidMeasures.size()-1);
+		}
+		return h.getHumidity();
 	}
 
 	public ArrayList<Humidity> getAllHumids(){
