@@ -13,6 +13,7 @@ import java.util.GregorianCalendar;
 
 import com.inti3e.database.DBmanager;
 import com.inti3e.model.Door;
+import com.inti3e.model.LightSensor;
 
 
 public class DoorDao {
@@ -42,6 +43,17 @@ public class DoorDao {
 		catch(SQLException se) {
 			printSQLException(se) ;
 		}
+	}
+	
+	public boolean getCurrentDoor() {
+		ArrayList<Door> doorMessures = getAllDoors();
+		if (doorMessures.size() >= 1) {
+			Door d = doorMessures.get(doorMessures.size()-1);
+			if(d.getDoor() == 1) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public ArrayList<Door> getAllDoors(){
