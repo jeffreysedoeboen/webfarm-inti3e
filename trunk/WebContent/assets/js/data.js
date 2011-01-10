@@ -6,7 +6,8 @@ var resetGraph = 5;
 
 $(document).ready(function(){
 	createAllTables();
-	setInterval("autoupdate()", 5000);
+	autoupdate();
+	setInterval("autoupdate()", 10000);
 });
 
 function autoupdate() {
@@ -14,7 +15,21 @@ function autoupdate() {
 	updateHumidity();
 	updateDoor();
 	updateLight();
+	updateCurrentStats();
 	lowerResetGraph();
+}
+
+function updateCurrentStats() {
+	$.getJSON("CurrentServlet.do", function(json) {
+		var currentstats = document.getElementById("currentstats");
+		currentstats.innerHTML = "";
+		var light = "<p>Light is " + json.Light + "</p>";
+		var temperature = "<p>Temperature: " + json.Temperature + "</p>";
+		var humidity = "<p>Humidity: " + json.Humidity + "</p>";
+		var door = "<p>Door is " + json.Door + "</p>";
+		
+		currentstats.innerHTML = "<div align='center'>" + light + temperature + humidity + door + "</div>";
+			});
 }
 
 function lowerResetGraph() {
@@ -45,9 +60,10 @@ function hit(page) {
 	}
 }
 
-
 function getVidListByDate() {
-	var date1 = document.getElementById("date_vidplayback");
+	alert("start");
+	var date1 = document.getElementById("date_vidplayback").value;
+	alert(date1);
 	$.getJSON("VideoServlet.do?id=playback&date1="+date1, function(json) {
 		fillPlaybackTable(json);
 	});
@@ -56,23 +72,25 @@ function getVidListByDate() {
 function fillPlaybackTable(json) {
 	var table = document.getElementById("playback_table_body");
 	table.innerHTML = "";
-	
-		for (var i = 0; i < json.temp.length; i++) {
+		for (var i = 0; i < json.Files.length; i++) {
 			var trElem = document.createElement("tr");
 			var tdVideo = document.createElement("td");
 
 			tdVideo.setAttribute('align','center');
-		
-			tdVideo.innerHTML = changeDateFormat(json.video[i].name);
-		
+
+			tdVideo.innerHTML += json.Files[i];
 			trElem.appendChild(tdVideo);
 			table.appendChild(trElem);
 		}
 }
 
 function showPlayer(name) {
+	alert("in showPlayer");
 	var player = document.getElementById("videoplayer");
-	player.innerHTML = "<a href='" + name + "'	style='display:block;width:425px;height:300px;'	id='player'></a>";
+	
+	var html = "<applet code='com.fluendo.player.Cortado.class' archive='cortado.jar' width='352' height='288'><param name='url' value='C:/Users/Dennis/Desktop/RecordedVideos/" + name + "'/><param name='seekable' value='true'/><param name='live' value='false'/><param name='video' value='true'/><param name='audio' value='false'/><param name='bufferLow' value='0'/><param name='bufferHigh' value='1'/><param name='bufferSize' value='200'/></applet>";
+	
+	player.innerHTML = html;
 }
 
 
