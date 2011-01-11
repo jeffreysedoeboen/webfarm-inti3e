@@ -137,7 +137,7 @@ public class LightSensorDao {
 	public ArrayList<LightSensor> getLightsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		ArrayList<LightSensor> lights = new ArrayList<LightSensor>();
 		ArrayList<LightSensor> lightArray = new ArrayList<LightSensor>();
-		System.out.println(dateFormat1+" / "+dateFormat2);
+		
 		String[] splittedDate1 = dateFormat1.split("-");
 		int day1 	= Integer.parseInt(splittedDate1[0]);
 		int month1 	= Integer.parseInt(splittedDate1[1]);
@@ -158,7 +158,6 @@ public class LightSensorDao {
 		try {
 			psGetLightBetween.setDate(1, date1);
 			psGetLightBetween.setDate(2, date2);
-			System.out.println(date1.toGMTString() + " / " + date2.toGMTString() + " <> " + time1 + " / " + time2);
 			ResultSet rs = psGetLightBetween.executeQuery();
 			while (rs.next()){
 				Date date 	= rs.getDate(1);

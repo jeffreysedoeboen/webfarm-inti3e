@@ -54,7 +54,6 @@ public class Analytics extends HttpServlet {
 		// create hit
 		if (page != null) {
 			analyticsDAO.createHit(id, request.getRemoteAddr(), user.getId(), page);
-			System.out.println(page);
 		}
 		
 		BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);  

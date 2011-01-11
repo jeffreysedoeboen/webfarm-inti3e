@@ -37,7 +37,6 @@ public class Statistics extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		System.out.println(json.toString());
 		response.getWriter().print(json.toString());
 	}
 

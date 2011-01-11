@@ -111,7 +111,6 @@ public class DoorDao {
 	public ArrayList<Door> getDoorsOfDate(String dateFormat){
 		ArrayList<Door> doors = new ArrayList<Door>();
 		if(dateFormat != null) {
-			System.out.println(dateFormat);
 			String[] splittedDateFormat = dateFormat.split("-");
 			int year 	= Integer.parseInt(splittedDateFormat[2]);
 			int month 	= Integer.parseInt(splittedDateFormat[1]);
@@ -140,7 +139,6 @@ public class DoorDao {
 	public ArrayList<Door> getDoorsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		ArrayList<Door> doors = new ArrayList<Door>();
 		ArrayList<Door> doorArray = new ArrayList<Door>();
-		System.out.println(dateFormat1+" / "+dateFormat2);
 		String[] splittedDate1 = dateFormat1.split("-");
 		int day1 	= Integer.parseInt(splittedDate1[0]);
 		int month1 	= Integer.parseInt(splittedDate1[1]);
@@ -161,7 +159,6 @@ public class DoorDao {
 		try {
 			psGetDoorBetween.setDate(1, date1);
 			psGetDoorBetween.setDate(2, date2);
-			System.out.println(date1.toGMTString() + " / " + date2.toGMTString() + " <> " + time1 + " / " + time2);
 			ResultSet rs = psGetDoorBetween.executeQuery();
 			while (rs.next()){
 				Date date 	= rs.getDate(1);
