@@ -110,6 +110,10 @@ public class DoorDao {
 	//TODO NOT USED
 	public ArrayList<Door> getDoorsOfDate(String dateFormat){
 		ArrayList<Door> doors = new ArrayList<Door>();
+		
+		//asserts
+		assert(dateFormat != null);
+		
 		if(dateFormat != null) {
 			String[] splittedDateFormat = dateFormat.split("-");
 			int year 	= Integer.parseInt(splittedDateFormat[2]);
@@ -137,6 +141,12 @@ public class DoorDao {
 	
 	
 	public ArrayList<Door> getDoorsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
+		//asserts
+		assert(dateFormat1 != null);
+		assert(time1 != null);
+		assert(dateFormat2 != null);
+		assert(time2 != null);
+		
 		ArrayList<Door> doors = new ArrayList<Door>();
 		ArrayList<Door> doorArray = new ArrayList<Door>();
 		String[] splittedDate1 = dateFormat1.split("-");
@@ -177,6 +187,11 @@ public class DoorDao {
 
 	@SuppressWarnings("unchecked")
 	private ArrayList<Door> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Door> doorArray) {
+		//asserts
+		assert(time1 != null);
+		assert(time2 != null);
+		assert(doorArray != null);
+		
 		String[] splittedTime1 = time1.split(":");
 		String[] splittedTime2 = time2.split(":");
 		int hour1 = Integer.parseInt(splittedTime1[0]);
