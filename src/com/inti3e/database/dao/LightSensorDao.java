@@ -110,6 +110,10 @@ public class LightSensorDao {
 
 	//TODO NOT USED
 	public ArrayList<LightSensor> getLightsOfDate(String dateFormat){
+		
+		//asserts
+		assert(dateFormat != null);
+		
 		ArrayList<LightSensor> lights = new ArrayList<LightSensor>();
 		String[] splittedDateFormat = dateFormat.split("-");
 		int year 	= Integer.parseInt(splittedDateFormat[2]);
@@ -135,6 +139,13 @@ public class LightSensorDao {
 	}
 	
 	public ArrayList<LightSensor> getLightsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
+		
+		//asserts
+		assert(dateFormat1 != null);
+		assert(time1 != null);
+		assert(dateFormat2 != null);
+		assert(time2 != null);
+		
 		ArrayList<LightSensor> lights = new ArrayList<LightSensor>();
 		ArrayList<LightSensor> lightArray = new ArrayList<LightSensor>();
 		
@@ -176,6 +187,12 @@ public class LightSensorDao {
 
 	@SuppressWarnings("unchecked")
 	private ArrayList<LightSensor> getLightBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<LightSensor> lightArray) {
+		
+		//asserts
+		assert(time1 != null);
+		assert(time2 != null);
+		assert(lightArray != null);
+		
 		String[] splittedTime1 = time1.split(":");
 		String[] splittedTime2 = time2.split(":");
 		int hour1 = Integer.parseInt(splittedTime1[0]);
