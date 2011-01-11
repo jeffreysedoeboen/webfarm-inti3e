@@ -93,4 +93,24 @@
     <servlet-name>VideoServlet</servlet-name>
     <url-pattern>/VideoServlet.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CurrentServlet</display-name>
+    <servlet-name>CurrentServlet</servlet-name>
+    <servlet-class>com.inti3e.web.CurrentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CurrentServlet</servlet-name>
+    <url-pattern>/CurrentServlet.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoveServlet</display-name>
+    <servlet-name>RemoveServlet</servlet-name>
+    <servlet-class>com.inti3e.web.RemoveServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveServlet</servlet-name>
+    <url-pattern>/RemoveServlet.do</url-pattern>
+  </servlet-mapping>
 </web-app>

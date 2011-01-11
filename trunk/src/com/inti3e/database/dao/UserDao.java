@@ -15,10 +15,12 @@ public class UserDao {
 	
 	private String sqlGetAllUsers		= "SELECT ID, NAME, PASSWORD FROM APP.USERS ORDER BY ID ASC";
 	private String sqlNewUser 			= "INSERT INTO APP.USERS (\"NAME\", \"PASSWORD\" ) VALUES (?,?)";
+	private String sqlRemoveUser		= "DELETE FROM APP.USERS WHERE NAME=?";
 
 	private Connection        con      = null ;
 	private PreparedStatement psGetAllUsers = null ;
 	private PreparedStatement psNewUser = null;
+	private PreparedStatement psRemoveUser = null;
 	
 
 	public UserDao(){
@@ -29,6 +31,7 @@ public class UserDao {
 
 			this.psGetAllUsers   = con.prepareStatement(sqlGetAllUsers);
 			this.psNewUser 		 = con.prepareStatement(sqlNewUser);
+			this.psRemoveUser	 = con.prepareStatement(sqlRemoveUser);
 
 		} catch(SQLException se) {
 			printSQLException(se) ;
@@ -58,6 +61,16 @@ public class UserDao {
 			psNewUser.setString(1, name);
 			psNewUser.setString(2, password);
 			psNewUser.executeUpdate();
+		} catch (SQLException se) {
+			printSQLException(se) ;
+		}
+	}
+	
+	public void removeUser(String name) {
+		try {
+			psRemoveUser.clearParameters();
+			psRemoveUser.setString(1, name);
+			psRemoveUser.executeUpdate();
 		} catch (SQLException se) {
 			printSQLException(se) ;
 		}

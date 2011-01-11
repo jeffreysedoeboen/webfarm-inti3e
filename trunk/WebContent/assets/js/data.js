@@ -19,6 +19,7 @@ function autoupdate() {
 	lowerResetGraph();
 }
 
+
 function updateCurrentStats() {
 	$.getJSON("CurrentServlet.do", function(json) {
 		var currentstats = document.getElementById("currentstats");
@@ -61,9 +62,7 @@ function hit(page) {
 }
 
 function getVidListByDate() {
-	alert("start");
 	var date1 = document.getElementById("date_vidplayback").value;
-	alert(date1);
 	$.getJSON("VideoServlet.do?id=playback&date1="+date1, function(json) {
 		fillPlaybackTable(json);
 	});
@@ -85,7 +84,6 @@ function fillPlaybackTable(json) {
 }
 
 function showPlayer(name) {
-	alert("in showPlayer");
 	var player = document.getElementById("videoplayer");
 	
 	var html = "<applet code='com.fluendo.player.Cortado.class' archive='cortado.jar' width='352' height='288'><param name='url' value='C:/Users/Dennis/Desktop/RecordedVideos/" + name + "'/><param name='seekable' value='true'/><param name='live' value='false'/><param name='video' value='true'/><param name='audio' value='false'/><param name='bufferLow' value='0'/><param name='bufferHigh' value='1'/><param name='bufferSize' value='200'/></applet>";
@@ -93,6 +91,26 @@ function showPlayer(name) {
 	player.innerHTML = html;
 }
 
+
+function fillAccountsTable() {
+	$.getJSON("DateServlet.do?id=users", function(json) {
+	var table = document.getElementById("user_table_body");
+		table.innerHTML = "";
+		for (var i = 0; i < json.users.length; i++) {
+			var name = json.users[i];
+			table.innerHTML += "<tr><td align='center'>" + name + "</td><td align='center'><a href='#' onclick='removeUser(\"" + name + "\");'>X</a></td></div>";	
+		}
+	});
+}
+
+function removeUser(name) {
+	alert("removeUser");
+	alert("Naam: " + name);
+	$.getJSON("RemoveServlet.do?delete=" + name + "", function(json) {
+
+	fillAccountsTable();
+	});
+}
 
 function getTempByDate(date1, date2, time1, time2) {
 	$.getJSON("DateServlet.do?id=temp&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {

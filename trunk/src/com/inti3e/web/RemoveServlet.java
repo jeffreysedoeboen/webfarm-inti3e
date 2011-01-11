@@ -1,24 +1,26 @@
 package com.inti3e.web;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import com.inti3e.model.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.inti3e.database.dao.UserDao;
 
 /**
- * Servlet implementation class RedirectServlet
+ * Servlet implementation class RemoveServlet
  */
-public class RedirectServlet extends HttpServlet {
+public class RemoveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public RedirectServlet() {
+    public RemoveServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,15 +29,19 @@ public class RedirectServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String ip = request.getRemoteAddr();
-
-		ip = "192.168.2.";
-		if(ip.startsWith("192.168.2.") || ip.startsWith("192.168.0.")) {
-			session.setAttribute("user", new User(0, "admin", "admin", true));
-			response.sendRedirect("mainpage.jsp");
-		} else {
-			response.sendRedirect("inlogpage.jsp");
+		System.out.println("in remove servlet");
+		String user = request.getParameter("delete");
+		System.out.println(user);
+		UserDao userDao = new UserDao();
+		
+		userDao.removeUser(user);
+		
+		JSONObject json = new JSONObject();
+		
+		try {
+			json.put("ok", true);
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -43,6 +49,7 @@ public class RedirectServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("in remove servlet2");
 		// TODO Auto-generated method stub
 	}
 
