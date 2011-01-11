@@ -56,6 +56,9 @@ public class UserDao {
 	}
 	
 	public void addNewUser(String name, String password){
+		//asserts
+		assert (name != null);
+		assert (password != null);
 		try {
 			psNewUser.clearParameters();
 			psNewUser.setString(1, name);
@@ -67,6 +70,8 @@ public class UserDao {
 	}
 	
 	public void removeUser(String name) {
+		//asserts
+		assert (name != null);
 		try {
 			psRemoveUser.clearParameters();
 			psRemoveUser.setString(1, name);
