@@ -30,7 +30,7 @@ public class RemoveServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String user = request.getParameter("delete");
-		
+	
 		//asserts
 		assert (user != null);
 		
