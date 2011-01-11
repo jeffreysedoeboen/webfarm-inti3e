@@ -35,6 +35,9 @@ public class VideoServlet extends HttpServlet {
 
 		String date = request.getParameter("date1");
 		
+		//asserts
+		assert (date !=null);
+		
 		File file = new File("C:/Users/Dennis/Desktop/RecordedVideos");
 		if(file != null) {
 			File[] files = file.listFiles();

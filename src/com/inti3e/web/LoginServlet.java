@@ -39,6 +39,12 @@ public class LoginServlet extends HttpServlet {
 		String password = UserHelper.string2md5(request.getParameter("passwordLogin"));
 		UserDao userdao = new UserDao();
 		ArrayList<User> users = userdao.getAllUsers();
+		
+		//asserts
+		assert (name != null);
+		assert (password != null);
+		assert (users != null);
+		
 		for (User u : users){
 			if (u.getName().equals(name)){
 				if (u.getPassword().equals(password)){
@@ -62,6 +68,11 @@ public class LoginServlet extends HttpServlet {
 		String nickname = request.getParameter("usernameCreate");
 		String password = request.getParameter("passwordCreate");
 		String repassword = request.getParameter("repasswordCreate");
+		
+		//asserts
+		assert (nickname != null);
+		assert (password != null);
+		assert (repassword != null);
 		
 		if (userDAO.nameIsAvailable(nickname)) {
 			session.setAttribute("errors", "Error: Username is not available.");
