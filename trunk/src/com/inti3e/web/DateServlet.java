@@ -47,6 +47,12 @@ public class DateServlet extends HttpServlet {
 		String time1 = request.getParameter("time1");
 		String time2 = request.getParameter("time2");
 		
+		//asserts
+		assert(date1 != null);
+		assert(date2 != null);
+		assert(time1 != null);
+		assert(time2 != null);
+		
 		JSONObject json = new JSONObject();
 		
 		if(type.equals("humidity")) {

@@ -36,6 +36,10 @@ public class LightServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String param = request.getParameter("param");
+		
+		//asserts
+		assert(param != null);
+		
 		if (param != null) {
 			if (param.equals("state")) {
 				LightSensorDao lsd = new LightSensorDao();
