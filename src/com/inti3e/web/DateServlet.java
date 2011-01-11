@@ -15,10 +15,12 @@ import com.inti3e.database.dao.DoorDao;
 import com.inti3e.database.dao.HumidityDao;
 import com.inti3e.database.dao.LightSensorDao;
 import com.inti3e.database.dao.TempDao;
+import com.inti3e.database.dao.UserDao;
 import com.inti3e.model.Door;
 import com.inti3e.model.Humidity;
 import com.inti3e.model.LightSensor;
 import com.inti3e.model.Temperature;
+import com.inti3e.model.User;
 
 
 /**
@@ -77,10 +79,24 @@ public class DateServlet extends HttpServlet {
 			}
 		} else if(type.equals("light")) {
 			LightSensorDao lightDao = new LightSensorDao();
-			ArrayList<LightSensor> light = lightDao.getLightsBetweenDates(date1, time1, date2, time2);//TODO .getLightsOfDate(date1);
+			ArrayList<LightSensor> light = lightDao.getLightsBetweenDates(date1, time1, date2, time2);
 			
 			try {
 				json.put("light", light);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} else if(type.equals("users")) {
+			UserDao userDao = new UserDao();
+			ArrayList<User> users = userDao.getAllUsers();
+			ArrayList<String> names = new ArrayList<String>();
+			
+			for(User u: users) {
+				names.add(u.getName());//Dit om te voorkomen dat de wachtwoorden ook worden meegestuurd.
+			}
+			
+			try {
+				json.put("users", names);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

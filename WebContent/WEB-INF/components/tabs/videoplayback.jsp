@@ -25,19 +25,22 @@ align="left" width="50%" bgcolor="#222222">
 			<th>Video:</th>
 		</tr>
 	</thead>
-	<tbody id="playback_table_body"><tr><td><a onclick="playback">2-1-2011/12:00</a></td></tr><tr><td>3-1-2011/14:00</td></tr><tr><td>6-1-2011/17:00</td></tr></tbody>
+	<tbody id="playback_table_body"></tbody>
 </table>
 </div>
 <div style="width:70%; margin-left: 30%;">
 <div id="videoplayer">
-<a href="http://localhost:8088"
-	style="display:block;width:425px;height:300px;"
-	id="player">
-</a>
+<applet code="com.fluendo.player.Cortado.class" archive="cortado.jar" width="352" height="288">
+  <param name="url" value=""/>
+  <param name="seekable" value="false"/>
+  <param name="live" value="true"/>
+  <param name="video" value="true"/>
+  <param name="audio" value="false"/>
+  <param name="bufferLow" value="0"/>
+  <param name="bufferHigh" value="1"/>
+  <param name="bufferSize" value="200"/>
+</applet>
 </div>
-<script language="JavaScript" type="text/javascript">
-flowplayer("player", "assets/flashplayer/flowplayer-3.2.5.swf");
-</script>
 </div>
 </div>
 <br><br><br><br><br><br><br>

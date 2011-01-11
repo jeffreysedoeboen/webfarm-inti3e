@@ -34,18 +34,14 @@ public class VideoServlet extends HttpServlet {
 		JSONObject json = new JSONObject();
 
 		String date = request.getParameter("date1");
-		System.out.println(date);
 		
 		File file = new File("C:/Users/Dennis/Desktop/RecordedVideos");
-		System.out.println("File = " + file);
 		if(file != null) {
 			File[] files = file.listFiles();
 			
 			if (files != null) {
 				for(File f: files) {
-					System.out.println("File names: " + f.getName());
 					if(f.getName().startsWith(date)) {
-						System.out.println("f.getName(): " + f.getName());
 						tableFiles.add("<a href=\"#\" onclick=\"showPlayer('" + f.getName() + "')\">" + f.getName() + "</a>");
 					}
 				}

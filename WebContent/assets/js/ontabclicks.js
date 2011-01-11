@@ -53,6 +53,12 @@ function onCreateTabClick() {
 	document.getElementById("datepick").style.display='none';
 }
 
+function onManageAccountsTabClick() {
+	hit('Manage Accounts');
+	fillAccountsTable();
+	document.getElementById("datepick").style.display='none';
+}
+
 function onStatsTabClick() {
 	document.getElementById("datepick").style.display='none';
 }

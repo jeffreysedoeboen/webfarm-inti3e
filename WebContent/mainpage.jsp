@@ -36,18 +36,19 @@
 		<c:if test="${user != null}">
 			<li><a onclick="onLiveTabClick();" href="#tabs-2">Live stream</a></li>
 			<li><a onclick="onPlayTabClick();" href="#tabs-3">Video playback</a></li>
-			<li><a onclick="onUserstatsTabClick();" href="#tabs-12">User Statistics</a></li>
+			<li><a onclick="onUserstatsTabClick();" href="#tabs-4">User Statistics</a></li>
 			<c:if test="${user.admin}">
-				<li><a onclick="onTempTabClick();" href="#tabs-4">Temperature</a></li>
-				<li><a onclick="onHumidTabClick();" href="#tabs-5">Air humidity</a></li>
-				<li><a onclick="onIllumTabClick();" href="#tabs-6">Illumination</a></li>
-				<li><a onclick="onDoorTabClick();" href="#tabs-7">Door</a></li>
-				<li><a onclick="onSwitchTabClick();" href="#tabs-8">Light switch</a></li>
-				<li><a onclick="onCreateTabClick();" href="#tabs-9">Create account</a></li>
-				<li><a onclick="onStatsTabClick();" href="#tabs-10">Statistics</a></li>
+				<li><a onclick="onTempTabClick();" href="#tabs-5">Temperature</a></li>
+				<li><a onclick="onHumidTabClick();" href="#tabs-6">Air humidity</a></li>
+				<li><a onclick="onIllumTabClick();" href="#tabs-7">Illumination</a></li>
+				<li><a onclick="onDoorTabClick();" href="#tabs-8">Door</a></li>
+				<li><a onclick="onSwitchTabClick();" href="#tabs-9">Light switch</a></li>
+				<li><a onclick="onCreateTabClick();" href="#tabs-10">Create account</a></li>
+				<li><a onclick="onManageAccountsTabClick();" href="#tabs-11">Manage accounts</a></li>
+				<li><a onclick="onStatsTabClick();" href="#tabs-12">Statistics</a></li>
 			</c:if>
 		</c:if>
-		<li><a onclick="onSourcesTabClick();" href="#tabs-11">Sources</a></li>
+		<li><a onclick="onSourcesTabClick();" href="#tabs-13">Sources</a></li>
 	</ul>
 	<div id="datepick" style="display:none" align="center"><jsp:include page="/WEB-INF/components/datepick.jsp" /></div>
 	<div id="tabs-1">
@@ -64,26 +65,28 @@
 	</div>
 	<div id="tabs-3"><jsp:include page="/WEB-INF/components/tabs/videoplayback.jsp" />
 	</div>
-	<div id="tabs-12"><jsp:include page="/WEB-INF/components/tabs/statistics-user.jsp" />
+	<div id="tabs-4"><jsp:include page="/WEB-INF/components/tabs/statistics-user.jsp" />
 	</div>
 	<c:if test="${user.admin}">
-	<div id="tabs-4"><jsp:include page="/WEB-INF/components/tabs/temperature.jsp" />
+	<div id="tabs-5"><jsp:include page="/WEB-INF/components/tabs/temperature.jsp" />
 	</div>
-	<div id="tabs-5"><jsp:include page="/WEB-INF/components/tabs/airhumidity.jsp" />
+	<div id="tabs-6"><jsp:include page="/WEB-INF/components/tabs/airhumidity.jsp" />
 	</div>
-	<div id="tabs-6"><jsp:include page="/WEB-INF/components/tabs/illumination.jsp" />
+	<div id="tabs-7"><jsp:include page="/WEB-INF/components/tabs/illumination.jsp" />
 	</div>
-	<div id="tabs-7"><jsp:include page="/WEB-INF/components/tabs/door.jsp" />
+	<div id="tabs-8"><jsp:include page="/WEB-INF/components/tabs/door.jsp" />
 	</div>
-	<div id="tabs-8"><jsp:include page="/WEB-INF/components/tabs/lightswitch.jsp" />
+	<div id="tabs-9"><jsp:include page="/WEB-INF/components/tabs/lightswitch.jsp" />
 	</div>
-	<div id="tabs-9"><jsp:include page="/WEB-INF/components/tabs/createaccount.jsp" />
+	<div id="tabs-10"><jsp:include page="/WEB-INF/components/tabs/createaccount.jsp" />
 	</div>
-	<div id="tabs-10"><jsp:include page="/WEB-INF/components/tabs/statistics.jsp" />
+	<div id="tabs-11"><jsp:include page="/WEB-INF/components/tabs/manageaccounts.jsp" />
+	</div>
+	<div id="tabs-12"><jsp:include page="/WEB-INF/components/tabs/statistics.jsp" />
 	</div>
 	</c:if>
 	</c:if>
-	<div id="tabs-11">
+	<div id="tabs-13">
 	<h1 align="center">The sources we used:</h1>
 	<h2 align="center">Firewall &amp; OS</h2>
 		<p align="center">* <a href="http://www.smoothwall.org">SmoothWall</a></p>
