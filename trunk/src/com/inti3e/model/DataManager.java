@@ -11,6 +11,7 @@ import com.inti3e.database.dao.LightSensorDao;
 import com.inti3e.database.dao.SwitchDao;
 import com.inti3e.database.dao.MovementDao;
 import com.inti3e.database.dao.TempDao;
+import com.inti3e.model.webcam.MovementManager;
 
 public class DataManager extends Thread {
 	private static DataManager uniqueInstance = null;
@@ -18,8 +19,23 @@ public class DataManager extends Thread {
 	private ServerSocket welcomeSocket = null;
 	private Socket socket;
 	private int outPut = 0;
+	private MovementManager movementManager;
+	
+	private DoorDao dd;
+	private SwitchDao lsd;
+	private MovementDao md;
+	private LightSensorDao ld;
+	private HumidityDao hd;
+	private TempDao td;
 
 	private DataManager() {
+		dd = new DoorDao();
+		lsd = new SwitchDao();
+		md = new MovementDao();
+		ld = new LightSensorDao();
+		hd = new HumidityDao();
+		td = new TempDao();
+		
 		socket = null;
 	}
 	
@@ -86,28 +102,27 @@ public class DataManager extends Thread {
 				switch (in) {
 					case ('D'):
 						System.out.println("Deur");
-					boolean door;
-					if(value.equals("1")) {
-						door = true;
-					} else {
-						door = false;
-					}
-					DoorDao dd = new DoorDao();
-					dd.addNewDoor(door);
-
-					break;
+						boolean door;
+						if(value.equals("1")) {
+							door = true;
+						} else {
+							door = false;
+						}
+						dd.addNewDoor(door);
+						break;
 					case ('B'):
 						System.out.println("Movement");
-					boolean movement;
-					if(value.equals("1")) {
-						movement = true;
-					} else {
-						movement = false;
-					}
-					System.out.println(movement);
-					MovementDao md = new MovementDao();
-					md.addNewMovement(movement);
-					break;
+						boolean movement;
+						if(value.equals("1")) {
+							movement = true;
+							movementManager.startRecording();
+						} else {
+							movement = false;
+							movementManager.stopRecording();
+						}
+						System.out.println(movement);
+						md.addNewMovement(movement);
+						break;
 					case ('S'):
 						System.out.println("Switch");
 						boolean manualSwitch;
@@ -116,9 +131,8 @@ public class DataManager extends Thread {
 						} else {
 							manualSwitch = false;
 						}
-						SwitchDao lsd = new SwitchDao();
 						lsd.addNewLightSwitch(manualSwitch);
-					break;
+						break;
 					case ('L'):
 						System.out.println("Lightsensor");
 						boolean lightSensor;
@@ -127,17 +141,14 @@ public class DataManager extends Thread {
 						} else {
 							lightSensor = false;
 						}
-						LightSensorDao ld = new LightSensorDao();
 						ld.addNewLight(lightSensor);
-					break;
+						break;
 					case ('T'):
-						TempDao td = new TempDao();
 						td.addNewTemp(value);
-					break;
+						break;
 					case ('H'):
-						HumidityDao hd = new HumidityDao();
 						hd.addNewHumidity(Integer.parseInt(value));
-					break;
+						break;
 				}
 			}
 		} catch (IOException e) {
