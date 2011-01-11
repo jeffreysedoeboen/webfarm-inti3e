@@ -59,6 +59,7 @@ public class UserDao {
 		//asserts
 		assert (name != null);
 		assert (password != null);
+		
 		try {
 			psNewUser.clearParameters();
 			psNewUser.setString(1, name);
@@ -72,6 +73,7 @@ public class UserDao {
 	public void removeUser(String name) {
 		//asserts
 		assert (name != null);
+		
 		try {
 			psRemoveUser.clearParameters();
 			psRemoveUser.setString(1, name);
@@ -93,6 +95,10 @@ public class UserDao {
 	}
 
 	public boolean nameIsAvailable(String nickname) {
+		
+		//asserts
+		assert(nickname != null);
+		
 		boolean doesexists = false;
 		ArrayList<User> allUsers = getAllUsers();
 		for(User s: allUsers) {
