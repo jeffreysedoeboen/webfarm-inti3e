@@ -72,6 +72,9 @@ public class TempDao {
 	}
 
 	public void addNewTemp(String temperature){
+		//asserts
+		assert (temperature != null);
+		
 		String tempHour = "";
 		String tempMin = "";
 		String tempSec = "";
@@ -106,6 +109,9 @@ public class TempDao {
 	}
 
 	public ArrayList<Temperature> getTempsOfDate(String dateFormat){
+		//asserts
+		assert (dateFormat != null);
+		
 		ArrayList<Temperature> temps = new ArrayList<Temperature>();
 		String[] splittedDateFormat = dateFormat.split("-");
 		int year 	= Integer.parseInt(splittedDateFormat[2]);
@@ -131,6 +137,12 @@ public class TempDao {
 	}
 
 	public ArrayList<Temperature> getTempsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
+		//asserts
+		assert (time1 != null);
+		assert (time2 != null);
+		assert (dateFormat1 != null);
+		assert (dateFormat2 != null);
+		
 		ArrayList<Temperature> temps = new ArrayList<Temperature>();
 		ArrayList<Temperature> tempArray = new ArrayList<Temperature>();
 		String[] splittedDate1 = dateFormat1.split("-");
@@ -172,6 +184,11 @@ public class TempDao {
 
 	@SuppressWarnings("unchecked")
 	private ArrayList<Temperature> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Temperature> temperatureArray) {
+		//asserts
+		assert (time1 != null);
+		assert (time2 != null);
+		assert (temperatureArray != null);
+		
 		String[] splittedTime1 = time1.split(":");
 		String[] splittedTime2 = time2.split(":");
 		int hour1 = Integer.parseInt(splittedTime1[0]);
@@ -223,6 +240,9 @@ public class TempDao {
 	}
 	
 	private ArrayList<Temperature> filterTempList(ArrayList<Temperature> temps) {
+		//asserts
+		assert (temps != null);
+		
 		ArrayList<Temperature> temperatures = null;
 		if (temps.size() > 25) {
 			temperatures = new ArrayList<Temperature>();
@@ -260,6 +280,10 @@ public class TempDao {
 	}
 	
 	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
+		//asserts
+		assert (time1 != null);
+		assert (time2 != null);
+		
 		String[] splittedTime1 = time1.split(":");
 		int hour1 	= Integer.parseInt(splittedTime1[0]);
 		int minute1 = Integer.parseInt(splittedTime1[1]);
