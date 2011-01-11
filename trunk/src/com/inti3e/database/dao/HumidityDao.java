@@ -107,6 +107,9 @@ public class HumidityDao {
 	}
 
 	public ArrayList<Humidity> getHumidsOfDate(String dateFormat){
+		//asserts
+		assert(dateFormat != null);
+		
 		ArrayList<Humidity> humids = new ArrayList<Humidity>();
 		String[] splittedDateFormat = dateFormat.split("-");
 		int year 	= Integer.parseInt(splittedDateFormat[0]);
@@ -131,6 +134,13 @@ public class HumidityDao {
 		return humids;
 	}
 	public ArrayList<Humidity> getHumiditysBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
+		
+		//asserts
+		assert(dateFormat1 != null);
+		assert(time1 != null);
+		assert(dateFormat2 != null);
+		assert(time2 != null);
+		
 		ArrayList<Humidity> humids = new ArrayList<Humidity>();
 		ArrayList<Humidity> tempArray = new ArrayList<Humidity>();
 		String[] splittedDate1 = dateFormat1.split("-");
@@ -172,6 +182,12 @@ public class HumidityDao {
 
 	@SuppressWarnings("unchecked")
 	private ArrayList<Humidity> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Humidity> humidityArray) {
+		
+		//asserts
+		assert(time1 != null);
+		assert(time2 != null);
+		assert(humidityArray != null);
+		
 		String[] splittedTime1 = time1.split(":");
 		String[] splittedTime2 = time2.split(":");
 		int hour1 = Integer.parseInt(splittedTime1[0]);
@@ -223,6 +239,10 @@ public class HumidityDao {
 	}
 	
 	private ArrayList<Humidity> filterHumidityList(ArrayList<Humidity> humids) {
+		
+		//asserts
+		assert(humids != null);
+		
 		ArrayList<Humidity> humiditys = null;
 		if (humids.size() > 25) {
 			humiditys = new ArrayList<Humidity>();
@@ -260,6 +280,11 @@ public class HumidityDao {
 	}
 	
 	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
+		
+		//asserts
+		assert(time1 != null);
+		assert(time2 != null);
+		
 		String[] splittedTime1 = time1.split(":");
 		int hour1 	= Integer.parseInt(splittedTime1[0]);
 		int minute1 = Integer.parseInt(splittedTime1[1]);
