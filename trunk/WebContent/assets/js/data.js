@@ -104,8 +104,6 @@ function fillAccountsTable() {
 }
 
 function removeUser(name) {
-	alert("removeUser");
-	alert("Naam: " + name);
 	$.getJSON("RemoveServlet.do?delete=" + name + "", function(json) {
 
 	fillAccountsTable();
