@@ -63,7 +63,6 @@ public class HitsDAO {
 	
 	public ArrayList<PageHit> getPagesByIp(String ip) {
 		ArrayList<PageHit> pageHits = new ArrayList<PageHit>();
-		System.out.println(ip);
 		try {
 			psGetPagesByIp.setString(1, ip);
 			

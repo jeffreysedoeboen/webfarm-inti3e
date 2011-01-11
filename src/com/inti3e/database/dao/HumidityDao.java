@@ -133,8 +133,6 @@ public class HumidityDao {
 	public ArrayList<Humidity> getHumiditysBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		ArrayList<Humidity> humids = new ArrayList<Humidity>();
 		ArrayList<Humidity> tempArray = new ArrayList<Humidity>();
-		System.out.println("From: " + dateFormat1);
-		System.out.println("To: " + dateFormat2);
 		String[] splittedDate1 = dateFormat1.split("-");
 		int year1 	= Integer.parseInt(splittedDate1[2]);
 		int month1 	= Integer.parseInt(splittedDate1[1]);
