@@ -27,11 +27,18 @@ public class RecordServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
-	/**
+    
+    /**
+     * It puts the current state of recording
+     * 
+     * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
+
 		JSONObject json = new JSONObject();
 		
 		try {
@@ -41,8 +48,14 @@ public class RecordServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 /**
+     * Start/Stop recording.
+     * 
+     * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String record = request.getParameter("record");

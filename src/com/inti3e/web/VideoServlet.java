@@ -35,7 +35,9 @@ public class VideoServlet extends HttpServlet {
 	}
 
 	/**
-	 * Do get.
+	 * Get date
+	 * Check file names in folder with date
+	 * Files found put in json object
 	 *
 	 * @param request the request
 	 * @param response the response
@@ -61,7 +63,7 @@ public class VideoServlet extends HttpServlet {
 		String newDate = year + "-" + month + "-" + day;
 		
 		
-		File file = new File("C:/Users/Dennis/Desktop/RecordedVideos");
+		File file = new File("C:/Users/Dennis/Desktop/RecordedVideos");//Path to the recorded files
 		if(file != null) {
 			File[] files = file.listFiles();
 			
@@ -82,7 +84,7 @@ public class VideoServlet extends HttpServlet {
 	}
 
 	/**
-	 * Do post.
+	 * NOT USED
 	 *
 	 * @param request the request
 	 * @param response the response
