@@ -29,18 +29,6 @@ align="left" width="50%" bgcolor="#222222">
 </table>
 </div>
 <div style="width:70%; margin-left: 30%;">
-<div id="videoplayer">
-<applet code="com.fluendo.player.Cortado.class" archive="cortado.jar" width="352" height="288">
-  <param name="url" value=""/>
-  <param name="seekable" value="false"/>
-  <param name="live" value="true"/>
-  <param name="video" value="true"/>
-  <param name="audio" value="false"/>
-  <param name="bufferLow" value="0"/>
-  <param name="bufferHigh" value="1"/>
-  <param name="bufferSize" value="200"/>
-</applet>
-</div>
 </div>
 </div>
 <br><br><br><br><br><br><br>

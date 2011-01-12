@@ -613,11 +613,10 @@ function getStatistics() {
 		for(var i = 0; i < pages.length; i++) {
 			var pageHTML = "<tr><td>";
 			pageHTML += pages[i].page;
-			pageHTML += "</td><td>";
+			pageHTML += "</td><td style='text-align:center'>";
 			pageHTML += pages[i].hits;
 			pageHTML += 'X</td></tr>';
 			statsTableBody.innerHTML += pageHTML;
 		}
 	});
-	
 }
