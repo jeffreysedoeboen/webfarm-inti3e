@@ -32,11 +32,20 @@ public class VideoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<String> tableFiles = new ArrayList<String>();
 		JSONObject json = new JSONObject();
-
+		
 		String date = request.getParameter("date1");
 		
 		//asserts
 		assert (date !=null);
+		
+		String[] splittedDate = date.split("-");
+		
+		String day = splittedDate[0];
+		String month = splittedDate[1];
+		String year = splittedDate[2];
+		
+		String newDate = year + "-" + month + "-" + day;
+		
 		
 		File file = new File("C:/Users/Dennis/Desktop/RecordedVideos");
 		if(file != null) {
@@ -44,7 +53,7 @@ public class VideoServlet extends HttpServlet {
 			
 			if (files != null) {
 				for(File f: files) {
-					if(f.getName().startsWith(date)) {
+					if(f.getName().startsWith(newDate)) {
 						tableFiles.add("<a href=\"#\" onclick=\"showPlayer('" + f.getName() + "')\">" + f.getName() + "</a>");
 					}
 				}
