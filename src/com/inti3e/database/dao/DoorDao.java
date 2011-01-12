@@ -14,6 +14,7 @@ import java.util.GregorianCalendar;
 import com.inti3e.database.DBmanager;
 import com.inti3e.model.Door;
 import com.inti3e.model.LightSensor;
+import com.inti3e.model.Temperature;
 
 
 public class DoorDao {
@@ -182,7 +183,8 @@ public class DoorDao {
 		} catch (SQLException se) {
 			printSQLException(se) ;		
 		} 
-		return doors;
+		return filterDoorList(doors);
+		//return doors;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -240,5 +242,91 @@ public class DoorDao {
 		}
 		doorArray.removeAll(removeDoors);
 		return doorArray;
+	}
+	
+	private ArrayList<Door> filterDoorList(ArrayList<Door> doors) {
+		ArrayList<Door> removeDoors = new ArrayList<Door>();
+		if (doors.size() > 0) {
+			int open = -1;
+			for (Door d : doors) {
+				if (open == d.getDoor()) {
+					removeDoors.add(d);
+				}
+				open = d.getDoor();
+			}
+			doors.removeAll(removeDoors);
+			
+			if (doors.size() > 25) {
+				ArrayList<Door> filteredDoors = new ArrayList<Door>();
+				
+				Door firstValue = doors.get(0);
+				Door lastValue = doors.get(doors.size()-6);
+				long amountOfSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),
+															lastValue.getDate(),lastValue.getTime());
+				long avgSeconds = amountOfSeconds/20;
+				long currentSeconds = avgSeconds;
+				
+				Door firstBlockDoor = doors.get(0), betweenBlockDoor = null, lastBlockDoor = null;
+				for (Door d : doors.subList(0, doors.size()-5)) {
+					long diffSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),d.getDate(),d.getTime());
+					if (diffSeconds > currentSeconds || d == doors.get(doors.size()-6)) {
+						if (filteredDoors.size() == 0 || firstBlockDoor != null && 
+								firstBlockDoor.getDoor() != filteredDoors.get(filteredDoors.size()-1).getDoor()) {
+							filteredDoors.add(firstBlockDoor);
+						}
+						if (betweenBlockDoor != null && 
+								betweenBlockDoor.getDoor() != filteredDoors.get(filteredDoors.size()-1).getDoor()) {
+							filteredDoors.add(betweenBlockDoor);
+						}
+						if (lastBlockDoor != null && 
+								lastBlockDoor.getDoor() != filteredDoors.get(filteredDoors.size()-1).getDoor()) {
+							filteredDoors.add(lastBlockDoor);
+						}
+						
+						firstBlockDoor = d;
+						betweenBlockDoor = null;
+						lastBlockDoor = null;
+						currentSeconds += avgSeconds;
+					} else {
+						if (betweenBlockDoor == null && firstBlockDoor.getDoor() != d.getDoor()) {
+							betweenBlockDoor = d;
+						}
+						lastBlockDoor = d;
+					}
+				}
+				
+				if (filteredDoors.get(filteredDoors.size()-1).getDoor() != doors.get(doors.size()-6).getDoor()) {
+					filteredDoors.add(doors.get(doors.size()-6));
+				}
+				filteredDoors.addAll(doors.subList(doors.size()-5, doors.size()));
+				doors = filteredDoors;
+			}
+		}
+		return doors;
+	}
+	
+	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
+		String[] splittedTime1 = time1.split(":");
+		int hour1 	= Integer.parseInt(splittedTime1[0]);
+		int minute1 = Integer.parseInt(splittedTime1[1]);
+		int second1 = Integer.parseInt(splittedTime1[2]);
+		String[] splittedTime2 = time2.split(":");
+		int hour2 	= Integer.parseInt(splittedTime2[0]);
+		int minute2 = Integer.parseInt(splittedTime2[1]);
+		int second2 = Integer.parseInt(splittedTime2[2]);
+		
+		int time1Seconds = hour1*3600+minute1*60+second1;
+		int time2Seconds = hour2*3600+minute2*60+second2;
+		
+		long amountOfSeconds = time2Seconds-time1Seconds;
+		
+		int date1Days = date1.getDate()+date1.getMonth()*30+date1.getYear()*365;
+		int date2Days = date2.getDate()+date2.getMonth()*30+date2.getYear()*365;
+		
+		int amountOfDays = date2Days-date1Days;
+		
+		amountOfSeconds += amountOfDays*86400;
+		
+		return amountOfSeconds;
 	}
 }

@@ -310,8 +310,8 @@ function drawHumidityChart(json) {
 		axes:{
 			yaxis:{
 				label: "Humidity(%)",
-				min:-10,
-				max:50
+				min:0,
+				max:100
 			},
 			xaxis: {
 				autoscale:true,
@@ -410,27 +410,29 @@ function drawDoorChart(json) {
 		tempArray2[0] = [ changeDateFormat(date) + "/" + time, 0 ];
 	} else {
 		for (var i = 0; i < json.door.length; i++) {
-//			var invertedValueSet = new Array();
+			var invertedValueSet = new Array();
 			var valueSet = new Array();
-
-//			var testtime = json.door[i].time.split(":");
-//			var test = parseInt(testtime[2])-1;
-//			if (test < 0) { test = 0; }
-//			invertedValueSet[0] = json.door[i].date + "/" + testtime[0]+":"+testtime[1]+":"+test;//json.door[i].time;
-//			if (i-1 >= 0) {
-//				if (json.door[i-1].door == 1) {
-//					invertedValueSet[1] = 1;
-//				} else {
-//					invertedValueSet[1] = 0;
-//				}
-//			}
+			
+			invertedValueSet[0] = json.door[i].time;
+			if (i > 0) {
+				if (json.door[i-1].door == 1) {
+					invertedValueSet[1] = 0;
+				} else {
+					invertedValueSet[1] = 1;
+				}
+			}
 			valueSet[0] = json.door[i].date + "/" + json.door[i].time;
 			valueSet[1] = json.door[i].door;
-//			tempArray2[i*2] = invertedValueSet;
+			tempArray2[i*2] = invertedValueSet;
 			tempArray2[i*2+1] = valueSet;
 		}
 	}
 	tempArray[0] = tempArray2;
+	
+	var date1 = document.getElementById("date_pick1").value;
+	var date2 = document.getElementById("date_pick2").value;
+	var time1 = document.getElementById("pick_hour1").value + ":" + document.getElementById("pick_minutes1").value + ":00";
+	var time2 = document.getElementById("pick_hour2").value + ":" + document.getElementById("pick_minutes2").value + ":00";
 	
 	var plot = document.getElementById("doordiv");
 	if (resetGraph <= 0) { plot.innerHTML = ""; }
@@ -440,8 +442,8 @@ function drawDoorChart(json) {
 		axes:{
 			yaxis:{
 				label: "State(0/1)",
-				min:-1,
-				max:2
+				min:-0.5,
+				max:1.5
 			},
 			xaxis: {
 				autoscale:true,
@@ -538,10 +540,23 @@ function drawLightChart(json) {
 		tempArray2[0] = [ changeDateFormat(date) + "/" + time, 0 ];
 	} else {
 		for (var i = 0; i < json.light.length; i++) {
+			var invertedValueSet = new Array();
 			var valueSet = new Array();
+
+			invertedValueSet[0] = json.light[i].time;
+			if (i > 0) {
+				if (json.light[i-1].light == "1") {
+					invertedValueSet[1] = 0;
+				} else {
+					invertedValueSet[1] = 1;
+				}
+			}
+		
 			valueSet[0] = json.light[i].date + "/" + json.light[i].time;
 			valueSet[1] = json.light[i].light;
-			tempArray2[i] = valueSet;
+
+			tempArray2[i*2] = invertedValueSet;
+			tempArray2[i*2+1] = valueSet;
 		}
 	}
 	tempArray[0] = tempArray2;
@@ -554,8 +569,8 @@ function drawLightChart(json) {
 		axes:{
 			yaxis:{
 				label: "State(0/1)",
-				min:-1,
-				max:2
+				min:-0.5,
+				max:1.5
 			},
 			xaxis: {
 				autoscale:true,

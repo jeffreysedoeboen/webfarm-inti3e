@@ -52,7 +52,21 @@ public class LightServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 				response.getWriter().print(json.toString());
-			} else if (param.equals("turn")) {
+			}
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String param = request.getParameter("param");
+		
+		//asserts
+		assert(param != null);
+		
+		if (param != null) {
+			if (param.equals("turn")) {
 				String light = request.getParameter("light");
 				if (light != null) {
 					if(light.equals("on")) {
@@ -64,12 +78,4 @@ public class LightServlet extends HttpServlet {
 			}
 		}
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
 }

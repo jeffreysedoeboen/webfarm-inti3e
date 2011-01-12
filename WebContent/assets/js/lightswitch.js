@@ -1,4 +1,5 @@
 var iTimeoutId;
+var lightButtonIsPressed = false;
 
 $(document).ready(function(){
 	getLightState();
@@ -7,13 +8,11 @@ $(document).ready(function(){
 
 function getLightState() {
 	$.getJSON("LightServlet.do?param=state", function(json) {
-		changeLightSwitchPage(json);
+		changeLightSwitchPage(json.lightOn);
 	});
 }
 
-function changeLightSwitchPage(json) {
-	var lightOn = json.lightOn;
-	
+function changeLightSwitchPage(lightOn) {
 	var status = document.getElementById("lightstatus");
 	var message = document.getElementById("lightmessage");
 	var button = document.getElementById("lightbutton");
@@ -32,12 +31,36 @@ function changeLightSwitchPage(json) {
 
 
 function turnLight(value) {
-	window.location.href = "LightServlet.do?param=turn&light="+value;
+	if (!lightButtonIsPressed) {
+		lightButtonIsPressed = true;
+		lightButtonTimeout = setTimeout("resetLightButtonPress()", 3000);
+		
+		xmlhttp = getXMLHTTPRequest();
+		xmlhttp.open("POST","LightServlet.do?param=turn&light="+value);
+		xmlhttp.send();
+		
+		var lightOn = (value == "on");
+		changeLightSwitchPage(lightOn);
+	}
+}
+
+function getXMLHTTPRequest() {
+	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	} else { // code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	return xmlhttp;
+}
+
+
+function resetLightButtonPress() {
+	lightButtonIsPressed = false;
 }
 
 
 function singleClick(value) {
-	iTimeoutId = setTimeout("turnLight('"+value+"')", 250);
+	iTimeoutId = setTimeout("turnLight('"+value+"')", 500);
 }
 
 function doubleClick(value) {

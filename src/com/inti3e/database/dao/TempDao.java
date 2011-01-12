@@ -253,9 +253,9 @@ public class TempDao {
 			long avgSeconds = amountOfSeconds/20;
 			long currentSeconds = avgSeconds;
 			ArrayList<Temperature> tempTemps = new ArrayList<Temperature>();
-			for (Temperature t : temps) {
+			for (Temperature t : temps.subList(0, temps.size()-5)) {
 				long diffSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),t.getDate(),t.getTime());
-				if (diffSeconds > currentSeconds || t == temps.get(temps.size()-1)) {
+				if (diffSeconds > currentSeconds || t == temps.get(temps.size()-6)) {
 					Temperature firstTempValue = tempTemps.get(0);
 					double avgValue = 0;
 					for (Temperature tempT : tempTemps) {
