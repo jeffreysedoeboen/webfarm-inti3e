@@ -302,15 +302,15 @@ public class LightSensorDao {
 					long diffSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),l.getDate(),l.getTime());
 					if (diffSeconds > currentSeconds || l == lights.get(lights.size()-6)) {
 						if (filteredLights.size() == 0 || firstBlockLight != null && 
-								firstBlockLight.getLight() != filteredLights.get(filteredLights.size()-1).getLight()) {
+								!firstBlockLight.getLight().equals(filteredLights.get(filteredLights.size()-1).getLight())) {
 							filteredLights.add(firstBlockLight);
 						}
 						if (betweenBlockLight != null && 
-								betweenBlockLight.getLight() != filteredLights.get(filteredLights.size()-1).getLight()) {
+								!betweenBlockLight.getLight().equals(filteredLights.get(filteredLights.size()-1).getLight())) {
 							filteredLights.add(betweenBlockLight);
 						}
 						if (lastBlockLight != null && 
-								lastBlockLight.getLight() != filteredLights.get(filteredLights.size()-1).getLight()) {
+								!lastBlockLight.getLight().equals(filteredLights.get(filteredLights.size()-1).getLight())) {
 							filteredLights.add(lastBlockLight);
 						}
 						
@@ -319,14 +319,14 @@ public class LightSensorDao {
 						lastBlockLight = null;
 						currentSeconds += avgSeconds;
 					} else {
-						if (betweenBlockLight == null && firstBlockLight.getLight() != l.getLight()) {
+						if (betweenBlockLight == null && !firstBlockLight.getLight().equals(l.getLight())) {
 							betweenBlockLight = l;
 						}
 						lastBlockLight = l;
 					}
 				}
 				
-				if (filteredLights.get(filteredLights.size()-1).getLight() != lights.get(lights.size()-6).getLight()) {
+				if (!filteredLights.get(filteredLights.size()-1).getLight().equals(lights.get(lights.size()-6).getLight())) {
 					filteredLights.add(lights.get(lights.size()-6));
 				}
 				filteredLights.addAll(lights.subList(lights.size()-5, lights.size()));

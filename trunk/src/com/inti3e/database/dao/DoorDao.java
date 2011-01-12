@@ -195,7 +195,6 @@ public class DoorDao {
 			printSQLException(se) ;		
 		} 
 		return filterDoorList(doors);
-		//return doors;
 	}
 
 	/**
