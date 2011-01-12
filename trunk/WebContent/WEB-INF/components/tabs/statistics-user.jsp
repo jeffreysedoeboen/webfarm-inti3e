@@ -27,7 +27,7 @@ height:400px;
 border:5px;
 background-color:#000000;
 overflow:auto;">
-<table style="border:3px #363636 solid"
+<table style="border:3px #363636 solid;"
 align="center" width="40%" bgcolor="#222222">
 	<thead>
 		<tr>
