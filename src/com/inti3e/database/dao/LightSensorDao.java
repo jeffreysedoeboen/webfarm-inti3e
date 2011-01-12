@@ -1,36 +1,53 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:19:39
+ */
 package com.inti3e.database.dao;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.inti3e.database.DBmanager;
-import com.inti3e.model.Door;
 import com.inti3e.model.LightSensor;
 
-
+/**
+ * The Class LightSensorDao.
+ */
 public class LightSensorDao {
 
 
+	/** The sql get all lights. */
 	private String sqlGetAllLights		= "SELECT date, time, light FROM APP.LIGHTSENSOR ORDER BY date,time ASC";
+	
+	/** The sql new light. */
 	private String sqlNewLight 			= "INSERT INTO APP.LIGHTSENSOR (\"DATE\", \"TIME\", \"LIGHT\" ) VALUES (?,?,?)";
-	private String sqlGetLightOfDate	= "SELECT time, light FROM APP.LIGHTSENSOR WHERE date=?";
+	
+	/** The sql get light between. */
 	private String sqlGetLightBetween	= "SELECT date,time,light FROM APP.LIGHTSENSOR WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 	
+	/** The con. */
 	private Connection        con      = null ;
+	
+	/** The ps get all lights. */
 	private PreparedStatement psGetAllLights = null ;
+	
+	/** The ps new light. */
 	private PreparedStatement psNewLight = null;
-	private PreparedStatement psGetLightOfDate = null;
+	
+	/** The ps get light between. */
 	private PreparedStatement psGetLightBetween = null;
 
 
+	/**
+	 * Instantiates a new light sensor dao.
+	 */
 	public LightSensorDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -39,7 +56,6 @@ public class LightSensorDao {
 
 			this.psGetAllLights   	= con.prepareStatement(sqlGetAllLights);
 			this.psNewLight		  	= con.prepareStatement(sqlNewLight);
-			this.psGetLightOfDate 	= con.prepareStatement(sqlGetLightOfDate);
 			this.psGetLightBetween 	= con.prepareStatement(sqlGetLightBetween);	
 
 		} catch(SQLException se) {
@@ -47,6 +63,11 @@ public class LightSensorDao {
 		}
 	}
 	
+	/**
+	 * Gets the light on.
+	 *
+	 * @return the light on
+	 */
 	public boolean getLightOn() {
 		ArrayList<LightSensor> lightMessures = getAllLights();
 		if (lightMessures.size() >= 1) {
@@ -58,6 +79,11 @@ public class LightSensorDao {
 		return false;
 	}
 
+	/**
+	 * Gets the all lights.
+	 *
+	 * @return the all lights
+	 */
 	public ArrayList<LightSensor> getAllLights(){
 		ArrayList<LightSensor> lightSensors = new ArrayList<LightSensor>();
 		try {
@@ -75,6 +101,11 @@ public class LightSensorDao {
 		return lightSensors;
 	}
 
+	/**
+	 * Adds the new light.
+	 *
+	 * @param light the light
+	 */
 	public void addNewLight(boolean light) {
 		String lightHour = "";
 		String lightMin = "";
@@ -98,6 +129,11 @@ public class LightSensorDao {
 		}
 	}
 
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
 
@@ -108,37 +144,16 @@ public class LightSensorDao {
 			se = se.getNextException();
 		}
 	}
-
-	//TODO NOT USED
-	public ArrayList<LightSensor> getLightsOfDate(String dateFormat){
-		
-		//asserts
-		assert(dateFormat != null);
-		
-		ArrayList<LightSensor> lights = new ArrayList<LightSensor>();
-		String[] splittedDateFormat = dateFormat.split("-");
-		int year 	= Integer.parseInt(splittedDateFormat[2]);
-		int month 	= Integer.parseInt(splittedDateFormat[1]);
-		int day 	= Integer.parseInt(splittedDateFormat[0]);
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.set(year, month - 1, day);
-		Date date = new Date(gc.getTimeInMillis());
-		try {
-			psGetLightOfDate.setDate(1, date);
-			
-			ResultSet rs = psGetLightOfDate.executeQuery();
-			while (rs.next()){
-				String time = rs.getString(1);
-				String lightState = rs.getString(2);
-				LightSensor light = new LightSensor(date, time, lightState);
-				lights.add(light);
-			}
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return lights;
-	}
 	
+	/**
+	 * Gets the lights between dates.
+	 *
+	 * @param dateFormat1 the date format1
+	 * @param time1 the time1
+	 * @param dateFormat2 the date format2
+	 * @param time2 the time2
+	 * @return the lights between dates
+	 */
 	public ArrayList<LightSensor> getLightsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		
 		//asserts
@@ -186,7 +201,17 @@ public class LightSensorDao {
 		return lights;
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Gets the light between hours.
+	 *
+	 * @param time1 the time1
+	 * @param time2 the time2
+	 * @param date1 the date1
+	 * @param date2 the date2
+	 * @param lightArray the light array
+	 * @return the light between hours
+	 */
+	@SuppressWarnings("deprecation")
 	private ArrayList<LightSensor> getLightBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<LightSensor> lightArray) {
 		
 		//asserts
@@ -244,6 +269,12 @@ public class LightSensorDao {
 		return filterLightList(lightArray);
 	}
 	
+	/**
+	 * Filter light list.
+	 *
+	 * @param lights the lights
+	 * @return the array list
+	 */
 	private ArrayList<LightSensor> filterLightList(ArrayList<LightSensor> lights) {
 		ArrayList<LightSensor> removeLights = new ArrayList<LightSensor>();
 		if (lights.size() > 0) {
@@ -305,6 +336,16 @@ public class LightSensorDao {
 		return lights;
 	}
 	
+	/**
+	 * Gets the amount of seconds.
+	 *
+	 * @param date1 the date1
+	 * @param time1 the time1
+	 * @param date2 the date2
+	 * @param time2 the time2
+	 * @return the amount of seconds
+	 */
+	@SuppressWarnings("deprecation")
 	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
 		String[] splittedTime1 = time1.split(":");
 		int hour1 	= Integer.parseInt(splittedTime1[0]);

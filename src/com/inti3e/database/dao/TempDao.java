@@ -1,12 +1,15 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:21:05
+ */
 package com.inti3e.database.dao;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -14,21 +17,43 @@ import java.util.GregorianCalendar;
 import com.inti3e.database.DBmanager;
 import com.inti3e.model.Temperature;
 
+/**
+ * The Class TempDao.
+ */
 public class TempDao {
 
 
+	/** The sql get all temps. */
 	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp ORDER BY date,time ASC";
+	
+	/** The sql new temp. */
 	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE\", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
+	
+	/** The sql get temp of date. */
 	private String sqlGetTempOfDate		= "SELECT time, temp FROM APP.Temp WHERE date=?";
+	
+	/** The sql get temp between. */
 	private String sqlGetTempBetween	= "SELECT date,time, temp FROM APP.Temp WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 
+	/** The con. */
 	private Connection        con      = null ;
+	
+	/** The ps get all temps. */
 	private PreparedStatement psGetAllTemps = null ;
+	
+	/** The ps new temp. */
 	private PreparedStatement psNewTemp = null;
+	
+	/** The ps get temp of date. */
 	private PreparedStatement psGetTempOfDate = null;
+	
+	/** The ps get temp between. */
 	private PreparedStatement psGetTempBetween = null;
 
 
+	/**
+	 * Instantiates a new temp dao.
+	 */
 	public TempDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -45,6 +70,11 @@ public class TempDao {
 		}
 	}
 	
+	/**
+	 * Gets the current temp.
+	 *
+	 * @return the current temp
+	 */
 	public String getCurrentTemp() {
 		Temperature t = null;
 		ArrayList<Temperature> tempMeasures = getAllTemps();
@@ -54,6 +84,11 @@ public class TempDao {
 		return t.getTemp();
 	}
 	
+	/**
+	 * Gets the all temps.
+	 *
+	 * @return the all temps
+	 */
 	public ArrayList<Temperature> getAllTemps(){
 		ArrayList<Temperature> temps = new ArrayList<Temperature>();
 		try {
@@ -71,6 +106,11 @@ public class TempDao {
 		return temps;
 	}
 
+	/**
+	 * Adds the new temp.
+	 *
+	 * @param temperature the temperature
+	 */
 	public void addNewTemp(String temperature){
 		//asserts
 		assert (temperature != null);
@@ -97,6 +137,11 @@ public class TempDao {
 		}
 	}
 
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
 
@@ -108,6 +153,12 @@ public class TempDao {
 		}
 	}
 
+	/**
+	 * Gets the temps of date.
+	 *
+	 * @param dateFormat the date format
+	 * @return the temps of date
+	 */
 	public ArrayList<Temperature> getTempsOfDate(String dateFormat){
 		//asserts
 		assert (dateFormat != null);
@@ -136,6 +187,15 @@ public class TempDao {
 		return temps;
 	}
 
+	/**
+	 * Gets the temps between dates.
+	 *
+	 * @param dateFormat1 the date format1
+	 * @param time1 the time1
+	 * @param dateFormat2 the date format2
+	 * @param time2 the time2
+	 * @return the temps between dates
+	 */
 	public ArrayList<Temperature> getTempsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		//asserts
 		assert (time1 != null);
@@ -182,7 +242,17 @@ public class TempDao {
 		return filterTempList(temps);
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Gets the date between hours.
+	 *
+	 * @param time1 the time1
+	 * @param time2 the time2
+	 * @param date1 the date1
+	 * @param date2 the date2
+	 * @param temperatureArray the temperature array
+	 * @return the date between hours
+	 */
+	@SuppressWarnings("deprecation")
 	private ArrayList<Temperature> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Temperature> temperatureArray) {
 		//asserts
 		assert (time1 != null);
@@ -239,6 +309,12 @@ public class TempDao {
 		return temperatureArray;
 	}
 	
+	/**
+	 * Filter temp list.
+	 *
+	 * @param temps the temps
+	 * @return the array list
+	 */
 	private ArrayList<Temperature> filterTempList(ArrayList<Temperature> temps) {
 		//asserts
 		assert (temps != null);
@@ -279,6 +355,16 @@ public class TempDao {
 		return temperatures;
 	}
 	
+	/**
+	 * Gets the amount of seconds.
+	 *
+	 * @param date1 the date1
+	 * @param time1 the time1
+	 * @param date2 the date2
+	 * @param time2 the time2
+	 * @return the amount of seconds
+	 */
+	@SuppressWarnings("deprecation")
 	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
 		//asserts
 		assert (time1 != null);

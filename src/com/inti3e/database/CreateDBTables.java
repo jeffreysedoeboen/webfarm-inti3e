@@ -1,7 +1,7 @@
 /*
- * Project: pestenmarcobart
- * Created By: Marco Beierer and Bart Toersche
- * Created At: 2-dec-2010 22:39:37
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:21:55
  */
 package com.inti3e.database;
 

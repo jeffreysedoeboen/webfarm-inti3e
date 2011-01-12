@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:11:26
+ */
 package com.analytics.data;
 
 import java.sql.Connection;
@@ -9,16 +14,35 @@ import java.util.ArrayList;
 
 import com.analytics.data.DBmanager;
 
+/**
+ * The Class AnalyticsDAO.
+ */
 public class AnalyticsDAO {
+	
+	/** The sql create visit. */
 	private String sqlCreateVisit = "INSERT INTO APP.visits (website_id, ip, user_id, browser, language, date) VALUES (?, ?, ?, ?, ?, ?)";
+	
+	/** The sql create hit. */
 	private String sqlCreateHit = "INSERT INTO APP.hits (website_id, ip, user_id, page, date) VALUES (?, ?, ?, ?, ?)";
+	
+	/** The sql select id. */
 	private String sqlSelectId = "SELECT id FROM APP.websites WHERE website = ?";
 
+	/** The con. */
 	private Connection con = null;
+	
+	/** The ps create visit. */
 	private PreparedStatement psCreateVisit = null;
+	
+	/** The ps create hit. */
 	private PreparedStatement psCreateHit = null;
+	
+	/** The ps select id. */
 	private PreparedStatement psSelectId = null;
 	
+	/**
+	 * Instantiates a new analytics dao.
+	 */
 	public AnalyticsDAO() {
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -33,6 +57,9 @@ public class AnalyticsDAO {
 		}
 	}
 	
+	/**
+	 * Creates the table.
+	 */
 	private void createTable() {
 		try {
 			//get the table listing
@@ -48,6 +75,15 @@ public class AnalyticsDAO {
 		
 	}
 	
+	/**
+	 * Creates the visit.
+	 *
+	 * @param websiteId the website id
+	 * @param ip the ip
+	 * @param userId the user id
+	 * @param browser the browser
+	 * @param language the language
+	 */
 	public void createVisit(int websiteId, String ip, int userId, String browser, String language) {
 		try {
 			psCreateVisit.clearParameters();
@@ -69,6 +105,14 @@ public class AnalyticsDAO {
 		}
 	}
 	
+	/**
+	 * Creates the hit.
+	 *
+	 * @param websiteId the website id
+	 * @param ip the ip
+	 * @param userId the user id
+	 * @param page the page
+	 */
 	public void createHit(int websiteId, String ip, int userId, String page) {
 		try {
 			psCreateHit.clearParameters();
@@ -89,6 +133,12 @@ public class AnalyticsDAO {
 		}
 	}
 	
+	/**
+	 * Gets the website id.
+	 *
+	 * @param website the website
+	 * @return the website id
+	 */
 	@SuppressWarnings("unused")
 	private int getWebsiteId(String website) {
 		try {
@@ -106,6 +156,11 @@ public class AnalyticsDAO {
 		return 0;
 	}
 
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while (se != null) {
 			System.out.println("SQLException: State: " + se.getSQLState());

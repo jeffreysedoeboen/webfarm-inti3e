@@ -1,11 +1,9 @@
 /*
- * Project: pestenmarcobart
- * Created By: Marco Beierer and Bart Toersche
- * Created At: 2-dec-2010 22:44:34
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:36:41
  */
 package com.inti3e.listener;
-
-import java.io.IOException;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -14,6 +12,7 @@ import com.inti3e.database.CreateDBTables;
 import com.inti3e.database.DBmanager;
 import com.inti3e.model.DataManager;
 
+// TODO: Auto-generated Javadoc
 /**
  * The listener interface for receiving context events.
  * The class that is interested in processing a context

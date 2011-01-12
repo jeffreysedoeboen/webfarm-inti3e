@@ -1,20 +1,36 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:37:00
+ */
 package com.inti3e.model.webcam;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * The Class MovementManager.
+ */
 public class MovementManager {
 
+	/** The recording process. */
 	private Process recordingProcess;
+	
+	/** The recording. */
 	private boolean recording;
 	
+	/**
+	 * Instantiates a new movement manager.
+	 */
 	public MovementManager() {
 		recordingProcess = null;
 		recording = false;
 	}
 	
+	/**
+	 * Start recording.
+	 */
 	public void startRecording() {
 		if (!recording) {
 			DateFormat dfmt = new SimpleDateFormat( "yyyyMMdd-hhmmss" ); 			
@@ -30,6 +46,9 @@ public class MovementManager {
 		}
 	}
 	
+	/**
+	 * Stop recording.
+	 */
 	public void stopRecording() {
 		if (recording) {
 			recordingProcess.destroy();

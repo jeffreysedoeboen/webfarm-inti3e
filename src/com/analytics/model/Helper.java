@@ -1,9 +1,23 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:14:05
+ */
 package com.analytics.model;
 
 import javax.servlet.http.Cookie;
 
+/**
+ * The Class Helper.
+ */
 public class Helper {
 	
+	/**
+	 * Gets the cookie time value.
+	 *
+	 * @param cookies the cookies
+	 * @return the cookie time value
+	 */
 	public String getCookieTimeValue(Cookie[] cookies) {
 		if (cookies != null) {
 			for (int i = 0; i < cookies.length; i++) {
@@ -15,6 +29,12 @@ public class Helper {
 		return null;
 	}
 	
+	/**
+	 * Gets the browser.
+	 *
+	 * @param userAgent the user agent
+	 * @return the browser
+	 */
 	public String getBrowser(String userAgent) {
 		userAgent = userAgent.toLowerCase();
 		if (userAgent.contains("chrome")) {
@@ -35,6 +55,12 @@ public class Helper {
 		return "Unknown";
 	}
 	
+	/**
+	 * Gets the language.
+	 *
+	 * @param language the language
+	 * @return the language
+	 */
 	public String getLanguage(String language) {
 		language = language.toLowerCase();
 		if (language.contains("en")) {

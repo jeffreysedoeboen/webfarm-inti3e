@@ -1,11 +1,14 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:20:37
+ */
 package com.inti3e.database.dao;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,18 +16,31 @@ import java.util.Date;
 import com.inti3e.database.DBmanager;
 import com.inti3e.model.Movement;
 
-
+/**
+ * The Class MovementDao.
+ */
 public class MovementDao {
 
 
+	/** The sql get all movements. */
 	private String sqlGetAllMovements	= "SELECT date, time, movement FROM APP.MOVEMENT ORDER BY date,time ASC";
+	
+	/** The sql new movement. */
 	private String sqlNewMovement		= "INSERT INTO APP.MOVEMENT (\"DATE\", \"TIME\", \"MOVEMENT\" ) VALUES (?,?,?)";
 
+	/** The con. */
 	private Connection        con      			= null ;
+	
+	/** The ps get all movements. */
 	private PreparedStatement psGetAllMovements = null ;
+	
+	/** The ps new movement. */
 	private PreparedStatement psNewMovement		 = null;
 
 
+	/**
+	 * Instantiates a new movement dao.
+	 */
 	public MovementDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -39,6 +55,11 @@ public class MovementDao {
 		}
 	}
 
+	/**
+	 * Gets the all movements.
+	 *
+	 * @return the all movements
+	 */
 	public ArrayList<Movement> getAllMovements(){
 		ArrayList<Movement> movements = new ArrayList<Movement>();
 		try {
@@ -56,6 +77,11 @@ public class MovementDao {
 		return movements;
 	}
 
+	/**
+	 * Adds the new movement.
+	 *
+	 * @param movement the movement
+	 */
 	public void addNewMovement(boolean movement){
 		String moveHour = "";
 		String moveMin = "";
@@ -80,6 +106,11 @@ public class MovementDao {
 		}
 	}
 
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
 
