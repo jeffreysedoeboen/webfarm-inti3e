@@ -22,5 +22,5 @@ if(!navigator.javaEnabled()) {
 }
 </script>
 <div align="center" class="demo">
-<button type="submit" onclick="return false;" id="recordbutton">Record</button>
+<button type="submit" onclick="recordButton()" id="recordbutton">Record</button>
 </div>
