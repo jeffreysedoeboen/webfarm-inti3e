@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:13:54
+ */
 package com.analytics.data;
 
 import java.sql.Connection;
@@ -8,26 +13,59 @@ import java.util.ArrayList;
 import com.analytics.data.DBmanager;
 import com.analytics.data.beans.RowBean;
 
+/**
+ * The Class StatisticsDAO.
+ */
 public class StatisticsDAO {
+	
+	/** The sql hits. */
 	private String sqlHits = "SELECT COUNT(*) FROM APP.visits";
 	
+	/** The sql get browsers. */
 	private String sqlGetBrowsers = "SELECT browser, COUNT(browser) AS count FROM APP.visits GROUP BY browser ORDER BY count DESC";
+	
+	/** The sql get languages. */
 	private String sqlGetLanguages = "SELECT language, COUNT(language) AS count FROM APP.visits GROUP BY language ORDER BY count DESC";
+	
+	/** The sql get ips. */
 	private String sqlGetIps = "SELECT ip, COUNT(ip) AS count FROM APP.visits GROUP BY ip ORDER BY count DESC";
 	
+	/** The sql browser hits. */
 	private String sqlBrowserHits = "SELECT COUNT(*) FROM APP.visits WHERE browser = ?";
+	
+	/** The sql language hits. */
 	private String sqlLanguageHits = "SELECT COUNT(*) FROM APP.visits WHERE language = ?";
+	
+	/** The sql ip hits. */
 	private String sqlIpHits = "SELECT COUNT(*) FROM APP.visits WHERE ip = ?";
 
+	/** The con. */
 	private Connection con = null;
+	
+	/** The ps hits. */
 	private PreparedStatement psHits = null;
+	
+	/** The ps get browsers. */
 	private PreparedStatement psGetBrowsers = null;
+	
+	/** The ps get languages. */
 	private PreparedStatement psGetLanguages = null;
+	
+	/** The ps get ips. */
 	private PreparedStatement psGetIps = null;
+	
+	/** The ps browser hits. */
 	private PreparedStatement psBrowserHits = null;
+	
+	/** The ps language hits. */
 	private PreparedStatement psLanguageHits = null;
+	
+	/** The ps ip hits. */
 	private PreparedStatement psIpHits = null;
 	
+	/**
+	 * Instantiates a new statistics dao.
+	 */
 	public StatisticsDAO() {
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -45,6 +83,11 @@ public class StatisticsDAO {
 		}
 	}
 
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while (se != null) {
 			System.out.println("SQLException: State: " + se.getSQLState());
@@ -55,6 +98,11 @@ public class StatisticsDAO {
 		}
 	}
 	
+	/**
+	 * Gets the hits.
+	 *
+	 * @return the hits
+	 */
 	public int getHits() {
 		try {
 			ResultSet results = psHits.executeQuery();
@@ -65,6 +113,11 @@ public class StatisticsDAO {
 		return 0;
 	}
 	
+	/**
+	 * Gets the hits per browser.
+	 *
+	 * @return the hits per browser
+	 */
 	public ArrayList<RowBean> getHitsPerBrowser() {
 		ArrayList<RowBean> browsers = new ArrayList<RowBean>();
 		try {
@@ -85,6 +138,11 @@ public class StatisticsDAO {
 		return browsers;
 	}
 	
+	/**
+	 * Gets the hits per languages.
+	 *
+	 * @return the hits per languages
+	 */
 	public ArrayList<RowBean> getHitsPerLanguages() {
 		ArrayList<RowBean> languages = new ArrayList<RowBean>();
 		try {
@@ -105,6 +163,11 @@ public class StatisticsDAO {
 		return languages;
 	}
 	
+	/**
+	 * Gets the hits per ip.
+	 *
+	 * @return the hits per ip
+	 */
 	public ArrayList<RowBean> getHitsPerIp() {
 		ArrayList<RowBean> ips = new ArrayList<RowBean>();
 		try {

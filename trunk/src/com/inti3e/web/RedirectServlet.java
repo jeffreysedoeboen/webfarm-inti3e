@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:42:55
+ */
 package com.inti3e.web;
 
 import java.io.IOException;
@@ -10,20 +15,29 @@ import javax.servlet.http.HttpSession;
 import com.inti3e.model.User;
 
 /**
- * Servlet implementation class RedirectServlet
+ * Servlet implementation class RedirectServlet.
  */
 public class RedirectServlet extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new redirect servlet.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public RedirectServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,6 +61,12 @@ public class RedirectServlet extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

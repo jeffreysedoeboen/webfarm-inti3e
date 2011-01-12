@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:43:43
+ */
 package test;
 
 import static org.junit.Assert.assertEquals;
@@ -20,9 +25,17 @@ import com.inti3e.model.LightSwitch;
 import com.inti3e.model.Movement;
 import com.inti3e.model.Temperature;
 
+/**
+ * The Class TestDatabase.
+ */
 public class TestDatabase {
+	
+	/** The create tables. */
 	CreateDBTables createTables = new CreateDBTables();
 	
+	/**
+	 * Test temp dao.
+	 */
 	@Test
 	public void testTempDao() {
 		TempDao td = new TempDao();
@@ -34,6 +47,9 @@ public class TestDatabase {
 		assertEquals("80",temps.get(temps.size() -1).getTemp());
 	}
 	
+	/**
+	 * Test humidity dao.
+	 */
 	@Test
 	public void testHumidityDao() {
 		HumidityDao td = new HumidityDao();
@@ -45,6 +61,9 @@ public class TestDatabase {
 		assertEquals(12,humidyArray.get(humidyArray.size() -1).getHumidity());
 	}
 	
+	/**
+	 * Test movement dao.
+	 */
 	@Test
 	public void testMovementDao() {
 		MovementDao td = new MovementDao();
@@ -56,6 +75,9 @@ public class TestDatabase {
 		assertEquals("1",movements.get(movements.size() -1).getMove());
 	}
 	
+	/**
+	 * Test light switch dao.
+	 */
 	@Test
 	public void testLightSwitchDao() {
 		SwitchDao td = new SwitchDao();
@@ -67,6 +89,9 @@ public class TestDatabase {
 		assertEquals("0",lightSwitches.get(lightSwitches.size() -1).getLight());
 	}
 	
+	/**
+	 * Test light sensor.
+	 */
 	@Test
 	public void testLightSensor() {
 		LightSensorDao td = new LightSensorDao();
@@ -78,6 +103,9 @@ public class TestDatabase {
 		assertEquals("1",lightSensors.get(lightSensors.size() -1).getLight());
 	}
 	
+	/**
+	 * Test door dao.
+	 */
 	@Test
 	public void testDoorDao() {
 		DoorDao td = new DoorDao();

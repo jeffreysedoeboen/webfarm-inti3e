@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:42:38
+ */
 package com.inti3e.web;
 
 import java.io.IOException;
@@ -13,24 +18,33 @@ import com.inti3e.database.dao.UserDao;
 import com.inti3e.helper.UserHelper;
 import com.inti3e.model.User;
 
-
-
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class LoginServlet.
  */
 public class LoginServlet extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The user dao. */
 	private UserDao userDAO = new UserDao();
        
     /**
+     * Instantiates a new login servlet.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,6 +75,12 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

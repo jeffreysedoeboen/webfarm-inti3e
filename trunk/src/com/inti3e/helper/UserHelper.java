@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:36:21
+ */
 package com.inti3e.helper;
 
 import java.security.MessageDigest;

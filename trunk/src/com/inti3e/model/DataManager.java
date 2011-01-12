@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:38:37
+ */
 package com.inti3e.model;
 
 import java.io.IOException;
@@ -13,21 +18,47 @@ import com.inti3e.database.dao.MovementDao;
 import com.inti3e.database.dao.TempDao;
 import com.inti3e.model.webcam.MovementManager;
 
+/**
+ * The Class DataManager.
+ */
 public class DataManager extends Thread {
+	
+	/** The unique instance. */
 	private static DataManager uniqueInstance = null;
 	
+	/** The welcome socket. */
 	private ServerSocket welcomeSocket = null;
+	
+	/** The socket. */
 	private Socket socket;
+	
+	/** The out put. */
 	private int outPut = 0;
+	
+	/** The movement manager. */
 	private MovementManager movementManager;
 	
+	/** The dd. */
 	private DoorDao dd;
+	
+	/** The lsd. */
 	private SwitchDao lsd;
+	
+	/** The md. */
 	private MovementDao md;
+	
+	/** The ld. */
 	private LightSensorDao ld;
+	
+	/** The hd. */
 	private HumidityDao hd;
+	
+	/** The td. */
 	private TempDao td;
 
+	/**
+	 * Instantiates a new data manager.
+	 */
 	private DataManager() {
 		dd = new DoorDao();
 		lsd = new SwitchDao();
@@ -40,6 +71,11 @@ public class DataManager extends Thread {
 		socket = null;
 	}
 	
+	/**
+	 * Gets the single instance of DataManager.
+	 *
+	 * @return single instance of DataManager
+	 */
 	public static synchronized DataManager getInstance() {
 		if (uniqueInstance == null) {
 			uniqueInstance = new DataManager();
@@ -47,6 +83,9 @@ public class DataManager extends Thread {
 		return uniqueInstance;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	public void run() {
 		try {
 			welcomeSocket = new ServerSocket(4000);
@@ -61,6 +100,9 @@ public class DataManager extends Thread {
 		}
 	}
 	
+	/**
+	 * Shutdown.
+	 */
 	public void shutdown() {
 		try {
 			welcomeSocket.close();
@@ -70,6 +112,11 @@ public class DataManager extends Thread {
 		}
 	}
 
+	/**
+	 * Turn light.
+	 *
+	 * @param light the light
+	 */
 	public synchronized void turnLight(boolean light) {
 		assert(socket != null);
 		try {
@@ -88,6 +135,9 @@ public class DataManager extends Thread {
 		}
 	}
 	
+	/**
+	 * Read.
+	 */
 	private void read() {
 		char in = 'p';
 		try {

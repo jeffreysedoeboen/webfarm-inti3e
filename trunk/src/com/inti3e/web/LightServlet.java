@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:42:01
+ */
 package com.inti3e.web;
 
 import java.io.IOException;
@@ -13,25 +18,36 @@ import org.json.JSONObject;
 import com.inti3e.database.dao.LightSensorDao;
 import com.inti3e.model.DataManager;
 
-
-
 /**
- * Servlet implementation class LightSwitch
+ * Servlet implementation class LightSwitch.
  */
 public class LightServlet extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The lsd. */
 	LightSensorDao lsd = new LightSensorDao();
+	
+	/** The dm. */
 	DataManager dm = DataManager.getInstance();
        
     /**
+     * Instantiates a new light servlet.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public LightServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,6 +73,12 @@ public class LightServlet extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

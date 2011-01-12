@@ -1,36 +1,52 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:17:04
+ */
 package com.inti3e.database.dao;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.inti3e.database.DBmanager;
 import com.inti3e.model.Door;
-import com.inti3e.model.LightSensor;
-import com.inti3e.model.Temperature;
 
-
+/**
+ * The Class DoorDao.
+ */
 public class DoorDao {
 
+	/** The sql get all door. */
 	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.DOOR ORDER BY date,time ASC";
+	
+	/** The sql new door. */
 	private String sqlNewDoor			= "INSERT INTO APP.DOOR (\"DATE\", \"TIME\", \"DOOR\" ) VALUES (?,?,?)";
-	private String sqlGetDoorOfDate		= "SELECT time, door FROM APP.DOOR WHERE date=?";
+	
+	/** The sql get door between. */
 	private String sqlGetDoorBetween	= "SELECT date,time,door FROM APP.DOOR WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 	
+	/** The con. */
 	private Connection        con      = null ;
+	
+	/** The ps get all door. */
 	private PreparedStatement psGetAllDoor = null ;
+	
+	/** The ps new door. */
 	private PreparedStatement psNewDoor = null;
-	private PreparedStatement psGetDoorOfDate = null;
+	
+	/** The ps get door between. */
 	private PreparedStatement psGetDoorBetween = null;
 
 
+	/**
+	 * Instantiates a new door dao.
+	 */
 	public DoorDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -38,7 +54,6 @@ public class DoorDao {
 		try {
 			this.psGetAllDoor   	= con.prepareStatement(sqlGetAllDoor);
 			this.psNewDoor 			= con.prepareStatement(sqlNewDoor);
-			this.psGetDoorOfDate	= con.prepareStatement(sqlGetDoorOfDate);
 			this.psGetDoorBetween 	= con.prepareStatement(sqlGetDoorBetween);	
 		}
 		catch(SQLException se) {
@@ -46,6 +61,11 @@ public class DoorDao {
 		}
 	}
 	
+	/**
+	 * Gets the current door.
+	 *
+	 * @return the current door
+	 */
 	public boolean getCurrentDoor() {
 		ArrayList<Door> doorMessures = getAllDoors();
 		if (doorMessures.size() >= 1) {
@@ -57,6 +77,11 @@ public class DoorDao {
 		return false;
 	}
 
+	/**
+	 * Gets the all doors.
+	 *
+	 * @return the all doors
+	 */
 	public ArrayList<Door> getAllDoors(){
 		ArrayList<Door> doors = new ArrayList<Door>();
 		try {
@@ -74,6 +99,11 @@ public class DoorDao {
 		return doors;
 	}
 
+	/**
+	 * Adds the new door.
+	 *
+	 * @param open the open
+	 */
 	public void addNewDoor( boolean open ){
 		String doorHour = "";
 		String doorMin = "";
@@ -97,6 +127,11 @@ public class DoorDao {
 		}
 	}
 
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
 
@@ -107,40 +142,16 @@ public class DoorDao {
 			se = se.getNextException();
 		}
 	}
-
-	//TODO NOT USED
-	public ArrayList<Door> getDoorsOfDate(String dateFormat){
-		ArrayList<Door> doors = new ArrayList<Door>();
-		
-		//asserts
-		assert(dateFormat != null);
-		
-		if(dateFormat != null) {
-			String[] splittedDateFormat = dateFormat.split("-");
-			int year 	= Integer.parseInt(splittedDateFormat[2]);
-			int month 	= Integer.parseInt(splittedDateFormat[1]);
-			int day 	= Integer.parseInt(splittedDateFormat[0]);
-			GregorianCalendar gc = new GregorianCalendar();
-			gc.set(year, month - 1, day);
-			Date date = new Date(gc.getTimeInMillis());
-			try {
-				psGetDoorOfDate.setDate(1, date);
-
-				ResultSet rs = psGetDoorOfDate.executeQuery();
-				while (rs.next()){
-					String time = rs.getString(1);
-					int doorInt = rs.getInt(2);
-					Door door = new Door(date, time, doorInt);
-					doors.add(door);
-				}
-			} catch (SQLException se) {
-				printSQLException(se) ;		
-			} 
-		}
-		return doors;
-	}
 	
-	
+	/**
+	 * Gets the doors between dates.
+	 *
+	 * @param dateFormat1 the date format1
+	 * @param time1 the time1
+	 * @param dateFormat2 the date format2
+	 * @param time2 the time2
+	 * @return the doors between dates
+	 */
 	public ArrayList<Door> getDoorsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		//asserts
 		assert(dateFormat1 != null);
@@ -187,7 +198,17 @@ public class DoorDao {
 		//return doors;
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Gets the date between hours.
+	 *
+	 * @param time1 the time1
+	 * @param time2 the time2
+	 * @param date1 the date1
+	 * @param date2 the date2
+	 * @param doorArray the door array
+	 * @return the date between hours
+	 */
+	@SuppressWarnings({ "deprecation" })
 	private ArrayList<Door> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Door> doorArray) {
 		//asserts
 		assert(time1 != null);
@@ -244,6 +265,12 @@ public class DoorDao {
 		return doorArray;
 	}
 	
+	/**
+	 * Filter door list.
+	 *
+	 * @param doors the doors
+	 * @return the array list
+	 */
 	private ArrayList<Door> filterDoorList(ArrayList<Door> doors) {
 		ArrayList<Door> removeDoors = new ArrayList<Door>();
 		if (doors.size() > 0) {
@@ -305,6 +332,16 @@ public class DoorDao {
 		return doors;
 	}
 	
+	/**
+	 * Gets the amount of seconds.
+	 *
+	 * @param date1 the date1
+	 * @param time1 the time1
+	 * @param date2 the date2
+	 * @param time2 the time2
+	 * @return the amount of seconds
+	 */
+	@SuppressWarnings("deprecation")
 	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
 		String[] splittedTime1 = time1.split(":");
 		int hour1 	= Integer.parseInt(splittedTime1[0]);

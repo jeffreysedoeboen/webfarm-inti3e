@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:16:05
+ */
 package com.analytics.web;
 
 import java.awt.Color;
@@ -16,13 +21,24 @@ import com.analytics.data.AnalyticsDAO;
 import com.analytics.model.Helper;
 import com.inti3e.model.User;
 
+/**
+ * The Class Analytics.
+ */
 public class Analytics extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
     
+    /**
+     * Instantiates a new analytics.
+     */
     public Analytics() {
         super();
     }
     
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");

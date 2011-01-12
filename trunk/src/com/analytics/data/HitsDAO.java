@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:13:30
+ */
 package com.analytics.data;
 
 import java.sql.Connection;
@@ -7,18 +12,36 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.analytics.data.beans.PageHit;
-import com.inti3e.model.User;
 
+/**
+ * The Class HitsDAO.
+ */
 public class HitsDAO {
+	
+	/** The sql get pages by user id. */
 	private String sqlGetPagesByUserId = "SELECT page, COUNT(page) FROM APP.hits WHERE user_id = ? GROUP BY PAGE";
+	
+	/** The sql get pages by ip. */
 	private String sqlGetPagesByIp = "SELECT PAGE, COUNT(PAGE) hits FROM APP.HITS WHERE IP = ? GROUP BY PAGE ORDER BY hits desc";
+	
+	/** The sql get all ip. */
 	private String sqlGetAllIp = "SELECT ip FROM APP.HITS GROUP BY ip";
 
+	/** The con. */
 	private Connection con = null;
+	
+	/** The ps get pages by user id. */
 	private PreparedStatement psGetPagesByUserId = null;
+	
+	/** The ps get pages by ip. */
 	private PreparedStatement psGetPagesByIp = null;
+	
+	/** The ps get all ip. */
 	private PreparedStatement psGetAllIp = null;
 	
+	/**
+	 * Instantiates a new hits dao.
+	 */
 	public HitsDAO() {
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -32,6 +55,11 @@ public class HitsDAO {
 		}
 	}
 
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while (se != null) {
 			System.out.println("SQLException: State: " + se.getSQLState());
@@ -42,6 +70,12 @@ public class HitsDAO {
 		}
 	}
 	
+	/**
+	 * Gets the pages by user id.
+	 *
+	 * @param userId the user id
+	 * @return the pages by user id
+	 */
 	public ArrayList<PageHit> getPagesByUserId(int userId) {
 		ArrayList<PageHit> pageHits = new ArrayList<PageHit>();
 		
@@ -61,6 +95,12 @@ public class HitsDAO {
 		return pageHits;
 	}
 	
+	/**
+	 * Gets the pages by ip.
+	 *
+	 * @param ip the ip
+	 * @return the pages by ip
+	 */
 	public ArrayList<PageHit> getPagesByIp(String ip) {
 		ArrayList<PageHit> pageHits = new ArrayList<PageHit>();
 		try {
@@ -79,6 +119,11 @@ public class HitsDAO {
 		return pageHits;
 	}
 	
+	/**
+	 * Gets the all ip.
+	 *
+	 * @return the all ip
+	 */
 	public ArrayList<String> getAllIp() {
 		ArrayList<String> IpList = new ArrayList<String>();
 		try {

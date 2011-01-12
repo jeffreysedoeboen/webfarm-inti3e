@@ -1,28 +1,49 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:21:32
+ */
 package com.inti3e.database.dao;
+
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.inti3e.database.DBmanager;
 import com.inti3e.model.User;
 
-
+/**
+ * The Class UserDao.
+ */
 public class UserDao {
 	
+	/** The sql get all users. */
 	private String sqlGetAllUsers		= "SELECT ID, NAME, PASSWORD FROM APP.USERS ORDER BY ID ASC";
+	
+	/** The sql new user. */
 	private String sqlNewUser 			= "INSERT INTO APP.USERS (\"NAME\", \"PASSWORD\" ) VALUES (?,?)";
+	
+	/** The sql remove user. */
 	private String sqlRemoveUser		= "DELETE FROM APP.USERS WHERE NAME=?";
 
+	/** The con. */
 	private Connection        con      = null ;
+	
+	/** The ps get all users. */
 	private PreparedStatement psGetAllUsers = null ;
+	
+	/** The ps new user. */
 	private PreparedStatement psNewUser = null;
+	
+	/** The ps remove user. */
 	private PreparedStatement psRemoveUser = null;
 	
 
+	/**
+	 * Instantiates a new user dao.
+	 */
 	public UserDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -38,6 +59,11 @@ public class UserDao {
 		}
 	}
 	
+	/**
+	 * Gets the all users.
+	 *
+	 * @return the all users
+	 */
 	public ArrayList<User> getAllUsers(){
 		ArrayList<User> users = new ArrayList<User>();
 		try {
@@ -55,6 +81,12 @@ public class UserDao {
 		return users;
 	}
 	
+	/**
+	 * Adds the new user.
+	 *
+	 * @param name the name
+	 * @param password the password
+	 */
 	public void addNewUser(String name, String password){
 		//asserts
 		assert (name != null);
@@ -70,6 +102,11 @@ public class UserDao {
 		}
 	}
 	
+	/**
+	 * Removes the user.
+	 *
+	 * @param name the name
+	 */
 	public void removeUser(String name) {
 		//asserts
 		assert (name != null);
@@ -83,6 +120,11 @@ public class UserDao {
 		}
 	}
 	
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
 
@@ -94,6 +136,12 @@ public class UserDao {
 		}
 	}
 
+	/**
+	 * Name is available.
+	 *
+	 * @param nickname the nickname
+	 * @return true, if successful
+	 */
 	public boolean nameIsAvailable(String nickname) {
 		
 		//asserts

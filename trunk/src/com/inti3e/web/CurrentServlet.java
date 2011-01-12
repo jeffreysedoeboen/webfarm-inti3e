@@ -1,3 +1,8 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:41:26
+ */
 package com.inti3e.web;
 
 import java.io.IOException;
@@ -15,20 +20,29 @@ import com.inti3e.database.dao.LightSensorDao;
 import com.inti3e.database.dao.TempDao;
 
 /**
- * Servlet implementation class CurrentServlet
+ * Servlet implementation class CurrentServlet.
  */
 public class CurrentServlet extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new current servlet.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public CurrentServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -75,10 +89,16 @@ public class CurrentServlet extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

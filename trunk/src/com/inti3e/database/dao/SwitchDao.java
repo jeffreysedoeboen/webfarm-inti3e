@@ -1,11 +1,14 @@
+/*
+ * Project: project.webfarm
+ * Created By: INTI3e
+ * Created At: 12-jan-2011 11:20:50
+ */
 package com.inti3e.database.dao;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.sql.Date;
@@ -14,17 +17,30 @@ import com.inti3e.model.LightSwitch;
 
 import com.inti3e.database.DBmanager;
 
-
+/**
+ * The Class SwitchDao.
+ */
 public class SwitchDao {
 
 
+	/** The sql get all light switches. */
 	private String sqlGetAllLightSwitches 	= "SELECT date, time, LightSwitch FROM APP.LIGHTSWITCHES ORDER BY date,time ASC";
+	
+	/** The sql new light switch. */
 	private String sqlNewLightSwitch		= "INSERT INTO APP.LIGHTSWITCHES (\"DATE\", \"TIME\", \"LIGHTSWITCH\" ) VALUES (?,?,?)";
 
+	/** The con. */
 	private Connection        con      = null ;
+	
+	/** The ps get all light switches. */
 	private PreparedStatement psGetAllLightSwitches = null ;
+	
+	/** The ps new light switch. */
 	private PreparedStatement psNewLightSwitch = null;
 	
+	/**
+	 * Instantiates a new switch dao.
+	 */
 	public SwitchDao(){
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
@@ -39,6 +55,11 @@ public class SwitchDao {
 		}
 	}
 
+	/**
+	 * Gets the all light switches.
+	 *
+	 * @return the all light switches
+	 */
 	public ArrayList<LightSwitch> getAllLightSwitches(){
 		ArrayList<LightSwitch> lights = new ArrayList<LightSwitch>();
 		try {
@@ -56,6 +77,11 @@ public class SwitchDao {
 		return lights;
 	}
 
+	/**
+	 * Adds the new light switch.
+	 *
+	 * @param light the light
+	 */
 	public void addNewLightSwitch(boolean light){
 		String switchHour = "";
 		String switchMin = "";
@@ -79,6 +105,11 @@ public class SwitchDao {
 		}
 	}
 
+	/**
+	 * Prints the sql exception.
+	 *
+	 * @param se the se
+	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
 
