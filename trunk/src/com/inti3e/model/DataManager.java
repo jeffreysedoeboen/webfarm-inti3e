@@ -16,7 +16,7 @@ import com.inti3e.database.dao.LightSensorDao;
 import com.inti3e.database.dao.SwitchDao;
 import com.inti3e.database.dao.MovementDao;
 import com.inti3e.database.dao.TempDao;
-import com.inti3e.model.webcam.MovementManager;
+import com.inti3e.model.webcam.RecordManager;
 
 /**
  * The Class DataManager.
@@ -35,8 +35,8 @@ public class DataManager extends Thread {
 	/** The out put. */
 	private int outPut = 0;
 	
-	/** The movement manager. */
-	private MovementManager movementManager;
+	/** The Record manager. */
+	private RecordManager movementManager;
 	
 	/** The dd. */
 	private DoorDao dd;
@@ -67,7 +67,8 @@ public class DataManager extends Thread {
 		hd = new HumidityDao();
 		td = new TempDao();
 		
-		movementManager = new MovementManager();
+		
+		movementManager = RecordManager.getInstance();
 		socket = null;
 	}
 	
