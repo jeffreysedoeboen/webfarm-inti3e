@@ -1,3 +1,4 @@
+<script type="text/javascript" src="assets/js/recordswitch.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$( "#recordbutton" ).button();
@@ -22,5 +23,5 @@ if(!navigator.javaEnabled()) {
 }
 </script>
 <div align="center" class="demo">
-<button type="submit" onclick="recordButton()" id="recordbutton">Record</button>
+<button type="submit" onclick="singleRecordClick('on')" id="recordbutton">Record</button>
 </div>
