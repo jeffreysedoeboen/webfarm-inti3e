@@ -7,10 +7,17 @@ import java.util.Date;
 
 import com.inti3e.database.DBmanager;
 
+/**
+ * The Class RecordManager.
+ */
 public class RecordManager {
-
+	
+	/** The RecordManager uniqueInstance variable */
 	private static RecordManager uniqueInstance=null;
+	/** The recording process. */
 	private Process recordingProcess;
+	
+	/** The recording. */
 	private boolean recording;
 	
 	private RecordManager() {
@@ -18,6 +25,9 @@ public class RecordManager {
 		recording = false;
 	}
 	
+	/**
+	 * Start recording.
+	 */
 	public void startRecording() {
 		if (!recording) {
 			DateFormat dfmt = new SimpleDateFormat( "yyyyMMdd-hhmmss" ); 			
@@ -40,10 +50,16 @@ public class RecordManager {
 		return uniqueInstance;
 	}
 	
+	/**
+	 * Get recording.
+	 */
 	public boolean getRecording() {
 		return recording;
 	}
 	
+	/**
+	 * Stop recording.
+	 */
 	public void stopRecording() {
 		if (recording) {
 			recordingProcess.destroy();
