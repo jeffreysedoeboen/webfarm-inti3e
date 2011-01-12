@@ -33,6 +33,15 @@ function updateCurrentStats() {
 			});
 }
 
+function recordButton() {
+	var button = document.getElementById("recordbutton");
+	
+	if(button.innerHTML.equals("Record")) {
+		button.innerHTML = "";
+		var stopButton = "<button type=\"submit\" onclick=\"recordButton()\" id=\"recordbutton\">Stop</button>";
+		else if()
+}
+
 function lowerResetGraph() {
 	resetGraph--;
 	if (resetGraph < 0) { resetGraph = 5; }
