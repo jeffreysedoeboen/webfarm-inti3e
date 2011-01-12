@@ -39,7 +39,9 @@ public class LoginServlet extends HttpServlet {
     }
 
 	/**
-	 * Do get.
+	 * Do get. 
+	 * 
+	 * This method manages the login, if login is successful it sets the user in the session.
 	 *
 	 * @param request the request
 	 * @param response the response
@@ -75,7 +77,10 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	/**
-	 * Do post.
+	 * Do post. 
+	 * 
+	 * This method creates an account if the user name is unique, and if the passwords match.
+	 * If not it sets a messsage in the top of the screen
 	 *
 	 * @param request the request
 	 * @param response the response

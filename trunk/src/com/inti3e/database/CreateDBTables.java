@@ -18,7 +18,7 @@ public class CreateDBTables {
 	/** The connection. */
 	private Connection conn;
 	
-	//Constructors
+	//Constructor
 	/**
 	 * Instantiates a new creates the db tables.
 	 */
@@ -34,7 +34,7 @@ public class CreateDBTables {
 	
 	//Methoden
 	/**
-	 * Creates the tables if not exists.
+	 * Creates the tables if they do not exist.
 	 *
 	 * @throws SQLException the sQL exception
 	 */
@@ -49,7 +49,7 @@ public class CreateDBTables {
 	}
 	
 	/**
-	 * Creates the users table if not exists.
+	 * Creates the door table if it does not exist.
 	 *
 	 * @throws SQLException the sQL exception
 	 */
@@ -69,7 +69,7 @@ public class CreateDBTables {
 	}
 	
 	/**
-	 * Creates the users table if not exists.
+	 * Creates the humidity table if it does not exist.
 	 *
 	 * @throws SQLException the sQL exception
 	 */
@@ -89,7 +89,7 @@ public class CreateDBTables {
 	}
 	
 	/**
-	 * Creates the users table if not exists.
+	 * Creates the users table if it does not exist.
 	 *
 	 * @throws SQLException the sQL exception
 	 */
@@ -108,6 +108,11 @@ public class CreateDBTables {
 		}
 	}
 	
+	/**
+	 * Creates the movement table if it does not exist.
+	 *
+	 * @throws SQLException the sQL exception
+	 */
 	private void createMovementTableIfNotExists() throws SQLException {
 		if (!checkIfTableExists("MOVEMENT")) {
 			System.err.println("Table APP.MOVEMENT not yet created, it will be created.");
@@ -123,6 +128,11 @@ public class CreateDBTables {
 		}
 	}
 	
+	/**
+	 * Creates the light table if it does not exist.
+	 *
+	 * @throws SQLException the sQL exception
+	 */
 	private void createLightswitchTableIfNotExists() throws SQLException {
 		if (!checkIfTableExists("LIGHTSWITCHES")) {
 			System.err.println("Table APP.LIGHTSWITCHES not yet created, it will be created.");
@@ -138,6 +148,11 @@ public class CreateDBTables {
 		}
 	}
 	
+	/**
+	 * Creates the temperature table if it does not exist.
+	 *
+	 * @throws SQLException the sQL exception
+	 */
 	private void createTemperatureTableIfNotExists() throws SQLException {
 		if (!checkIfTableExists("TEMP")) {
 			System.err.println("Table APP.TEMP not yet created, it will be created.");
@@ -153,6 +168,11 @@ public class CreateDBTables {
 		}
 	}
 	
+	/**
+	 * Creates the users table if it does not exist.
+	 *
+	 * @throws SQLException the sQL exception
+	 */
 	private void createUsersTableIfNotExists() throws SQLException {
 		if (!checkIfTableExists("USERS")) {
 			System.err.println("Table APP.USERS not yet created, it will be created.");

@@ -14,10 +14,10 @@ import java.security.NoSuchAlgorithmException;
 public final class UserHelper {
 	
 	/**
-	 * String2md5.
+	 * String2md5. This method encrypts the password in md5, so it can't be read from the database
 	 *
-	 * @param password the password
-	 * @return the string
+	 * @param password the password to be encrypted
+	 * @return the encrypted password
 	 */
 	public static final String string2md5(String password) {
 		try {

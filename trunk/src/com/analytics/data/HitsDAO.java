@@ -58,7 +58,7 @@ public class HitsDAO {
 	/**
 	 * Prints the sql exception.
 	 *
-	 * @param se the se
+	 * @param se the sql exception
 	 */
 	private void printSQLException(SQLException se) {
 		while (se != null) {

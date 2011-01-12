@@ -74,9 +74,9 @@ public class User {
 	}
 	
 	/**
-	 * Checks if is admin.
+	 * Checks if the user is an admin.
 	 *
-	 * @return true, if is admin
+	 * @return true, if the user is an admin.
 	 */
 	public boolean isAdmin() {
 		return admin;

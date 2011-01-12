@@ -60,9 +60,9 @@ public class UserDao {
 	}
 	
 	/**
-	 * Gets the all users.
+	 * Gets  all users.
 	 *
-	 * @return the all users
+	 * @return  all users
 	 */
 	public ArrayList<User> getAllUsers(){
 		ArrayList<User> users = new ArrayList<User>();
@@ -84,8 +84,8 @@ public class UserDao {
 	/**
 	 * Adds the new user.
 	 *
-	 * @param name the name
-	 * @param password the password
+	 * @param name the name of the new user
+	 * @param password the password of the new user
 	 */
 	public void addNewUser(String name, String password){
 		//asserts
@@ -105,7 +105,7 @@ public class UserDao {
 	/**
 	 * Removes the user.
 	 *
-	 * @param name the name
+	 * @param name the name of the user to be removed
 	 */
 	public void removeUser(String name) {
 		//asserts
@@ -139,7 +139,7 @@ public class UserDao {
 	/**
 	 * Name is available.
 	 *
-	 * @param nickname the nickname
+	 * @param nickname to be checked if it is unique, if not the 
 	 * @return true, if successful
 	 */
 	public boolean nameIsAvailable(String nickname) {

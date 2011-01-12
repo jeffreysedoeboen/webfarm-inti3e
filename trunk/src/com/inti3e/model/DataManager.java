@@ -19,7 +19,7 @@ import com.inti3e.database.dao.TempDao;
 import com.inti3e.model.webcam.RecordManager;
 
 /**
- * The Class DataManager.
+ * The Class DataManager. Singleton design! (class can only have 1 instance)
  */
 public class DataManager extends Thread {
 	
@@ -32,32 +32,32 @@ public class DataManager extends Thread {
 	/** The socket. */
 	private Socket socket;
 	
-	/** The out put. */
+	/** The output. */
 	private int outPut = 0;
 	
 	/** The Record manager. */
 	private RecordManager movementManager;
 	
-	/** The dd. */
+	/** The door dao. */
 	private DoorDao dd;
 	
-	/** The lsd. */
+	/** The switch dao. */
 	private SwitchDao lsd;
 	
-	/** The md. */
+	/** The movement dao. */
 	private MovementDao md;
 	
-	/** The ld. */
+	/** The light sensor dao. */
 	private LightSensorDao ld;
 	
-	/** The hd. */
+	/** The humity dao. */
 	private HumidityDao hd;
 	
-	/** The td. */
+	/** The temperature dao. */
 	private TempDao td;
 
 	/**
-	 * Instantiates a new data manager.
+	 * Instantiates a new data manager. private so it can't be called from other classes. This to maintain its singleton design
 	 */
 	private DataManager() {
 		dd = new DoorDao();

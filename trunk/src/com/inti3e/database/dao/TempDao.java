@@ -23,31 +23,31 @@ import com.inti3e.model.Temperature;
 public class TempDao {
 
 
-	/** The sql get all temps. */
+	/** The sql get all temperature measurements. */
 	private String sqlGetAllTemps		= "SELECT date, time, temp FROM APP.Temp ORDER BY date,time ASC";
 	
-	/** The sql new temp. */
+	/** The sql new temperature measurement. */
 	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE\", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
 	
-	/** The sql get temp of date. */
+	/** The sql get temperature measurements of date. */
 	private String sqlGetTempOfDate		= "SELECT time, temp FROM APP.Temp WHERE date=?";
 	
-	/** The sql get temp between. */
+	/** The sql get temperature measurements between dates. */
 	private String sqlGetTempBetween	= "SELECT date,time, temp FROM APP.Temp WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 
 	/** The con. */
 	private Connection        con      = null ;
 	
-	/** The ps get all temps. */
+	/** The ps get all temperature measurement. */
 	private PreparedStatement psGetAllTemps = null ;
 	
-	/** The ps new temp. */
+	/** The ps new temperature measurement. */
 	private PreparedStatement psNewTemp = null;
 	
-	/** The ps get temp of date. */
+	/** The ps get temperature measurements of date. */
 	private PreparedStatement psGetTempOfDate = null;
 	
-	/** The ps get temp between. */
+	/** The ps get temperature measurements between dates. */
 	private PreparedStatement psGetTempBetween = null;
 
 
@@ -71,9 +71,9 @@ public class TempDao {
 	}
 	
 	/**
-	 * Gets the current temp.
+	 * Gets the current temperature measurement.
 	 *
-	 * @return the current temp
+	 * @return the current temperature measurement
 	 */
 	public String getCurrentTemp() {
 		Temperature t = null;
@@ -86,9 +86,9 @@ public class TempDao {
 	}
 	
 	/**
-	 * Gets the all temps.
+	 * Gets all temperature measurements.
 	 *
-	 * @return the all temps
+	 * @return all temperature measurements.
 	 */
 	public ArrayList<Temperature> getAllTemps(){
 		ArrayList<Temperature> temps = new ArrayList<Temperature>();
@@ -108,9 +108,9 @@ public class TempDao {
 	}
 
 	/**
-	 * Adds the new temp.
+	 * Adds the new temperature measurement.
 	 *
-	 * @param temperature the temperature
+	 * @param temperature the temperature measurement.
 	 */
 	public void addNewTemp(String temperature){
 		//asserts
@@ -155,10 +155,10 @@ public class TempDao {
 	}
 
 	/**
-	 * Gets the temps of date.
+	 * Gets the temperature measurements of date.
 	 *
-	 * @param dateFormat the date format
-	 * @return the temps of date
+	 * @param dateFormat the date 
+	 * @return the temperature measurements of date
 	 */
 	public ArrayList<Temperature> getTempsOfDate(String dateFormat){
 		//asserts
@@ -189,13 +189,13 @@ public class TempDao {
 	}
 
 	/**
-	 * Gets the temps between dates.
+	 * Gets the temperature measurements between dates.
 	 *
-	 * @param dateFormat1 the date format1
-	 * @param time1 the time1
-	 * @param dateFormat2 the date format2
-	 * @param time2 the time2
-	 * @return the temps between dates
+	 * @param date1 start date
+	 * @param time1 start time
+	 * @param date2 end date
+	 * @param time2 end time
+	 * @return the temperature measurements between dates
 	 */
 	public ArrayList<Temperature> getTempsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		//asserts
@@ -246,11 +246,11 @@ public class TempDao {
 	/**
 	 * Gets the date between hours.
 	 *
-	 * @param time1 the time1
-	 * @param time2 the time2
-	 * @param date1 the date1
-	 * @param date2 the date2
-	 * @param temperatureArray the temperature array
+	 * @param date1 start date
+	 * @param time1 start time
+	 * @param date2 end date
+	 * @param time2 end time
+	 * @param temperatureArray containing the temperature measurements.
 	 * @return the date between hours
 	 */
 	@SuppressWarnings("deprecation")
@@ -311,10 +311,10 @@ public class TempDao {
 	}
 	
 	/**
-	 * Filter temp list.
+	 * Filter temperature measurements list.
 	 *
-	 * @param temps the temps
-	 * @return the array list
+	 * @param temps the temperature measurement list to be filtered
+	 * @return the filtered temperature measurement list.
 	 */
 	private ArrayList<Temperature> filterTempList(ArrayList<Temperature> temps) {
 		//asserts
@@ -359,10 +359,10 @@ public class TempDao {
 	/**
 	 * Gets the amount of seconds.
 	 *
-	 * @param date1 the date1
-	 * @param time1 the time1
-	 * @param date2 the date2
-	 * @param time2 the time2
+	 * @param date1 start date
+	 * @param time1 start time
+	 * @param date2 end date
+	 * @param time2 end time
 	 * @return the amount of seconds
 	 */
 	@SuppressWarnings("deprecation")

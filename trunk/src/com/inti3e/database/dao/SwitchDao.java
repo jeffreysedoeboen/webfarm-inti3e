@@ -56,7 +56,7 @@ public class SwitchDao {
 	}
 
 	/**
-	 * Gets the all light switches.
+	 * Get all light switches.
 	 *
 	 * @return the all light switches
 	 */
@@ -80,7 +80,7 @@ public class SwitchDao {
 	/**
 	 * Adds the new light switch.
 	 *
-	 * @param light the light
+	 * @param light the switch
 	 */
 	public void addNewLightSwitch(boolean light){
 		String switchHour = "";
