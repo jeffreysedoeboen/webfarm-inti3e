@@ -34,7 +34,8 @@ public class RemoveServlet extends HttpServlet {
     }
 
 	/**
-	 * Do get.
+	 * Remove user with the given name
+	 * Put OK message in json object
 	 *
 	 * @param request the request
 	 * @param response the response
@@ -62,7 +63,7 @@ public class RemoveServlet extends HttpServlet {
 	}
 
 	/**
-	 * Do post.
+	 * NOT USED
 	 *
 	 * @param request the request
 	 * @param response the response

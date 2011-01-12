@@ -32,7 +32,9 @@ public class RedirectServlet extends HttpServlet {
     }
 
 	/**
-	 * Do get.
+	 * Check IP
+	 * Local user gets a user set in his session + redirect to mainpage
+	 * Extern user gets redirected to loginpage.jsp
 	 *
 	 * @param request the request
 	 * @param response the response
@@ -61,7 +63,7 @@ public class RedirectServlet extends HttpServlet {
 	}
 
 	/**
-	 * Do post.
+	 * NOT USED
 	 *
 	 * @param request the request
 	 * @param response the response
