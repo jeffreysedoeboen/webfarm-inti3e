@@ -113,4 +113,14 @@
     <servlet-name>RemoveServlet</servlet-name>
     <url-pattern>/RemoveServlet.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RecordServlet</display-name>
+    <servlet-name>RecordServlet</servlet-name>
+    <servlet-class>com.inti3e.web.RecordServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RecordServlet</servlet-name>
+    <url-pattern>/RecordServlet.do</url-pattern>
+  </servlet-mapping>
 </web-app>
