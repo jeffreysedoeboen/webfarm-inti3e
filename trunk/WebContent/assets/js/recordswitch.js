@@ -55,6 +55,6 @@ function resetRecordButtonPress() {
 }
 
 
-function singleClick(value) {
+function singleRecordClick(value) {
 	turnRecord(value);
 }
