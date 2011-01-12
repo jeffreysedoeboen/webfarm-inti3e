@@ -23,22 +23,22 @@ import com.inti3e.model.Humidity;
 public class HumidityDao {
 	
 	/** The sql get all temps. */
-	private String sqlGetAllTemps		= "SELECT date, time, humidity FROM APP.Humidity ORDER BY date,time ASC";
+	private String sqlGetAllHumidities		= "SELECT date, time, humidity FROM APP.Humidity ORDER BY date,time ASC";
 	
 	/** The sql new temp. */
-	private String sqlNewTemp 			= "INSERT INTO APP.Humidity (\"DATE\", \"TIME\", \"HUMIDITY\" ) VALUES (?,?,?)";
+	private String sqlNewHumidities 			= "INSERT INTO APP.Humidity (\"DATE\", \"TIME\", \"HUMIDITY\" ) VALUES (?,?,?)";
 	
-	/** The sql get humid of date. */
+	/** The sql get humids of date. */
 	private String sqlGetHumidOfDate	= "SELECT time, humidity FROM APP.Humidity WHERE date=?";
 	
-	/** The sql get humidity between. */
+	/** The sql get humidities between. */
 	private String sqlGetHumidityBetween= "SELECT date,time, humidity FROM APP.Humidity WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 	
 	/** The con. */
 	private Connection        con      = null ;
 	
-	/** The ps get all humids. */
-	private PreparedStatement psGetAllHumids = null ;
+	/** The ps get all humiditities. */
+	private PreparedStatement psGetAllHumidities = null ;
 	
 	/** The ps new humid. */
 	private PreparedStatement psNewHumid = null;
@@ -58,8 +58,8 @@ public class HumidityDao {
 		con = myDb.getConnection();
 		
 		try{
-			this.psGetAllHumids   = con.prepareStatement(sqlGetAllTemps);
-			this.psNewHumid 	  = con.prepareStatement(sqlNewTemp);
+			this.psGetAllHumidities   = con.prepareStatement(sqlGetAllHumidities);
+			this.psNewHumid 	  = con.prepareStatement(sqlNewHumidities);
 			this.psGetHumidOfDate = con.prepareStatement(sqlGetHumidOfDate);
 			this.psGetHumidityBetween = con.prepareStatement(sqlGetHumidityBetween);
 		} 
@@ -75,7 +75,7 @@ public class HumidityDao {
 	 */
 	public int getCurrentHumidity() {
 		Humidity h = null;
-		ArrayList<Humidity> humidMeasures = getAllHumids();
+		ArrayList<Humidity> humidMeasures = getAllHumidities();
 		if (humidMeasures.size() >= 1) {
 			h = humidMeasures.get(humidMeasures.size()-1);
 			return h.getHumidity();
@@ -84,14 +84,14 @@ public class HumidityDao {
 	}
 
 	/**
-	 * Gets the all humids.
+	 * Get all humidities.
 	 *
-	 * @return the all humids
+	 * @return all humidities
 	 */
-	public ArrayList<Humidity> getAllHumids(){
+	public ArrayList<Humidity> getAllHumidities(){
 		ArrayList<Humidity> humiditys = new ArrayList<Humidity>();
 		try {
-			ResultSet rs = psGetAllHumids.executeQuery();
+			ResultSet rs = psGetAllHumidities.executeQuery();
 			while (rs.next()){
 				Date date = rs.getDate(1);
 				String time = rs.getString(2);
@@ -108,7 +108,7 @@ public class HumidityDao {
 	/**
 	 * Adds the new humidity.
 	 *
-	 * @param humidity the humidity
+	 * @param humidity the new humidity
 	 */
 	public void addNewHumidity(int humidity){
 		String humidHour = "";
@@ -136,7 +136,7 @@ public class HumidityDao {
 	/**
 	 * Prints the sql exception.
 	 *
-	 * @param se the se
+	 * @param se the sqlexception
 	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
@@ -150,12 +150,12 @@ public class HumidityDao {
 	}
 
 	/**
-	 * Gets the humids of date.
+	 * Gets the humidities of date.
 	 *
-	 * @param dateFormat the date format
-	 * @return the humids of date
+	 * @param dateFormat the date
+	 * @return the humidities of date
 	 */
-	public ArrayList<Humidity> getHumidsOfDate(String dateFormat){
+	public ArrayList<Humidity> getHumiditiesOfDate(String dateFormat){
 		//asserts
 		assert(dateFormat != null);
 		
@@ -184,15 +184,15 @@ public class HumidityDao {
 	}
 	
 	/**
-	 * Gets the humiditys between dates.
+	 * Gets the humidities between dates.
 	 *
-	 * @param dateFormat1 the date format1
-	 * @param time1 the time1
-	 * @param dateFormat2 the date format2
-	 * @param time2 the time2
-	 * @return the humiditys between dates
+	 * @param dateFormat1 the start date
+	 * @param time1 the start time
+	 * @param dateFormat2 the end date
+	 * @param time2 the start time
+	 * @return the humidities between dates
 	 */
-	public ArrayList<Humidity> getHumiditysBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
+	public ArrayList<Humidity> getHumiditiesBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
 		
 		//asserts
 		assert(dateFormat1 != null);
@@ -232,7 +232,7 @@ public class HumidityDao {
 				tempArray.add(humidity);
 			}
 
-			humids = getDateBetweenHours(time1, time2, date1, date2, tempArray);
+			humids = getHumiditiesBetweenHours(time1, time2, date1, date2, tempArray);
 		} catch (SQLException se) {
 			printSQLException(se) ;		
 		} 
@@ -242,15 +242,15 @@ public class HumidityDao {
 	/**
 	 * Gets the date between hours.
 	 *
-	 * @param time1 the time1
-	 * @param time2 the time2
-	 * @param date1 the date1
-	 * @param date2 the date2
+	 * @param time1 start time
+	 * @param time2 end time
+	 * @param date1 start date
+	 * @param date2 end time
 	 * @param humidityArray the humidity array
 	 * @return the date between hours
 	 */
 	@SuppressWarnings("deprecation")
-	private ArrayList<Humidity> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Humidity> humidityArray) {
+	private ArrayList<Humidity> getHumiditiesBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Humidity> humidityArray) {
 		
 		//asserts
 		assert(time1 != null);
@@ -308,29 +308,29 @@ public class HumidityDao {
 	}
 	
 	/**
-	 * Filter humidity list.
+	 * Filter humidity list. List that contains fewer entries to make the graphs more clear.
 	 *
-	 * @param humids the humids
-	 * @return the array list
+	 * @param humidities the humidities to be filtered.
+	 * @return the array list containing the filtered humidities
 	 */
-	private ArrayList<Humidity> filterHumidityList(ArrayList<Humidity> humids) {
+	private ArrayList<Humidity> filterHumidityList(ArrayList<Humidity> humidities) {
 		
 		//asserts
-		assert(humids != null);
+		assert(humidities != null);
 		
 		ArrayList<Humidity> humiditys = null;
-		if (humids.size() > 25) {
+		if (humidities.size() > 25) {
 			humiditys = new ArrayList<Humidity>();
-			Humidity firstValue = humids.get(0);
-			Humidity lastValue = humids.get(humids.size()-6);
+			Humidity firstValue = humidities.get(0);
+			Humidity lastValue = humidities.get(humidities.size()-6);
 			long amountOfSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),
 														lastValue.getDate(),lastValue.getTime());
 			long avgSeconds = amountOfSeconds/20;
 			long currentSeconds = avgSeconds;
 			ArrayList<Humidity> tempHumiditys = new ArrayList<Humidity>();
-			for (Humidity t : humids.subList(0, humids.size()-5)) {
+			for (Humidity t : humidities.subList(0, humidities.size()-5)) {
 				long diffSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),t.getDate(),t.getTime());
-				if (diffSeconds > currentSeconds || t == humids.get(humids.size()-6)) {
+				if (diffSeconds > currentSeconds || t == humidities.get(humidities.size()-6)) {
 					Humidity firstHumidityValue = tempHumiditys.get(0);
 					double avgValue = 0;
 					for (Humidity tempT : tempHumiditys) {
@@ -347,9 +347,9 @@ public class HumidityDao {
 				tempHumiditys.add(t);
 			}
 			
-			humiditys.addAll(humids.subList(humids.size()-6, humids.size()));
+			humiditys.addAll(humidities.subList(humidities.size()-6, humidities.size()));
 		} else {
-			humiditys = humids;
+			humiditys = humidities;
 		}
 		return humiditys;
 	}
@@ -357,10 +357,10 @@ public class HumidityDao {
 	/**
 	 * Gets the amount of seconds.
 	 *
-	 * @param date1 the date1
-	 * @param time1 the time1
-	 * @param date2 the date2
-	 * @param time2 the time2
+	 * @param date1 start date
+	 * @param time1 start time
+	 * @param date2 end date
+	 * @param time2 end time
 	 * @return the amount of seconds
 	 */
 	@SuppressWarnings("deprecation")

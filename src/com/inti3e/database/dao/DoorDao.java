@@ -22,25 +22,25 @@ import com.inti3e.model.Door;
  */
 public class DoorDao {
 
-	/** The sql get all door. */
+	/** The sql get all doors. */
 	private String sqlGetAllDoor		= "SELECT date, time, door FROM APP.DOOR ORDER BY date,time ASC";
 	
 	/** The sql new door. */
 	private String sqlNewDoor			= "INSERT INTO APP.DOOR (\"DATE\", \"TIME\", \"DOOR\" ) VALUES (?,?,?)";
 	
-	/** The sql get door between. */
+	/** The sql get door between dates. */
 	private String sqlGetDoorBetween	= "SELECT date,time,door FROM APP.DOOR WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 	
 	/** The con. */
 	private Connection        con      = null ;
 	
-	/** The ps get all door. */
+	/** The ps get all doors. */
 	private PreparedStatement psGetAllDoor = null ;
 	
 	/** The ps new door. */
 	private PreparedStatement psNewDoor = null;
 	
-	/** The ps get door between. */
+	/** The ps get door between dates. */
 	private PreparedStatement psGetDoorBetween = null;
 
 
@@ -62,9 +62,9 @@ public class DoorDao {
 	}
 	
 	/**
-	 * Gets the current door.
+	 * Gets the current state of door.
 	 *
-	 * @return the current door
+	 * @return the current state of door
 	 */
 	public boolean getCurrentDoor() {
 		ArrayList<Door> doorMessures = getAllDoors();
@@ -78,9 +78,9 @@ public class DoorDao {
 	}
 
 	/**
-	 * Gets the all doors.
+	 * Get all door.
 	 *
-	 * @return the all doors
+	 * @return all door
 	 */
 	public ArrayList<Door> getAllDoors(){
 		ArrayList<Door> doors = new ArrayList<Door>();
@@ -102,7 +102,7 @@ public class DoorDao {
 	/**
 	 * Adds the new door.
 	 *
-	 * @param open the open
+	 * @param open the state of the door
 	 */
 	public void addNewDoor( boolean open ){
 		String doorHour = "";
@@ -130,7 +130,7 @@ public class DoorDao {
 	/**
 	 * Prints the sql exception.
 	 *
-	 * @param se the se
+	 * @param se the sqlexception
 	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
@@ -144,12 +144,12 @@ public class DoorDao {
 	}
 	
 	/**
-	 * Gets the doors between dates.
+	 * Get the doors between dates.
 	 *
-	 * @param dateFormat1 the date format1
-	 * @param time1 the time1
-	 * @param dateFormat2 the date format2
-	 * @param time2 the time2
+	 * @param dateFormat1 start date
+	 * @param time1 start time
+	 * @param dateFormat2 end date
+	 * @param time2 end time
 	 * @return the doors between dates
 	 */
 	public ArrayList<Door> getDoorsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
@@ -190,7 +190,7 @@ public class DoorDao {
 				doorArray.add(adddoor);
 			}
 
-			doors = getDateBetweenHours(time1, time2, date1, date2, doorArray);
+			doors = getDoorsBetweenHours(time1, time2, date1, date2, doorArray);
 		} catch (SQLException se) {
 			printSQLException(se) ;		
 		} 
@@ -200,15 +200,15 @@ public class DoorDao {
 	/**
 	 * Gets the date between hours.
 	 *
-	 * @param time1 the time1
-	 * @param time2 the time2
-	 * @param date1 the date1
-	 * @param date2 the date2
+	 * @param time1 the start time
+	 * @param time2 the end time
+	 * @param date1 the start date
+	 * @param date2 the end date
 	 * @param doorArray the door array
 	 * @return the date between hours
 	 */
 	@SuppressWarnings({ "deprecation" })
-	private ArrayList<Door> getDateBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Door> doorArray) {
+	private ArrayList<Door> getDoorsBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<Door> doorArray) {
 		//asserts
 		assert(time1 != null);
 		assert(time2 != null);
@@ -265,10 +265,10 @@ public class DoorDao {
 	}
 	
 	/**
-	 * Filter door list.
+	 * Filter door list. List that contains fewer entries to make the graphs more clear.
 	 *
-	 * @param doors the doors
-	 * @return the array list
+	 * @param doors all doors that have to be filtered
+	 * @return the filtered array list
 	 */
 	private ArrayList<Door> filterDoorList(ArrayList<Door> doors) {
 		ArrayList<Door> removeDoors = new ArrayList<Door>();

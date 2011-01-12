@@ -29,7 +29,7 @@ public class LightSensorDao {
 	/** The sql new light. */
 	private String sqlNewLight 			= "INSERT INTO APP.LIGHTSENSOR (\"DATE\", \"TIME\", \"LIGHT\" ) VALUES (?,?,?)";
 	
-	/** The sql get light between. */
+	/** The sql get light between dates. */
 	private String sqlGetLightBetween	= "SELECT date,time,light FROM APP.LIGHTSENSOR WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 	
 	/** The con. */
@@ -41,7 +41,7 @@ public class LightSensorDao {
 	/** The ps new light. */
 	private PreparedStatement psNewLight = null;
 	
-	/** The ps get light between. */
+	/** The ps get light between dates. */
 	private PreparedStatement psGetLightBetween = null;
 
 
@@ -64,7 +64,7 @@ public class LightSensorDao {
 	}
 	
 	/**
-	 * Gets the light on.
+	 * Get if the light on.
 	 *
 	 * @return the light on
 	 */
@@ -102,9 +102,9 @@ public class LightSensorDao {
 	}
 
 	/**
-	 * Adds the new light.
+	 * Adds the new light measurement.
 	 *
-	 * @param light the light
+	 * @param light the light measurement
 	 */
 	public void addNewLight(boolean light) {
 		String lightHour = "";
@@ -132,7 +132,7 @@ public class LightSensorDao {
 	/**
 	 * Prints the sql exception.
 	 *
-	 * @param se the se
+	 * @param se the sqlexcpection
 	 */
 	private void printSQLException(SQLException se) {
 		while(se != null) {
@@ -146,12 +146,12 @@ public class LightSensorDao {
 	}
 	
 	/**
-	 * Gets the lights between dates.
+	 * Get the lights between dates.
 	 *
-	 * @param dateFormat1 the date format1
-	 * @param time1 the time1
-	 * @param dateFormat2 the date format2
-	 * @param time2 the time2
+	 * @param dateFormat1 the start date
+	 * @param time1 the start time 
+	 * @param dateFormat2 the end date
+	 * @param time2 the end time
 	 * @return the lights between dates
 	 */
 	public ArrayList<LightSensor> getLightsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
@@ -204,12 +204,12 @@ public class LightSensorDao {
 	/**
 	 * Gets the light between hours.
 	 *
-	 * @param time1 the time1
-	 * @param time2 the time2
-	 * @param date1 the date1
-	 * @param date2 the date2
-	 * @param lightArray the light array
-	 * @return the light between hours
+	 * @param time1 start time
+	 * @param time2 end time
+	 * @param date1 start date
+	 * @param date2 end date
+	 * @param lightArray containing the light measurements
+	 * @return the light measurements between hours
 	 */
 	@SuppressWarnings("deprecation")
 	private ArrayList<LightSensor> getLightBetweenHours(String time1, String time2, java.util.Date date1, java.util.Date date2, ArrayList<LightSensor> lightArray) {
@@ -270,10 +270,10 @@ public class LightSensorDao {
 	}
 	
 	/**
-	 * Filter light list.
+	 * Filter light list. List that contains fewer entries to make the graphs more clear.
 	 *
-	 * @param lights the lights
-	 * @return the array list
+	 * @param lights the light measurements to be filtered.
+	 * @return the array list containing the filtered lights
 	 */
 	private ArrayList<LightSensor> filterLightList(ArrayList<LightSensor> lights) {
 		ArrayList<LightSensor> removeLights = new ArrayList<LightSensor>();
@@ -339,10 +339,10 @@ public class LightSensorDao {
 	/**
 	 * Gets the amount of seconds.
 	 *
-	 * @param date1 the date1
-	 * @param time1 the time1
-	 * @param date2 the date2
-	 * @param time2 the time2
+	 * @param date1 start date
+	 * @param time1 start time
+	 * @param date2 end date
+	 * @param time2 end time
 	 * @return the amount of seconds
 	 */
 	@SuppressWarnings("deprecation")

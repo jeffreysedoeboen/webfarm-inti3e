@@ -54,7 +54,7 @@ public class TestDatabase {
 	public void testHumidityDao() {
 		HumidityDao td = new HumidityDao();
 		td.addNewHumidity(12);
-		ArrayList<Humidity> humidyArray = td.getAllHumids();
+		ArrayList<Humidity> humidyArray = td.getAllHumidities();
 		for(Humidity humidity: humidyArray) {
 			System.out.println(humidity.getHumidity());
 		}

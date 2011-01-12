@@ -27,7 +27,7 @@ public class DBmanager {
 	private final String dbname = "jdbc:derby:statisticsDB;create=true";
 	
 	/**
-	 * Instantiates a new d bmanager.
+	 * Instantiates a new dbmanager.
 	 */
 	private DBmanager(){
 		if(!dbExists(dbname))
@@ -52,7 +52,7 @@ public class DBmanager {
 	}
 	
 	/**
-	 * Db exists.
+	 * check if Db exists.
 	 *
 	 * @param dataSource the data source
 	 * @return the boolean

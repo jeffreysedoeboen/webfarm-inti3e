@@ -34,7 +34,7 @@ public class CreateDBTables {
 	
 	//Methoden
 	/**
-	 * Creates the tables if not exists.
+	 * Creates the tables if they do not exist.
 	 *
 	 * @throws SQLException the sQL exception
 	 */
@@ -45,7 +45,7 @@ public class CreateDBTables {
 	}
 	
 	/**
-	 * Creates the users table if not exists.
+	 * Creates the users table if it does not exist.
 	 *
 	 * @throws SQLException the sQL exception
 	 */
@@ -68,7 +68,7 @@ public class CreateDBTables {
 	}
 	
 	/**
-	 * Creates the games table if not exists.
+	 * Creates the games table if it does not exist.
 	 *
 	 * @throws SQLException the sQL exception
 	 */
@@ -90,7 +90,7 @@ public class CreateDBTables {
 	}
 	
 	/**
-	 * Creates the results table if not exists.
+	 * Creates the results table if it does not exist.
 	 *
 	 * @throws SQLException the sQL exception
 	 */
@@ -109,9 +109,9 @@ public class CreateDBTables {
 	}
 	
 	/**
-	 * Check if table exists.
+	 * Check if the table exists.
 	 *
-	 * @param name the name
+	 * @param name the name of the table
 	 * @return true, if successful
 	 * @throws SQLException the sQL exception
 	 */

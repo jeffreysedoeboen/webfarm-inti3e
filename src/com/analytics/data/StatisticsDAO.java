@@ -86,7 +86,7 @@ public class StatisticsDAO {
 	/**
 	 * Prints the sql exception.
 	 *
-	 * @param se the se
+	 * @param se the sqlexception
 	 */
 	private void printSQLException(SQLException se) {
 		while (se != null) {
@@ -139,9 +139,9 @@ public class StatisticsDAO {
 	}
 	
 	/**
-	 * Gets the hits per languages.
+	 * Gets the hits per language.
 	 *
-	 * @return the hits per languages
+	 * @return the hits per language
 	 */
 	public ArrayList<RowBean> getHitsPerLanguages() {
 		ArrayList<RowBean> languages = new ArrayList<RowBean>();

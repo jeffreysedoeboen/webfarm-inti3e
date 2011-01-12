@@ -56,9 +56,9 @@ public class MovementDao {
 	}
 
 	/**
-	 * Gets the all movements.
+	 * Gets  all movement measurements.
 	 *
-	 * @return the all movements
+	 * @return  all movements measurements.
 	 */
 	public ArrayList<Movement> getAllMovements(){
 		ArrayList<Movement> movements = new ArrayList<Movement>();
@@ -78,9 +78,9 @@ public class MovementDao {
 	}
 
 	/**
-	 * Adds the new movement.
+	 * Adds the new movement measurement.
 	 *
-	 * @param movement the movement
+	 * @param movement the movement measurement.
 	 */
 	public void addNewMovement(boolean movement){
 		String moveHour = "";

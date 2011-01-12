@@ -26,10 +26,10 @@ public class LightServlet extends HttpServlet {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	/** The lsd. */
+	/** The lightsensor dao. */
 	LightSensorDao lsd = new LightSensorDao();
 	
-	/** The dm. */
+	/** The datamanager. */
 	DataManager dm = DataManager.getInstance();
        
     /**
@@ -42,7 +42,7 @@ public class LightServlet extends HttpServlet {
     }
 
 	/**
-	 * Do get.
+	 * Do get. this method checks the current state of the light, and return it to the webpage
 	 *
 	 * @param request the request
 	 * @param response the response
@@ -73,7 +73,8 @@ public class LightServlet extends HttpServlet {
 	}
 
 	/**
-	 * Do post.
+	 * Do post. 
+	 * this method turns the light on and off
 	 *
 	 * @param request the request
 	 * @param response the response
