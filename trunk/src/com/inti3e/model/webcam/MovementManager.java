@@ -20,11 +20,11 @@ public class MovementManager {
 			DateFormat dfmt = new SimpleDateFormat( "yyyyMMdd-hhmmss" ); 			
 			String filename = dfmt.format(new Date()) + ".ogg";
 			
-			try {
-				recordingProcess = Runtime.getRuntime().exec("cvlc -vvv http://localhost:8088 --demux=dump --demuxdump-file=" + filename);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				recordingProcess = Runtime.getRuntime().exec("cvlc -vvv http://localhost:8088 --demux=dump --demuxdump-file=" + filename);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 			
 			recording = true;
 		}

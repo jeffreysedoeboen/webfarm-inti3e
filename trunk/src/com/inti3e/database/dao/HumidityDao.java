@@ -253,9 +253,9 @@ public class HumidityDao {
 			long avgSeconds = amountOfSeconds/20;
 			long currentSeconds = avgSeconds;
 			ArrayList<Humidity> tempHumiditys = new ArrayList<Humidity>();
-			for (Humidity t : humids) {
+			for (Humidity t : humids.subList(0, humids.size()-5)) {
 				long diffSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),t.getDate(),t.getTime());
-				if (diffSeconds > currentSeconds || t == humids.get(humids.size()-1)) {
+				if (diffSeconds > currentSeconds || t == humids.get(humids.size()-6)) {
 					Humidity firstHumidityValue = tempHumiditys.get(0);
 					double avgValue = 0;
 					for (Humidity tempT : tempHumiditys) {

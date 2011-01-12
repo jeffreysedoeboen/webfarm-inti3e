@@ -38,11 +38,11 @@ public class ContextListener implements ServletContextListener {
 		(DataManager.getInstance()).start();
 		
 		// start webcam streaming
-		try {
-			Runtime.getRuntime().exec("cvlc -vvv v4l:///dev/video0 --sout '#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8088/}' --no-sout-rtp-sap --no-sout-standard-sap --sout-all --sout-keep &");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Runtime.getRuntime().exec("cvlc -vvv v4l:///dev/video0 --sout '#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8088/}' --no-sout-rtp-sap --no-sout-standard-sap --sout-all --sout-keep &");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 	

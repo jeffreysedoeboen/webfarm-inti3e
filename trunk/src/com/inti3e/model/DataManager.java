@@ -36,6 +36,7 @@ public class DataManager extends Thread {
 		hd = new HumidityDao();
 		td = new TempDao();
 		
+		movementManager = new MovementManager();
 		socket = null;
 	}
 	
@@ -78,6 +79,7 @@ public class DataManager extends Thread {
 			} else {
 				outPut = 0;
 			}
+			System.out.println("Switching light to: "+light);
 			out.write('L');
 			out.write(outPut + 48); //ASCI
 			out.write(':');
@@ -95,6 +97,7 @@ public class DataManager extends Thread {
 				while ((input = (char) socket.getInputStream().read()) != ':') {
 					value += String.valueOf(input);
 				}
+				System.out.println(in+" : "+value);
 				switch (in) {
 					case ('D'):
 						boolean door;

@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.inti3e.database.DBmanager;
+import com.inti3e.model.Door;
 import com.inti3e.model.LightSensor;
 
 
@@ -240,7 +241,93 @@ public class LightSensorDao {
 			}
 		}
 		lightArray.removeAll(removeLights);
-		return lightArray;
+		return filterLightList(lightArray);
+	}
+	
+	private ArrayList<LightSensor> filterLightList(ArrayList<LightSensor> lights) {
+		ArrayList<LightSensor> removeLights = new ArrayList<LightSensor>();
+		if (lights.size() > 0) {
+			String open = "";
+			for (LightSensor l : lights) {
+				if (open.equals(l.getLight())) {
+					removeLights.add(l);
+				}
+				open = l.getLight();
+			}
+			lights.removeAll(removeLights);
+			
+			if (lights.size() > 25) {
+				ArrayList<LightSensor> filteredLights = new ArrayList<LightSensor>();
+				
+				LightSensor firstValue = lights.get(0);
+				LightSensor lastValue = lights.get(lights.size()-6);
+				long amountOfSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),
+															lastValue.getDate(),lastValue.getTime());
+				long avgSeconds = amountOfSeconds/20;
+				long currentSeconds = avgSeconds;
+				
+				LightSensor firstBlockLight = lights.get(0), betweenBlockLight = null, lastBlockLight = null;
+				for (LightSensor l : lights.subList(0, lights.size()-5)) {
+					long diffSeconds = getAmountOfSeconds(firstValue.getDate(),firstValue.getTime(),l.getDate(),l.getTime());
+					if (diffSeconds > currentSeconds || l == lights.get(lights.size()-6)) {
+						if (filteredLights.size() == 0 || firstBlockLight != null && 
+								firstBlockLight.getLight() != filteredLights.get(filteredLights.size()-1).getLight()) {
+							filteredLights.add(firstBlockLight);
+						}
+						if (betweenBlockLight != null && 
+								betweenBlockLight.getLight() != filteredLights.get(filteredLights.size()-1).getLight()) {
+							filteredLights.add(betweenBlockLight);
+						}
+						if (lastBlockLight != null && 
+								lastBlockLight.getLight() != filteredLights.get(filteredLights.size()-1).getLight()) {
+							filteredLights.add(lastBlockLight);
+						}
+						
+						firstBlockLight = l;
+						betweenBlockLight = null;
+						lastBlockLight = null;
+						currentSeconds += avgSeconds;
+					} else {
+						if (betweenBlockLight == null && firstBlockLight.getLight() != l.getLight()) {
+							betweenBlockLight = l;
+						}
+						lastBlockLight = l;
+					}
+				}
+				
+				if (filteredLights.get(filteredLights.size()-1).getLight() != lights.get(lights.size()-6).getLight()) {
+					filteredLights.add(lights.get(lights.size()-6));
+				}
+				filteredLights.addAll(lights.subList(lights.size()-5, lights.size()));
+				lights = filteredLights;
+			}
+		}
+		return lights;
+	}
+	
+	private long getAmountOfSeconds(java.util.Date date1, String time1, java.util.Date date2, String time2) {
+		String[] splittedTime1 = time1.split(":");
+		int hour1 	= Integer.parseInt(splittedTime1[0]);
+		int minute1 = Integer.parseInt(splittedTime1[1]);
+		int second1 = Integer.parseInt(splittedTime1[2]);
+		String[] splittedTime2 = time2.split(":");
+		int hour2 	= Integer.parseInt(splittedTime2[0]);
+		int minute2 = Integer.parseInt(splittedTime2[1]);
+		int second2 = Integer.parseInt(splittedTime2[2]);
+		
+		int time1Seconds = hour1*3600+minute1*60+second1;
+		int time2Seconds = hour2*3600+minute2*60+second2;
+		
+		long amountOfSeconds = time2Seconds-time1Seconds;
+		
+		int date1Days = date1.getDate()+date1.getMonth()*30+date1.getYear()*365;
+		int date2Days = date2.getDate()+date2.getMonth()*30+date2.getYear()*365;
+		
+		int amountOfDays = date2Days-date1Days;
+		
+		amountOfSeconds += amountOfDays*86400;
+		
+		return amountOfSeconds;
 	}
 }
 
