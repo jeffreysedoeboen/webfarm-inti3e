@@ -6,7 +6,7 @@
 </script>
 
 <div align="center">
-<applet code="com.fluendo.player.Cortado.class" archive="cortado.jar" width="352" height="288">
+<applet code="com.fluendo.player.Cortado.class" archive="http://theora.org/cortado.jar" width="352" height="288">
   <param name="url" value="http://192.168.0.123:8088"/>
   <param name="seekable" value="false"/>
   <param name="live" value="true"/>

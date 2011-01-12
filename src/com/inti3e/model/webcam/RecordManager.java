@@ -20,27 +20,13 @@ public class RecordManager {
 	/** The recording. */
 	private boolean recording;
 	
+	/** The startByUser */
+	private boolean startByUser;
+	
 	private RecordManager() {
 		recordingProcess = null;
 		recording = false;
-	}
-	
-	/**
-	 * Start recording.
-	 */
-	public void startRecording() {
-		if (!recording) {
-			DateFormat dfmt = new SimpleDateFormat( "yyyyMMdd-hhmmss" ); 			
-			String filename = dfmt.format(new Date()) + ".ogg";
-			
-//			try {
-//				recordingProcess = Runtime.getRuntime().exec("cvlc -vvv http://localhost:8088 --demux=dump --demuxdump-file=" + filename);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-			
-			recording = true;
-		}
+		startByUser = false;
 	}
 	
 	public static synchronized RecordManager getInstance() {
@@ -51,10 +37,21 @@ public class RecordManager {
 	}
 	
 	/**
-	 * Get recording.
+	 * Start recording.
 	 */
-	public boolean getRecording() {
-		return recording;
+	private void startRecording() {
+		if (!recording) {
+			recording = true;
+			
+			DateFormat dfmt = new SimpleDateFormat( "yyyyMMdd-hhmmss" ); 			
+			String filename = dfmt.format(new Date()) + ".ogg";
+			
+			try {
+				recordingProcess = Runtime.getRuntime().exec("cvlc -vvv http://localhost:8088 --demux=dump --demuxdump-file=" + filename + " &");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -64,6 +61,35 @@ public class RecordManager {
 		if (recording) {
 			recordingProcess.destroy();
 			recording = false;
+			startByUser = false;
 		}
+	}
+	
+	public void startRecordingByUser() {
+		startByUser = true;
+		startRecording();
+	}
+	
+	public void startRecordingAtMovement() {
+		if (!startByUser) {
+			startRecording();
+		}
+	}
+	
+	public void stopRecordingByUser() {
+		stopRecording();
+	}
+	
+	public void stopRecordingAtMovement() {
+		if (!startByUser) {
+			stopRecording();
+		}
+	}
+	
+	/**
+	 * Get recording.
+	 */
+	public boolean getRecording() {
+		return recording;
 	}
 }

@@ -69,6 +69,7 @@ public class DataManager extends Thread {
 		
 		
 		movementManager = RecordManager.getInstance();
+		
 		socket = null;
 	}
 	
@@ -127,7 +128,7 @@ public class DataManager extends Thread {
 			} else {
 				outPut = 0;
 			}
-			System.out.println("Switching light to: "+light);
+			System.out.println("Turn Light: "+outPut);
 			out.write('L');
 			out.write(outPut + 48); //ASCI
 			out.write(':');
@@ -140,17 +141,20 @@ public class DataManager extends Thread {
 	 * Read.
 	 */
 	private void read() {
+		System.out.println("start");
 		char in = 'p';
 		try {
 			while ((in = (char) socket.getInputStream().read()) != '!') {
+				System.out.println(in);
 				char input = 'k';
 				String value = "";
 				while ((input = (char) socket.getInputStream().read()) != ':') {
 					value += String.valueOf(input);
 				}
-				System.out.println(in+" : "+value);
+				System.out.println(value);
 				switch (in) {
 					case ('D'):
+						System.out.println("Door");
 						boolean door;
 						if(value.equals("1")) {
 							door = true;
@@ -160,19 +164,20 @@ public class DataManager extends Thread {
 						dd.addNewDoor(door);
 						break;
 					case ('B'):
-
+						System.out.println("Movement");
 						boolean movement;
 						if(value.equals("1")) {
 							movement = true;
-							movementManager.startRecording();
+							movementManager.startRecordingAtMovement();
 						} else {
 							movement = false;
-							movementManager.stopRecording();
+							movementManager.stopRecordingAtMovement();
 						}
+						System.out.println(movement);
 						md.addNewMovement(movement);
 						break;
-
 					case ('S'):
+						System.out.println("Switch");
 						boolean manualSwitch;
 						if(value.equals("1")) {
 							manualSwitch = true;
@@ -182,6 +187,7 @@ public class DataManager extends Thread {
 						lsd.addNewLightSwitch(manualSwitch);
 						break;
 					case ('L'):
+						System.out.println("Lightsensor");
 						boolean lightSensor;
 						if(value.equals("1")) {
 							lightSensor = true;
