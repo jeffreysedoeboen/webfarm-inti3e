@@ -2,7 +2,9 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.analytics.data.beans.PageHit"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<center>
+<h1>User statistics</h1>
+<label>IP: </label>
 <c:if test="${user.admin}">
 	<select id="selectedIp" onchange="getStatistics()">
 			<%
@@ -15,18 +17,28 @@
 </c:if>
 
 <c:if test="${!user.admin}">
-<input type='hidden' value='<%= request.getRemoteAddr()%>' id="selectedIp"/>
+<label id="selectedIp"><%= request.getRemoteAddr()%></label>
 </c:if>
 
-<div id="wrapper">
-	<div id="content">
-		<h1>User Statistics</h1>
-		<div class="infobox" style="float:none;">
-			<div class="row">
-				<div class="left">IP: </div>
-				<div id='ipAdress' class="middle"></div>
-			</div>
-			<div id='pages'></div>
-		</div>
-	</div>
+<div id="temp_table_div"
+style="color:#ffffff;
+width:100%;
+height:400px;
+border:5px;
+background-color:#000000;
+overflow:auto;">
+<table style="border:3px #363636 solid"
+align="center" width="40%" bgcolor="#222222">
+	<thead>
+		<tr>
+			<th>Page</th>
+			<th>Hits</th>
+		</tr>
+	</thead>
+	<tbody id="stats_table_body"></tbody>
+</table>
 </div>
+</center>
+<br>
+<br>
+<br>

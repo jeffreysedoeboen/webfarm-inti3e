@@ -10,7 +10,12 @@ pageContext.setAttribute("browsers", statistics.getHitsPerBrowser());
 pageContext.setAttribute("languages", statistics.getHitsPerLanguages());
 pageContext.setAttribute("ips", statistics.getHitsPerIp());
 %>
-<div id="wrapper">
+<div id="wrapper" style="color:#ffffff;
+width:70%;
+height:400px;
+border:5px;
+background-color:#000000;
+overflow:auto;">
 	<div id="content">
 		<h1>Statistics</h1>
 		<div class="infobox" style="float:none;">
@@ -45,3 +50,5 @@ pageContext.setAttribute("ips", statistics.getHitsPerIp());
 		</div>
 	</div>
 </div>
+<br>
+<br>

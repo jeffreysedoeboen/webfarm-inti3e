@@ -607,17 +607,16 @@ function getStatistics() {
 	var selectedIp = document.getElementById("selectedIp").value;
 	$.getJSON("statistics.do?selectedIp=" + selectedIp, function(json) {
 		var pages = json.pages;
-		var pagesObject = document.getElementById("pages");
-		pagesObject.innerHTML = "";
-		document.getElementById("ipAdress").innerHTML = selectedIp;
+		var statsTableBody = document.getElementById("stats_table_body");
+		statsTableBody.innerHTML = "";
 
 		for(var i = 0; i < pages.length; i++) {
-			var pageHTML = "<div class='row'><div class=\"left\">Page:</div><div class=\"middle\">";
+			var pageHTML = "<tr><td>";
 			pageHTML += pages[i].page;
-			pageHTML += "</div><div class=\"right\">";
+			pageHTML += "</td><td>";
 			pageHTML += pages[i].hits;
-			pageHTML += 'X</div></div>';
-			pagesObject.innerHTML += pageHTML;
+			pageHTML += 'X</td></tr>';
+			statsTableBody.innerHTML += pageHTML;
 		}
 	});
 	
