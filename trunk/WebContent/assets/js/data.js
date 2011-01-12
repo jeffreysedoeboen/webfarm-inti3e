@@ -71,16 +71,16 @@ function getVidListByDate() {
 function fillPlaybackTable(json) {
 	var table = document.getElementById("playback_table_body");
 	table.innerHTML = "";
-		for (var i = 0; i < json.Files.length; i++) {
-			var trElem = document.createElement("tr");
-			var tdVideo = document.createElement("td");
+	for (var i = 0; i < json.Files.length; i++) {
+		var trElem = document.createElement("tr");
+		var tdVideo = document.createElement("td");
 
-			tdVideo.setAttribute('align','center');
+		tdVideo.setAttribute('align','center');
 
-			tdVideo.innerHTML += json.Files[i];
-			trElem.appendChild(tdVideo);
-			table.appendChild(trElem);
-		}
+		tdVideo.innerHTML += json.Files[i];
+		trElem.appendChild(tdVideo);
+		table.appendChild(trElem);
+	}
 }
 
 function showPlayer(name) {
@@ -109,6 +109,7 @@ function removeUser(name) {
 	fillAccountsTable();
 	});
 }
+
 
 function getTempByDate(date1, date2, time1, time2) {
 	$.getJSON("DateServlet.do?id=temp&date1="+date1 + "&date2=" + date2 + "&time1=" + time1 + "&time2=" + time2, function(json) {
@@ -413,7 +414,7 @@ function drawDoorChart(json) {
 			var invertedValueSet = new Array();
 			var valueSet = new Array();
 			
-			invertedValueSet[0] = json.door[i].time;
+			invertedValueSet[0] = json.door[i].date + "/" + json.door[i].time;
 			if (i > 0) {
 				if (json.door[i-1].door == 1) {
 					invertedValueSet[1] = 0;
@@ -543,7 +544,7 @@ function drawLightChart(json) {
 			var invertedValueSet = new Array();
 			var valueSet = new Array();
 
-			invertedValueSet[0] = json.light[i].time;
+			invertedValueSet[0] = json.light[i].date + "/" + json.light[i].time;
 			if (i > 0) {
 				if (json.light[i-1].light == "1") {
 					invertedValueSet[1] = 0;
