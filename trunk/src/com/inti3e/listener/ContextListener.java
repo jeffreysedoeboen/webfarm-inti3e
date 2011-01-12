@@ -26,6 +26,7 @@ import com.inti3e.model.DataManager;
  */
 public class ContextListener implements ServletContextListener {
 
+	private Process process;
 	/* (non-Javadoc)
 	 * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
 	 */
@@ -38,7 +39,17 @@ public class ContextListener implements ServletContextListener {
 		
 		// start webcam streaming
 //		try {
-//			Runtime.getRuntime().exec("cvlc -vvv v4l:///dev/video0 --sout '#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8088/}' --no-sout-rtp-sap --no-sout-standard-sap --sout-all --sout-keep &");
+//			process = Runtime.getRuntime().exec("cvlc -vvv v4l:///dev/video0 --sout '#transcode{vcodec=theo,vb=800,scale=1,acodec=none}:http{mux=ogg,dst=:8088/}' --no-sout-rtp-sap --no-sout-standard-sap --sout-all --sout-keep &");
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+//			boolean test = true;
+//			while (test) {
+//				String line = reader.readLine();
+//				if (line != null) {
+//					System.out.println(line);
+//				} else {
+//					test = false;
+//				}
+//			}
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
@@ -52,5 +63,7 @@ public class ContextListener implements ServletContextListener {
 		(DataManager.getInstance()).shutdown();
 		DBmanager.getInstance().close();
 		com.analytics.data.DBmanager.getInstance().close();
+		
+		process.destroy();
 	}
 }

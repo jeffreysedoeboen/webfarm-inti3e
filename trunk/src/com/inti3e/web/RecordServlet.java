@@ -32,8 +32,6 @@ public class RecordServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("in recordServlet GET");
-		
 		JSONObject json = new JSONObject();
 		
 		try {
@@ -50,9 +48,9 @@ public class RecordServlet extends HttpServlet {
 		String record = request.getParameter("record");
 		if (record != null) {
 			if(record.equals("on")) {
-				rm.startRecording();
+				rm.startRecordingByUser();
 			} else if(record.equals("off")) {
-				rm.stopRecording();
+				rm.stopRecordingByUser();
 			}
 		}
 	}

@@ -80,8 +80,9 @@ public class TempDao {
 		ArrayList<Temperature> tempMeasures = getAllTemps();
 		if (tempMeasures.size() >= 1) {
 			t = tempMeasures.get(tempMeasures.size()-1);
+			return t.getTemp();
 		}
-		return t.getTemp();
+		return "";
 	}
 	
 	/**

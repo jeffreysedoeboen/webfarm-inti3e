@@ -78,8 +78,9 @@ public class HumidityDao {
 		ArrayList<Humidity> humidMeasures = getAllHumids();
 		if (humidMeasures.size() >= 1) {
 			h = humidMeasures.get(humidMeasures.size()-1);
+			return h.getHumidity();
 		}
-		return h.getHumidity();
+		return -1;
 	}
 
 	/**
