@@ -20,7 +20,7 @@ public class Apl {
 	 */
 	public static void main( String[] args ) {
 		TempDao d = new TempDao();
-		for(Temperature t: d.getAllTemps()){
+		for(Temperature t: d.getTempsBetweenDates("01-01-01", "12:00:00", "30-12-99", "12:00:00")){
 			System.out.println(t.getDate());
 			System.out.println(t.getTemp());
 			System.out.println(t.getTime());

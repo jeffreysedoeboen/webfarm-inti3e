@@ -34,7 +34,6 @@ public class DBmanager {
 		{	
 			System.err.println("Er is geen database....") ;			
 		}
-	//	udao = new UrlDao(con);
 	}
 	
 	

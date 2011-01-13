@@ -29,9 +29,6 @@ public class TempDao {
 	/** The sql new temperature measurement. */
 	private String sqlNewTemp 			= "INSERT INTO APP.Temp (\"DATE\", \"TIME\", \"TEMP\" ) VALUES (?,?,?)";
 	
-	/** The sql get temperature measurements of date. */
-	private String sqlGetTempOfDate		= "SELECT time, temp FROM APP.Temp WHERE date=?";
-	
 	/** The sql get temperature measurements between dates. */
 	private String sqlGetTempBetween	= "SELECT date,time, temp FROM APP.Temp WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 
@@ -43,9 +40,6 @@ public class TempDao {
 	
 	/** The ps new temperature measurement. */
 	private PreparedStatement psNewTemp = null;
-	
-	/** The ps get temperature measurements of date. */
-	private PreparedStatement psGetTempOfDate = null;
 	
 	/** The ps get temperature measurements between dates. */
 	private PreparedStatement psGetTempBetween = null;
@@ -62,7 +56,6 @@ public class TempDao {
 
 			this.psGetAllTemps   = con.prepareStatement(sqlGetAllTemps);
 			this.psNewTemp 		 = con.prepareStatement(sqlNewTemp);
-			this.psGetTempOfDate = con.prepareStatement(sqlGetTempOfDate);
 			this.psGetTempBetween = con.prepareStatement(sqlGetTempBetween);
 
 		} catch(SQLException se) {
@@ -76,13 +69,15 @@ public class TempDao {
 	 * @return the current temperature measurement
 	 */
 	public String getCurrentTemp() {
-		Temperature t = null;
-		ArrayList<Temperature> tempMeasures = getAllTemps();
-		if (tempMeasures.size() >= 1) {
-			t = tempMeasures.get(tempMeasures.size()-1);
-			return t.getTemp();
+		synchronized(this) {
+			Temperature t = null;
+			ArrayList<Temperature> tempMeasures = getAllTemps();
+			if (tempMeasures.size() >= 1) {
+				t = tempMeasures.get(tempMeasures.size()-1);
+				return t.getTemp();
+			}
+			return "";
 		}
-		return "";
 	}
 	
 	/**
@@ -90,21 +85,23 @@ public class TempDao {
 	 *
 	 * @return all temperature measurements.
 	 */
-	public ArrayList<Temperature> getAllTemps(){
-		ArrayList<Temperature> temps = new ArrayList<Temperature>();
-		try {
-			ResultSet rs = psGetAllTemps.executeQuery();
-			while (rs.next()){
-				Date date = rs.getDate(1);
-				String time = rs.getString(2);
-				String temp = rs.getString(3);
-				Temperature temperature = new Temperature(date, time, temp);
-				temps.add(temperature);
-			}
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return temps;
+	private ArrayList<Temperature> getAllTemps(){
+		synchronized(this) {
+			ArrayList<Temperature> temps = new ArrayList<Temperature>();
+			try {
+				ResultSet rs = psGetAllTemps.executeQuery();
+				while (rs.next()){
+					Date date = rs.getDate(1);
+					String time = rs.getString(2);
+					String temp = rs.getString(3);
+					Temperature temperature = new Temperature(date, time, temp);
+					temps.add(temperature);
+				}
+			} catch (SQLException se) {
+				printSQLException(se) ;		
+			} 
+			return temps;
+		}
 	}
 
 	/**
@@ -113,28 +110,30 @@ public class TempDao {
 	 * @param temperature the temperature measurement.
 	 */
 	public void addNewTemp(String temperature){
-		//asserts
-		assert (temperature != null);
-		
-		String tempHour = "";
-		String tempMin = "";
-		String tempSec = "";
-		try {
-			Calendar calendar = Calendar.getInstance();
-			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { tempHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
-			else { tempHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
-			if(calendar.get(Calendar.MINUTE) < 10) { tempMin = "0" + calendar.get(Calendar.MINUTE); }
-			else { tempMin = "" + calendar.get(Calendar.MINUTE); }
-			if(calendar.get(Calendar.SECOND) < 10) { tempSec = "0" + calendar.get(Calendar.SECOND); }
-			else { tempSec = "" + calendar.get(Calendar.SECOND); }
-			
-			psNewTemp.clearParameters();
-			psNewTemp.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewTemp.setString(2, "" + tempHour + ":" + tempMin + ":" + tempSec);
-			psNewTemp.setString(3, temperature);
-			psNewTemp.executeUpdate();
-		} catch (SQLException se) {
-			printSQLException(se) ;
+		synchronized(this) {
+			//asserts
+			assert (temperature != null);
+
+			String tempHour = "";
+			String tempMin = "";
+			String tempSec = "";
+			try {
+				Calendar calendar = Calendar.getInstance();
+				if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { tempHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+				else { tempHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+				if(calendar.get(Calendar.MINUTE) < 10) { tempMin = "0" + calendar.get(Calendar.MINUTE); }
+				else { tempMin = "" + calendar.get(Calendar.MINUTE); }
+				if(calendar.get(Calendar.SECOND) < 10) { tempSec = "0" + calendar.get(Calendar.SECOND); }
+				else { tempSec = "" + calendar.get(Calendar.SECOND); }
+
+				psNewTemp.clearParameters();
+				psNewTemp.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+				psNewTemp.setString(2, "" + tempHour + ":" + tempMin + ":" + tempSec);
+				psNewTemp.setString(3, temperature);
+				psNewTemp.executeUpdate();
+			} catch (SQLException se) {
+				printSQLException(se) ;
+			}
 		}
 	}
 
@@ -155,40 +154,6 @@ public class TempDao {
 	}
 
 	/**
-	 * Gets the temperature measurements of date.
-	 *
-	 * @param dateFormat the date 
-	 * @return the temperature measurements of date
-	 */
-	public ArrayList<Temperature> getTempsOfDate(String dateFormat){
-		//asserts
-		assert (dateFormat != null);
-		
-		ArrayList<Temperature> temps = new ArrayList<Temperature>();
-		String[] splittedDateFormat = dateFormat.split("-");
-		int year 	= Integer.parseInt(splittedDateFormat[2]);
-		int month 	= Integer.parseInt(splittedDateFormat[1]);
-		int day 	= Integer.parseInt(splittedDateFormat[0]);
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.set(year, month - 1, day);
-		Date date = new Date(gc.getTimeInMillis());
-		try {
-			psGetTempOfDate.setDate(1, date);
-
-			ResultSet rs = psGetTempOfDate.executeQuery();
-			while (rs.next()){
-				String time = rs.getString(1);
-				String temp = rs.getString(2);
-				Temperature temperature = new Temperature(date, time, temp);
-				temps.add(temperature);
-			}
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return temps;
-	}
-
-	/**
 	 * Gets the temperature measurements between dates.
 	 *
 	 * @param date1 start date
@@ -198,49 +163,52 @@ public class TempDao {
 	 * @return the temperature measurements between dates
 	 */
 	public ArrayList<Temperature> getTempsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
-		//asserts
-		assert (time1 != null);
-		assert (time2 != null);
-		assert (dateFormat1 != null);
-		assert (dateFormat2 != null);
-		
-		ArrayList<Temperature> temps = new ArrayList<Temperature>();
-		ArrayList<Temperature> tempArray = new ArrayList<Temperature>();
-		String[] splittedDate1 = dateFormat1.split("-");
-		int year1 	= Integer.parseInt(splittedDate1[2]);
-		int month1 	= Integer.parseInt(splittedDate1[1]);
-		int day1 	= Integer.parseInt(splittedDate1[0]);
+		synchronized(this) {
 
-		String[] splittedDate2 = dateFormat2.split("-");
-		int year2 	= Integer.parseInt(splittedDate2[2]);
-		int month2 	= Integer.parseInt(splittedDate2[1]);
-		int day2 	= Integer.parseInt(splittedDate2[0]);
+			//asserts
+			assert (time1 != null);
+			assert (time2 != null);
+			assert (dateFormat1 != null);
+			assert (dateFormat2 != null);
 
-		GregorianCalendar gc = new GregorianCalendar();
+			ArrayList<Temperature> temps = new ArrayList<Temperature>();
+			ArrayList<Temperature> tempArray = new ArrayList<Temperature>();
+			String[] splittedDate1 = dateFormat1.split("-");
+			int year1 	= Integer.parseInt(splittedDate1[2]);
+			int month1 	= Integer.parseInt(splittedDate1[1]);
+			int day1 	= Integer.parseInt(splittedDate1[0]);
 
-		gc.set(year1, month1 - 1, day1);
-		Date date1 = new Date(gc.getTimeInMillis());
-		gc.set(year2, month2 - 1, day2);
-		Date date2 = new Date(gc.getTimeInMillis());
+			String[] splittedDate2 = dateFormat2.split("-");
+			int year2 	= Integer.parseInt(splittedDate2[2]);
+			int month2 	= Integer.parseInt(splittedDate2[1]);
+			int day2 	= Integer.parseInt(splittedDate2[0]);
 
-		try {
-			psGetTempBetween.setDate(1, date1);
-			psGetTempBetween.setDate(2, date2);
+			GregorianCalendar gc = new GregorianCalendar();
 
-			ResultSet rs = psGetTempBetween.executeQuery();
-			while (rs.next()){
-				Date date 	= rs.getDate(1);
-				String time = rs.getString(2);
-				String temp = rs.getString(3);
-				Temperature temperature = new Temperature(date, time, temp);
-				tempArray.add(temperature);
-			}
+			gc.set(year1, month1 - 1, day1);
+			Date date1 = new Date(gc.getTimeInMillis());
+			gc.set(year2, month2 - 1, day2);
+			Date date2 = new Date(gc.getTimeInMillis());
 
-			temps = getDateBetweenHours(time1, time2, date1, date2, tempArray);
-		} catch (SQLException se) {
-			printSQLException(se);
-		} 
-		return filterTempList(temps);
+			try {
+				psGetTempBetween.setDate(1, date1);
+				psGetTempBetween.setDate(2, date2);
+
+				ResultSet rs = psGetTempBetween.executeQuery();
+				while (rs.next()){
+					Date date 	= rs.getDate(1);
+					String time = rs.getString(2);
+					String temp = rs.getString(3);
+					Temperature temperature = new Temperature(date, time, temp);
+					tempArray.add(temperature);
+				}
+
+				temps = getDateBetweenHours(time1, time2, date1, date2, tempArray);
+			} catch (SQLException se) {
+				printSQLException(se);
+			} 
+			return filterTempList(temps);
+		}
 	}
 
 	/**

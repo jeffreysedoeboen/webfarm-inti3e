@@ -85,23 +85,25 @@ public class AnalyticsDAO {
 	 * @param language the language
 	 */
 	public void createVisit(int websiteId, String ip, int userId, String browser, String language) {
-		try {
-			psCreateVisit.clearParameters();
-			
-			psCreateVisit.setInt(1, websiteId);
-			psCreateVisit.setString(2, ip);
-			psCreateVisit.setInt(3, userId);
-			psCreateVisit.setString(4, browser);
-			psCreateVisit.setString(5, language);
-			psCreateVisit.setDate(6, new java.sql.Date(System.currentTimeMillis()));
-			
-			int resultaat = psCreateVisit.executeUpdate();
-			if (resultaat == 0) {
-				System.out.println("unsuccessfull insert");
+		synchronized(this) {
+			try {
+				psCreateVisit.clearParameters();
+
+				psCreateVisit.setInt(1, websiteId);
+				psCreateVisit.setString(2, ip);
+				psCreateVisit.setInt(3, userId);
+				psCreateVisit.setString(4, browser);
+				psCreateVisit.setString(5, language);
+				psCreateVisit.setDate(6, new java.sql.Date(System.currentTimeMillis()));
+
+				int resultaat = psCreateVisit.executeUpdate();
+				if (resultaat == 0) {
+					System.out.println("unsuccessfull insert");
+				}
+			} 
+			catch (SQLException se) {
+				printSQLException(se);
 			}
-		} 
-		catch (SQLException se) {
-			printSQLException(se);
 		}
 	}
 	
@@ -114,22 +116,24 @@ public class AnalyticsDAO {
 	 * @param page the page
 	 */
 	public void createHit(int websiteId, String ip, int userId, String page) {
-		try {
-			psCreateHit.clearParameters();
-			
-			psCreateHit.setInt(1, websiteId);
-			psCreateHit.setString(2, ip);
-			psCreateHit.setInt(3, userId);
-			psCreateHit.setString(4, page);
-			psCreateHit.setDate(5, new java.sql.Date(System.currentTimeMillis()));
-			
-			int resultaat = psCreateHit.executeUpdate();
-			if (resultaat == 0) {
-				System.out.println("unsuccessfull insert");
+		synchronized(this) {
+			try {
+				psCreateHit.clearParameters();
+
+				psCreateHit.setInt(1, websiteId);
+				psCreateHit.setString(2, ip);
+				psCreateHit.setInt(3, userId);
+				psCreateHit.setString(4, page);
+				psCreateHit.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+
+				int resultaat = psCreateHit.executeUpdate();
+				if (resultaat == 0) {
+					System.out.println("unsuccessfull insert");
+				}
+			} 
+			catch (SQLException se) {
+				printSQLException(se);
 			}
-		} 
-		catch (SQLException se) {
-			printSQLException(se);
 		}
 	}
 	

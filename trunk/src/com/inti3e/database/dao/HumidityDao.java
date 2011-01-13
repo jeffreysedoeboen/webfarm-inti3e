@@ -28,9 +28,6 @@ public class HumidityDao {
 	/** The sql new temp. */
 	private String sqlNewHumidities 			= "INSERT INTO APP.Humidity (\"DATE\", \"TIME\", \"HUMIDITY\" ) VALUES (?,?,?)";
 	
-	/** The sql get humids of date. */
-	private String sqlGetHumidOfDate	= "SELECT time, humidity FROM APP.Humidity WHERE date=?";
-	
 	/** The sql get humidities between. */
 	private String sqlGetHumidityBetween= "SELECT date,time, humidity FROM APP.Humidity WHERE date BETWEEN ? AND ? ORDER BY date,time ASC";
 	
@@ -42,9 +39,6 @@ public class HumidityDao {
 	
 	/** The ps new humid. */
 	private PreparedStatement psNewHumid = null;
-	
-	/** The ps get humid of date. */
-	private PreparedStatement psGetHumidOfDate = null;
 	
 	/** The ps get humidity between. */
 	private PreparedStatement psGetHumidityBetween = null;
@@ -60,7 +54,6 @@ public class HumidityDao {
 		try{
 			this.psGetAllHumidities   = con.prepareStatement(sqlGetAllHumidities);
 			this.psNewHumid 	  = con.prepareStatement(sqlNewHumidities);
-			this.psGetHumidOfDate = con.prepareStatement(sqlGetHumidOfDate);
 			this.psGetHumidityBetween = con.prepareStatement(sqlGetHumidityBetween);
 		} 
 		catch(SQLException se) {
@@ -74,13 +67,15 @@ public class HumidityDao {
 	 * @return the current humidity
 	 */
 	public int getCurrentHumidity() {
-		Humidity h = null;
-		ArrayList<Humidity> humidMeasures = getAllHumidities();
-		if (humidMeasures.size() >= 1) {
-			h = humidMeasures.get(humidMeasures.size()-1);
-			return h.getHumidity();
+		synchronized(this) {
+			Humidity h = null;
+			ArrayList<Humidity> humidMeasures = getAllHumidities();
+			if (humidMeasures.size() >= 1) {
+				h = humidMeasures.get(humidMeasures.size()-1);
+				return h.getHumidity();
+			}
+			return -1;
 		}
-		return -1;
 	}
 
 	/**
@@ -88,7 +83,7 @@ public class HumidityDao {
 	 *
 	 * @return all humidities
 	 */
-	public ArrayList<Humidity> getAllHumidities(){
+	private ArrayList<Humidity> getAllHumidities(){
 		ArrayList<Humidity> humiditys = new ArrayList<Humidity>();
 		try {
 			ResultSet rs = psGetAllHumidities.executeQuery();
@@ -111,25 +106,27 @@ public class HumidityDao {
 	 * @param humidity the new humidity
 	 */
 	public void addNewHumidity(int humidity){
-		String humidHour = "";
-		String humidMin = "";
-		String humidSec = "";
-		try {
-			Calendar calendar = Calendar.getInstance();
-			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { humidHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
-			else { humidHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
-			if(calendar.get(Calendar.MINUTE) < 10) { humidMin = "0" + calendar.get(Calendar.MINUTE); }
-			else { humidMin = "" + calendar.get(Calendar.MINUTE); }
-			if(calendar.get(Calendar.SECOND) < 10) { humidSec = "0" + calendar.get(Calendar.SECOND); }
-			else { humidSec = "" + calendar.get(Calendar.SECOND); }
-			
-			psNewHumid.clearParameters();
-			psNewHumid.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewHumid.setString(2, "" + humidHour + ":" + humidMin + ":" + humidSec);
-			psNewHumid.setInt(3, humidity);
-			psNewHumid.executeUpdate();
-		} catch (SQLException se) {
-			printSQLException(se) ;
+		synchronized(this) {
+			String humidHour = "";
+			String humidMin = "";
+			String humidSec = "";
+			try {
+				Calendar calendar = Calendar.getInstance();
+				if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { humidHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+				else { humidHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+				if(calendar.get(Calendar.MINUTE) < 10) { humidMin = "0" + calendar.get(Calendar.MINUTE); }
+				else { humidMin = "" + calendar.get(Calendar.MINUTE); }
+				if(calendar.get(Calendar.SECOND) < 10) { humidSec = "0" + calendar.get(Calendar.SECOND); }
+				else { humidSec = "" + calendar.get(Calendar.SECOND); }
+
+				psNewHumid.clearParameters();
+				psNewHumid.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+				psNewHumid.setString(2, "" + humidHour + ":" + humidMin + ":" + humidSec);
+				psNewHumid.setInt(3, humidity);
+				psNewHumid.executeUpdate();
+			} catch (SQLException se) {
+				printSQLException(se) ;
+			}
 		}
 	}
 
@@ -148,40 +145,6 @@ public class HumidityDao {
 			se = se.getNextException();
 		}
 	}
-
-	/**
-	 * Gets the humidities of date.
-	 *
-	 * @param dateFormat the date
-	 * @return the humidities of date
-	 */
-	public ArrayList<Humidity> getHumiditiesOfDate(String dateFormat){
-		//asserts
-		assert(dateFormat != null);
-		
-		ArrayList<Humidity> humids = new ArrayList<Humidity>();
-		String[] splittedDateFormat = dateFormat.split("-");
-		int year 	= Integer.parseInt(splittedDateFormat[0]);
-		int month 	= Integer.parseInt(splittedDateFormat[1]);
-		int day 	= Integer.parseInt(splittedDateFormat[2]);
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.set(year, month - 1, day);
-		Date date = new Date(gc.getTimeInMillis());
-		try {
-			psGetHumidOfDate.setDate(1, date);
-
-			ResultSet rs = psGetHumidOfDate.executeQuery();
-			while (rs.next()){
-				String time = rs.getString(1);
-				int humidInt = rs.getInt(2);
-				Humidity humid = new Humidity(date, time, humidInt);
-				humids.add(humid);
-			}
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return humids;
-	}
 	
 	/**
 	 * Gets the humidities between dates.
@@ -193,50 +156,52 @@ public class HumidityDao {
 	 * @return the humidities between dates
 	 */
 	public ArrayList<Humidity> getHumiditiesBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
-		
-		//asserts
-		assert(dateFormat1 != null);
-		assert(time1 != null);
-		assert(dateFormat2 != null);
-		assert(time2 != null);
-		
-		ArrayList<Humidity> humids = new ArrayList<Humidity>();
-		ArrayList<Humidity> tempArray = new ArrayList<Humidity>();
-		String[] splittedDate1 = dateFormat1.split("-");
-		int year1 	= Integer.parseInt(splittedDate1[2]);
-		int month1 	= Integer.parseInt(splittedDate1[1]);
-		int day1 	= Integer.parseInt(splittedDate1[0]);
+		synchronized(this) {
 
-		String[] splittedDate2 = dateFormat2.split("-");
-		int year2 	= Integer.parseInt(splittedDate2[2]);
-		int month2 	= Integer.parseInt(splittedDate2[1]);
-		int day2 	= Integer.parseInt(splittedDate2[0]);
+			//asserts
+			assert(dateFormat1 != null);
+			assert(time1 != null);
+			assert(dateFormat2 != null);
+			assert(time2 != null);
 
-		GregorianCalendar gc = new GregorianCalendar();
+			ArrayList<Humidity> humids = new ArrayList<Humidity>();
+			ArrayList<Humidity> tempArray = new ArrayList<Humidity>();
+			String[] splittedDate1 = dateFormat1.split("-");
+			int year1 	= Integer.parseInt(splittedDate1[2]);
+			int month1 	= Integer.parseInt(splittedDate1[1]);
+			int day1 	= Integer.parseInt(splittedDate1[0]);
 
-		gc.set(year1, month1 - 1, day1);
-		Date date1 = new Date(gc.getTimeInMillis());
-		gc.set(year2, month2 - 1, day2);
-		Date date2 = new Date(gc.getTimeInMillis());
+			String[] splittedDate2 = dateFormat2.split("-");
+			int year2 	= Integer.parseInt(splittedDate2[2]);
+			int month2 	= Integer.parseInt(splittedDate2[1]);
+			int day2 	= Integer.parseInt(splittedDate2[0]);
 
-		try {
-			psGetHumidityBetween.setDate(1, date1);
-			psGetHumidityBetween.setDate(2, date2);
+			GregorianCalendar gc = new GregorianCalendar();
 
-			ResultSet rs = psGetHumidityBetween.executeQuery();
-			while (rs.next()){
-				Date date 	= rs.getDate(1);
-				String time = rs.getString(2);
-				int hum = Integer.parseInt(rs.getString(3));
-				Humidity humidity = new Humidity(date, time, hum);
-				tempArray.add(humidity);
-			}
+			gc.set(year1, month1 - 1, day1);
+			Date date1 = new Date(gc.getTimeInMillis());
+			gc.set(year2, month2 - 1, day2);
+			Date date2 = new Date(gc.getTimeInMillis());
 
-			humids = getHumiditiesBetweenHours(time1, time2, date1, date2, tempArray);
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return filterHumidityList(humids);
+			try {
+				psGetHumidityBetween.setDate(1, date1);
+				psGetHumidityBetween.setDate(2, date2);
+
+				ResultSet rs = psGetHumidityBetween.executeQuery();
+				while (rs.next()){
+					Date date 	= rs.getDate(1);
+					String time = rs.getString(2);
+					int hum = Integer.parseInt(rs.getString(3));
+					Humidity humidity = new Humidity(date, time, hum);
+					tempArray.add(humidity);
+				}
+
+				humids = getHumiditiesBetweenHours(time1, time2, date1, date2, tempArray);
+			} catch (SQLException se) {
+				printSQLException(se) ;		
+			} 
+			return filterHumidityList(humids);
+		}
 	}
 
 	/**

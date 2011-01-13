@@ -17,10 +17,6 @@ import com.analytics.data.beans.PageHit;
  * The Class HitsDAO.
  */
 public class HitsDAO {
-	
-	/** The sql get pages by user id. */
-	private String sqlGetPagesByUserId = "SELECT page, COUNT(page) FROM APP.hits WHERE user_id = ? GROUP BY PAGE";
-	
 	/** The sql get pages by ip. */
 	private String sqlGetPagesByIp = "SELECT PAGE, COUNT(PAGE) hits FROM APP.HITS WHERE IP = ? GROUP BY PAGE ORDER BY hits desc";
 	
@@ -29,9 +25,6 @@ public class HitsDAO {
 
 	/** The con. */
 	private Connection con = null;
-	
-	/** The ps get pages by user id. */
-	private PreparedStatement psGetPagesByUserId = null;
 	
 	/** The ps get pages by ip. */
 	private PreparedStatement psGetPagesByIp = null;
@@ -46,7 +39,6 @@ public class HitsDAO {
 		DBmanager myDb = DBmanager.getInstance();
 		con = myDb.getConnection();
 		try {
-			this.psGetPagesByUserId = con.prepareStatement(sqlGetPagesByUserId);
 			this.psGetPagesByIp = con.prepareStatement(sqlGetPagesByIp);
 			this.psGetAllIp = con.prepareStatement(sqlGetAllIp);
 		}
@@ -68,31 +60,6 @@ public class HitsDAO {
 
 			se = se.getNextException();
 		}
-	}
-	
-	/**
-	 * Gets the pages by user id.
-	 *
-	 * @param userId the user id
-	 * @return the pages by user id
-	 */
-	public ArrayList<PageHit> getPagesByUserId(int userId) {
-		ArrayList<PageHit> pageHits = new ArrayList<PageHit>();
-		
-		try {
-			psGetPagesByUserId.setInt(1, userId);
-			
-			ResultSet results = psGetPagesByUserId.executeQuery();
-			while (results.next()) {
-				String page = results.getString(1);
-				int count = results.getInt(2);
-				
-				pageHits.add(new PageHit(page, count));
-			}			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return pageHits;
 	}
 	
 	/**
