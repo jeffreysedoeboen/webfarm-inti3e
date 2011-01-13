@@ -8,6 +8,7 @@ package com.inti3e.web;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -73,6 +74,7 @@ public class VideoServlet extends HttpServlet {
 						tableFiles.add("<a href=\"#\" onclick=\"showPlayer('" + f.getName() + "')\">" + f.getName() + "</a>");
 					}
 				}
+				Collections.sort(tableFiles);
 				try {
 					json.put("Files", tableFiles);
 				} catch (JSONException e) {
