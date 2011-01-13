@@ -11,8 +11,18 @@ $(function() {
 			readonly="readonly"
 			value=<%
 		java.util.Calendar calendar = java.util.Calendar.getInstance(); 
-		out.print(calendar.get(java.util.Calendar.DAY_OF_MONTH) + "-");
-		out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
+		
+		if(calendar.get(java.util.Calendar.DAY_OF_MONTH) < 10) {
+			out.print("0" +(calendar.get(java.util.Calendar.DAY_OF_MONTH)) + "-");
+		} else {
+			out.print((calendar.get(java.util.Calendar.DAY_OF_MONTH)) + "-");
+		}
+		
+		if(calendar.get(java.util.Calendar.MONTH)+1 < 10) {
+			out.print("0" +(calendar.get(java.util.Calendar.MONTH)+1) + "-");
+		} else {
+			out.print((calendar.get(java.util.Calendar.MONTH)+1) + "-");
+		}
 		out.print(calendar.get(java.util.Calendar.YEAR));
 		%>>
 		
