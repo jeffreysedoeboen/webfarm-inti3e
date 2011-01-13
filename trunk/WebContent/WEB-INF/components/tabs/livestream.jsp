@@ -6,22 +6,8 @@
 </script>
 
 <div align="center">
-<applet code="com.fluendo.player.Cortado.class" archive="http://theora.org/cortado.jar" width="352" height="288">
-  <param name="url" value="http://192.168.0.123:8088"/>
-  <param name="seekable" value="false"/>
-  <param name="live" value="true"/>
-  <param name="video" value="true"/>
-  <param name="audio" value="false"/>
-  <param name="bufferLow" value="0"/>
-  <param name="bufferHigh" value="1"/>
-  <param name="bufferSize" value="1"/>
-</applet>
+<video src="http://145.76.18.91:8088/stream.ogg" width="480" height="360" preload="none" autoplay>Please update to a new generation browser, like Firefox >3.5, Chrome >5.0 or Opera >10.5.</video>
 </div>
-<script type="text/javascript">
-if(!navigator.javaEnabled()) {
-	document.write("<div align='center'>You're browser does not support java, download it <a href='http://www.java.com/nl/download/'>here</a>.</div>"); 
-}
-</script>
 <div align="center" class="demo">
 <button type="submit" onclick="singleRecordClick('on')" id="recordbutton">Record</button>
 </div>
