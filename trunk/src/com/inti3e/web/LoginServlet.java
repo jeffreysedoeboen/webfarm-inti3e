@@ -99,7 +99,7 @@ public class LoginServlet extends HttpServlet {
 		assert (password != null);
 		assert (repassword != null);
 		
-		if (userDAO.nameIsAvailable(nickname) || nickname.matches("[a-zA-Z0-9]*") || nickname.length() >= 20) {
+		if (userDAO.nameIsAvailable(nickname) || !nickname.matches("[a-zA-Z0-9]*") || nickname.length() >= 20) {
 			session.setAttribute("errors", "Error: Username is not available.");
 		}
 		else if (!password.equals(repassword)) {
