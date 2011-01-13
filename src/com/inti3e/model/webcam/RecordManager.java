@@ -12,6 +12,7 @@ public class RecordManager {
 	
 	/** The RecordManager uniqueInstance variable */
 	private static RecordManager uniqueInstance = null;
+	
 	/** The recording process. */
 	private Process recordingProcess;
 	
@@ -40,10 +41,10 @@ public class RecordManager {
 	private void startRecording() {
 		if (!recording) {
 			recording = true;
-			
+
 			DateFormat dfmt = new SimpleDateFormat( "yyyy-MM-dd-[hh-mm-ss]" ); 			
 			String filename = dfmt.format(new Date()) + ".ogg";
-			
+
 			try {
 				recordingProcess = Runtime.getRuntime().exec("cvlc -vvv http://localhost:8088/stream.ogg --demux=dump --demuxdump-file=webapps/project.webfarm/videos/" + filename + " &");
 			} catch (IOException e) {
@@ -56,7 +57,7 @@ public class RecordManager {
 	/**
 	 * Stop recording.
 	 */
-	public void stopRecording() {
+	private void stopRecording() {
 		if (recording) {
 			recordingProcess.destroy();
 			recording = false;
@@ -65,24 +66,32 @@ public class RecordManager {
 	}
 	
 	public void startRecordingByUser() {
-		startByUser = true;
-		startRecording();
+		synchronized(this) {
+			startByUser = true;
+			startRecording();
+		}
 	}
 	
 	public void startRecordingAtMovement() {
-		System.out.println("start recording by movement");
-		startRecording();
+		synchronized(this) {
+			System.out.println("start recording by movement");
+			startRecording();
+		}
 	}
 	
 	public void stopRecordingByUser() {
-		startByUser = false;
-		stopRecording();
+		synchronized(this) {
+			startByUser = false;
+			stopRecording();
+		}
 	}
 	
 	public void stopRecordingAtMovement() {
-		if (!startByUser) {
-			System.out.println("stop recording by movement");
-			stopRecording();
+		synchronized(this) {
+			if (!startByUser) {
+				System.out.println("stop recording by movement");
+				stopRecording();
+			}
 		}
 	}
 	
@@ -90,6 +99,8 @@ public class RecordManager {
 	 * Get recording.
 	 */
 	public boolean getRecording() {
-		return startByUser && recording;
+		synchronized(this) {
+			return startByUser && recording;
+		}
 	}
 }

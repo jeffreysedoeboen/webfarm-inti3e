@@ -67,14 +67,16 @@ public class DoorDao {
 	 * @return the current state of door
 	 */
 	public boolean getCurrentDoor() {
-		ArrayList<Door> doorMessures = getAllDoors();
-		if (doorMessures.size() >= 1) {
-			Door d = doorMessures.get(doorMessures.size()-1);
-			if(d.getDoor() == 1) {
-				return true;
+		synchronized(this) {
+			ArrayList<Door> doorMessures = getAllDoors();
+			if (doorMessures.size() >= 1) {
+				Door d = doorMessures.get(doorMessures.size()-1);
+				if(d.getDoor() == 1) {
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -82,7 +84,7 @@ public class DoorDao {
 	 *
 	 * @return all door
 	 */
-	public ArrayList<Door> getAllDoors(){
+	private ArrayList<Door> getAllDoors(){
 		ArrayList<Door> doors = new ArrayList<Door>();
 		try {
 			ResultSet rs = psGetAllDoor.executeQuery();
@@ -105,25 +107,27 @@ public class DoorDao {
 	 * @param open the state of the door
 	 */
 	public void addNewDoor( boolean open ){
-		String doorHour = "";
-		String doorMin = "";
-		String doorSec = "";
-		try {
-			Calendar calendar = Calendar.getInstance();
-			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { doorHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
-			else { doorHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
-			if(calendar.get(Calendar.MINUTE) < 10) { doorMin = "0" + calendar.get(Calendar.MINUTE); }
-			else { doorMin = "" + calendar.get(Calendar.MINUTE); }
-			if(calendar.get(Calendar.SECOND) < 10) { doorSec = "0" + calendar.get(Calendar.SECOND); }
-			else { doorSec = "" + calendar.get(Calendar.SECOND); }
-			
-			psNewDoor.clearParameters();
-			psNewDoor.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewDoor.setString(2, "" + doorHour + ":" + doorMin + ":" + doorSec);
-			psNewDoor.setInt(3, open ? 1:0);
-			psNewDoor.executeUpdate();
-		} catch (SQLException se) {
-			printSQLException(se) ;
+		synchronized(this) {
+			String doorHour = "";
+			String doorMin = "";
+			String doorSec = "";
+			try {
+				Calendar calendar = Calendar.getInstance();
+				if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { doorHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+				else { doorHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+				if(calendar.get(Calendar.MINUTE) < 10) { doorMin = "0" + calendar.get(Calendar.MINUTE); }
+				else { doorMin = "" + calendar.get(Calendar.MINUTE); }
+				if(calendar.get(Calendar.SECOND) < 10) { doorSec = "0" + calendar.get(Calendar.SECOND); }
+				else { doorSec = "" + calendar.get(Calendar.SECOND); }
+
+				psNewDoor.clearParameters();
+				psNewDoor.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+				psNewDoor.setString(2, "" + doorHour + ":" + doorMin + ":" + doorSec);
+				psNewDoor.setInt(3, open ? 1:0);
+				psNewDoor.executeUpdate();
+			} catch (SQLException se) {
+				printSQLException(se) ;
+			}
 		}
 	}
 
@@ -153,48 +157,50 @@ public class DoorDao {
 	 * @return the doors between dates
 	 */
 	public ArrayList<Door> getDoorsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
-		//asserts
-		assert(dateFormat1 != null);
-		assert(time1 != null);
-		assert(dateFormat2 != null);
-		assert(time2 != null);
-		
-		ArrayList<Door> doors = new ArrayList<Door>();
-		ArrayList<Door> doorArray = new ArrayList<Door>();
-		String[] splittedDate1 = dateFormat1.split("-");
-		int day1 	= Integer.parseInt(splittedDate1[0]);
-		int month1 	= Integer.parseInt(splittedDate1[1]);
-		int year1 	= Integer.parseInt(splittedDate1[2]);
+		synchronized(this) {
+			//asserts
+			assert(dateFormat1 != null);
+			assert(time1 != null);
+			assert(dateFormat2 != null);
+			assert(time2 != null);
 
-		String[] splittedDate2 = dateFormat2.split("-");
-		int day2 	= Integer.parseInt(splittedDate2[0]);
-		int month2 	= Integer.parseInt(splittedDate2[1]);
-		int year2 	= Integer.parseInt(splittedDate2[2]);
+			ArrayList<Door> doors = new ArrayList<Door>();
+			ArrayList<Door> doorArray = new ArrayList<Door>();
+			String[] splittedDate1 = dateFormat1.split("-");
+			int day1 	= Integer.parseInt(splittedDate1[0]);
+			int month1 	= Integer.parseInt(splittedDate1[1]);
+			int year1 	= Integer.parseInt(splittedDate1[2]);
 
-		GregorianCalendar gc = new GregorianCalendar();
+			String[] splittedDate2 = dateFormat2.split("-");
+			int day2 	= Integer.parseInt(splittedDate2[0]);
+			int month2 	= Integer.parseInt(splittedDate2[1]);
+			int year2 	= Integer.parseInt(splittedDate2[2]);
 
-		gc.set(year1, month1 - 1, day1);
-		Date date1 = new java.sql.Date(gc.getTimeInMillis());
-		gc.set(year2, month2 - 1, day2);
-		Date date2 = new java.sql.Date(gc.getTimeInMillis());
+			GregorianCalendar gc = new GregorianCalendar();
 
-		try {
-			psGetDoorBetween.setDate(1, date1);
-			psGetDoorBetween.setDate(2, date2);
-			ResultSet rs = psGetDoorBetween.executeQuery();
-			while (rs.next()){
-				Date date 	= rs.getDate(1);
-				String time = rs.getString(2);
-				int door = rs.getInt(3);
-				Door adddoor = new Door(date, time, door);
-				doorArray.add(adddoor);
-			}
+			gc.set(year1, month1 - 1, day1);
+			Date date1 = new java.sql.Date(gc.getTimeInMillis());
+			gc.set(year2, month2 - 1, day2);
+			Date date2 = new java.sql.Date(gc.getTimeInMillis());
 
-			doors = getDoorsBetweenHours(time1, time2, date1, date2, doorArray);
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return filterDoorList(doors);
+			try {
+				psGetDoorBetween.setDate(1, date1);
+				psGetDoorBetween.setDate(2, date2);
+				ResultSet rs = psGetDoorBetween.executeQuery();
+				while (rs.next()){
+					Date date 	= rs.getDate(1);
+					String time = rs.getString(2);
+					int door = rs.getInt(3);
+					Door adddoor = new Door(date, time, door);
+					doorArray.add(adddoor);
+				}
+
+				doors = getDoorsBetweenHours(time1, time2, date1, date2, doorArray);
+			} catch (SQLException se) {
+				printSQLException(se) ;		
+			} 
+			return filterDoorList(doors);
+		}
 	}
 
 	/**

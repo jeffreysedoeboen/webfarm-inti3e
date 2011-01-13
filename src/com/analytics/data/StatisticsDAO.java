@@ -104,13 +104,15 @@ public class StatisticsDAO {
 	 * @return the hits
 	 */
 	public int getHits() {
-		try {
-			ResultSet results = psHits.executeQuery();
-			if (results.next()) return results.getInt(1);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		synchronized(this) {
+			try {
+				ResultSet results = psHits.executeQuery();
+				if (results.next()) return results.getInt(1);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return 0;
 		}
-		return 0;
 	}
 	
 	/**
@@ -119,23 +121,25 @@ public class StatisticsDAO {
 	 * @return the hits per browser
 	 */
 	public ArrayList<RowBean> getHitsPerBrowser() {
-		ArrayList<RowBean> browsers = new ArrayList<RowBean>();
-		try {
-			ResultSet browsersSet = psGetBrowsers.executeQuery();
-			while (browsersSet.next()) {
-				String currentBrowser = browsersSet.getString(1);
-				
-				psBrowserHits.clearParameters();
-				psBrowserHits.setString(1, currentBrowser);
-				ResultSet browserSet = psBrowserHits.executeQuery();
-				
-				if (browserSet.next())
-					browsers.add(new RowBean(browserSet.getInt(1), currentBrowser));
+		synchronized(this) {
+			ArrayList<RowBean> browsers = new ArrayList<RowBean>();
+			try {
+				ResultSet browsersSet = psGetBrowsers.executeQuery();
+				while (browsersSet.next()) {
+					String currentBrowser = browsersSet.getString(1);
+
+					psBrowserHits.clearParameters();
+					psBrowserHits.setString(1, currentBrowser);
+					ResultSet browserSet = psBrowserHits.executeQuery();
+
+					if (browserSet.next())
+						browsers.add(new RowBean(browserSet.getInt(1), currentBrowser));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return browsers;
 		}
-		return browsers;
 	}
 	
 	/**
@@ -144,23 +148,25 @@ public class StatisticsDAO {
 	 * @return the hits per language
 	 */
 	public ArrayList<RowBean> getHitsPerLanguages() {
-		ArrayList<RowBean> languages = new ArrayList<RowBean>();
-		try {
-			ResultSet languagesSet = psGetLanguages.executeQuery();
-			while (languagesSet.next()) {
-				String currentLanguage = languagesSet.getString(1);
-				
-				psLanguageHits.clearParameters();
-				psLanguageHits.setString(1, currentLanguage);
-				ResultSet languageSet = psLanguageHits.executeQuery();
-				
-				if (languageSet.next())
-					languages.add(new RowBean(languageSet.getInt(1), currentLanguage));
+		synchronized(this) {
+			ArrayList<RowBean> languages = new ArrayList<RowBean>();
+			try {
+				ResultSet languagesSet = psGetLanguages.executeQuery();
+				while (languagesSet.next()) {
+					String currentLanguage = languagesSet.getString(1);
+
+					psLanguageHits.clearParameters();
+					psLanguageHits.setString(1, currentLanguage);
+					ResultSet languageSet = psLanguageHits.executeQuery();
+
+					if (languageSet.next())
+						languages.add(new RowBean(languageSet.getInt(1), currentLanguage));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return languages;
 		}
-		return languages;
 	}
 	
 	/**
@@ -169,22 +175,24 @@ public class StatisticsDAO {
 	 * @return the hits per ip
 	 */
 	public ArrayList<RowBean> getHitsPerIp() {
-		ArrayList<RowBean> ips = new ArrayList<RowBean>();
-		try {
-			ResultSet ipsSet = psGetIps.executeQuery();
-			while (ipsSet.next()) {
-				String currentIp = ipsSet.getString(1);
-				
-				psIpHits.clearParameters();
-				psIpHits.setString(1, currentIp);
-				ResultSet ipSet = psIpHits.executeQuery();
-				
-				if (ipSet.next())
-					ips.add(new RowBean(ipSet.getInt(1), currentIp));
+		synchronized(this) {
+			ArrayList<RowBean> ips = new ArrayList<RowBean>();
+			try {
+				ResultSet ipsSet = psGetIps.executeQuery();
+				while (ipsSet.next()) {
+					String currentIp = ipsSet.getString(1);
+
+					psIpHits.clearParameters();
+					psIpHits.setString(1, currentIp);
+					ResultSet ipSet = psIpHits.executeQuery();
+
+					if (ipSet.next())
+						ips.add(new RowBean(ipSet.getInt(1), currentIp));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return ips;
 		}
-		return ips;
 	}
 }

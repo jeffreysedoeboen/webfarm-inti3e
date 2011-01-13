@@ -40,7 +40,7 @@ public class TestDatabase {
 	public void testTempDao() {
 		TempDao td = new TempDao();
 		td.addNewTemp("80");
-		ArrayList<Temperature> temps = td.getAllTemps();
+		ArrayList<Temperature> temps = td.getTempsBetweenDates("01-01-01", "12:00:00", "30-12-99", "12:00:00");
 		for(Temperature temp: temps) {
 			System.out.println(temp.getTemp());
 		}
@@ -54,7 +54,7 @@ public class TestDatabase {
 	public void testHumidityDao() {
 		HumidityDao td = new HumidityDao();
 		td.addNewHumidity(12);
-		ArrayList<Humidity> humidyArray = td.getAllHumidities();
+		ArrayList<Humidity> humidyArray = td.getHumiditiesBetweenDates("01-01-01", "12:00:00", "30-12-99", "12:00:00");
 		for(Humidity humidity: humidyArray) {
 			System.out.println(humidity.getHumidity());
 		}
@@ -96,7 +96,7 @@ public class TestDatabase {
 	public void testLightSensor() {
 		LightSensorDao td = new LightSensorDao();
 		td.addNewLight(true);
-		ArrayList<LightSensor> lightSensors = td.getAllLights();
+		ArrayList<LightSensor> lightSensors = td.getLightsBetweenDates("01-01-01", "12:00:00", "30-12-99", "12:00:00");
 		for(LightSensor lightSensor: lightSensors) {
 			System.out.println(lightSensor.getLight());
 		}
@@ -110,7 +110,7 @@ public class TestDatabase {
 	public void testDoorDao() {
 		DoorDao td = new DoorDao();
 		td.addNewDoor(true);
-		ArrayList<Door> doors = td.getAllDoors();
+		ArrayList<Door> doors = td.getDoorsBetweenDates("01-01-01", "12:00:00", "30-12-99", "12:00:00");
 		for(Door door: doors) {
 			System.out.println(door.getDoor());
 		}

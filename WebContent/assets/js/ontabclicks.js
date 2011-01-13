@@ -1,7 +1,6 @@
 function onMainTabClick() {
 	hit('Main');
 	document.getElementById("datepick").style.display='none';
-	//datepick.style.display='none';
 }
 
 function onLiveTabClick() {

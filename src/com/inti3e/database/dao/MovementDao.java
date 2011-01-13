@@ -42,16 +42,18 @@ public class MovementDao {
 	 * Instantiates a new movement dao.
 	 */
 	public MovementDao(){
-		DBmanager myDb = DBmanager.getInstance();
-		con = myDb.getConnection();
-		
-		try{
+		synchronized(this) {
+			DBmanager myDb = DBmanager.getInstance();
+			con = myDb.getConnection();
 
-			this.psGetAllMovements   = con.prepareStatement(sqlGetAllMovements);
-			this.psNewMovement 		 = con.prepareStatement(sqlNewMovement);
+			try{
 
-		} catch(SQLException se) {
-			printSQLException(se) ;
+				this.psGetAllMovements   = con.prepareStatement(sqlGetAllMovements);
+				this.psNewMovement 		 = con.prepareStatement(sqlNewMovement);
+
+			} catch(SQLException se) {
+				printSQLException(se) ;
+			}
 		}
 	}
 
@@ -61,20 +63,22 @@ public class MovementDao {
 	 * @return  all movements measurements.
 	 */
 	public ArrayList<Movement> getAllMovements(){
-		ArrayList<Movement> movements = new ArrayList<Movement>();
-		try {
-			ResultSet rs = psGetAllMovements.executeQuery();
-			while (rs.next()){
-				Date date = rs.getDate(1);
-				String time = rs.getString(2);
-				String move = rs.getString(3);
-				Movement movement = new Movement(date, time, move);
-				movements.add(movement);
-			}
-		} catch (SQLException se) {
-			se.printStackTrace();	
-		} 
-		return movements;
+		synchronized(this) {
+			ArrayList<Movement> movements = new ArrayList<Movement>();
+			try {
+				ResultSet rs = psGetAllMovements.executeQuery();
+				while (rs.next()){
+					Date date = rs.getDate(1);
+					String time = rs.getString(2);
+					String move = rs.getString(3);
+					Movement movement = new Movement(date, time, move);
+					movements.add(movement);
+				}
+			} catch (SQLException se) {
+				se.printStackTrace();	
+			} 
+			return movements;
+		}
 	}
 
 	/**
@@ -83,26 +87,27 @@ public class MovementDao {
 	 * @param movement the movement measurement.
 	 */
 	public void addNewMovement(boolean movement){
-		String moveHour = "";
-		String moveMin = "";
-		String moveSec = "";
-		try {
-			Calendar calendar = Calendar.getInstance();
-			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { moveHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
-			else { moveHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
-			if(calendar.get(Calendar.MINUTE) < 10) { moveMin = "0" + calendar.get(Calendar.MINUTE); }
-			else { moveMin = "" + calendar.get(Calendar.MINUTE); }
-			if(calendar.get(Calendar.SECOND) < 10) { moveSec = "0" + calendar.get(Calendar.SECOND); }
-			else { moveSec = "" + calendar.get(Calendar.SECOND); }
-			
-			psNewMovement.clearParameters();
-			psNewMovement.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewMovement.setString(2, "" + moveHour + ":" + moveMin + ":" + moveSec);
-			psNewMovement.setInt(3, movement ? 1:0);
-			psNewMovement.executeUpdate();
-		} catch (SQLException se) {
-//			printSQLException(se) ;
-			se.printStackTrace();
+		synchronized(this) {
+			String moveHour = "";
+			String moveMin = "";
+			String moveSec = "";
+			try {
+				Calendar calendar = Calendar.getInstance();
+				if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { moveHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+				else { moveHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+				if(calendar.get(Calendar.MINUTE) < 10) { moveMin = "0" + calendar.get(Calendar.MINUTE); }
+				else { moveMin = "" + calendar.get(Calendar.MINUTE); }
+				if(calendar.get(Calendar.SECOND) < 10) { moveSec = "0" + calendar.get(Calendar.SECOND); }
+				else { moveSec = "" + calendar.get(Calendar.SECOND); }
+
+				psNewMovement.clearParameters();
+				psNewMovement.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+				psNewMovement.setString(2, "" + moveHour + ":" + moveMin + ":" + moveSec);
+				psNewMovement.setInt(3, movement ? 1:0);
+				psNewMovement.executeUpdate();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
 		}
 	}
 

@@ -69,14 +69,16 @@ public class LightSensorDao {
 	 * @return the light on
 	 */
 	public boolean getLightOn() {
-		ArrayList<LightSensor> lightMessures = getAllLights();
-		if (lightMessures.size() >= 1) {
-			LightSensor s = lightMessures.get(lightMessures.size()-1);
-			if(s.getLight().equals("1")) {
-				return true;
+		synchronized(this) {
+			ArrayList<LightSensor> lightMessures = getAllLights();
+			if (lightMessures.size() >= 1) {
+				LightSensor s = lightMessures.get(lightMessures.size()-1);
+				if(s.getLight().equals("1")) {
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
 	}
 
 	/**
@@ -84,7 +86,7 @@ public class LightSensorDao {
 	 *
 	 * @return the all lights
 	 */
-	public ArrayList<LightSensor> getAllLights(){
+	private ArrayList<LightSensor> getAllLights(){
 		ArrayList<LightSensor> lightSensors = new ArrayList<LightSensor>();
 		try {
 			ResultSet rs = psGetAllLights.executeQuery();
@@ -107,25 +109,27 @@ public class LightSensorDao {
 	 * @param light the light measurement
 	 */
 	public void addNewLight(boolean light) {
-		String lightHour = "";
-		String lightMin = "";
-		String lightSec = "";
-		try {
-			Calendar calendar = Calendar.getInstance();
-			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { lightHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
-			else { lightHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
-			if(calendar.get(Calendar.MINUTE) < 10) { lightMin = "0" + calendar.get(Calendar.MINUTE); }
-			else { lightMin = "" + calendar.get(Calendar.MINUTE); }
-			if(calendar.get(Calendar.SECOND) < 10) { lightSec = "0" + calendar.get(Calendar.SECOND); }
-			else { lightSec = "" + calendar.get(Calendar.SECOND); }
-			
-			psNewLight.clearParameters();
-			psNewLight.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewLight.setString(2, "" + lightHour + ":" + lightMin + ":" + lightSec);
-			psNewLight.setInt(3, light ? 1:0);
-			psNewLight.executeUpdate();
-		} catch (SQLException se) {
-			printSQLException(se) ;
+		synchronized(this) {
+			String lightHour = "";
+			String lightMin = "";
+			String lightSec = "";
+			try {
+				Calendar calendar = Calendar.getInstance();
+				if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { lightHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+				else { lightHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+				if(calendar.get(Calendar.MINUTE) < 10) { lightMin = "0" + calendar.get(Calendar.MINUTE); }
+				else { lightMin = "" + calendar.get(Calendar.MINUTE); }
+				if(calendar.get(Calendar.SECOND) < 10) { lightSec = "0" + calendar.get(Calendar.SECOND); }
+				else { lightSec = "" + calendar.get(Calendar.SECOND); }
+
+				psNewLight.clearParameters();
+				psNewLight.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+				psNewLight.setString(2, "" + lightHour + ":" + lightMin + ":" + lightSec);
+				psNewLight.setInt(3, light ? 1:0);
+				psNewLight.executeUpdate();
+			} catch (SQLException se) {
+				printSQLException(se) ;
+			}
 		}
 	}
 
@@ -155,50 +159,52 @@ public class LightSensorDao {
 	 * @return the lights between dates
 	 */
 	public ArrayList<LightSensor> getLightsBetweenDates(String dateFormat1, String time1, String dateFormat2, String time2){
-		
-		//asserts
-		assert(dateFormat1 != null);
-		assert(time1 != null);
-		assert(dateFormat2 != null);
-		assert(time2 != null);
-		
-		ArrayList<LightSensor> lights = new ArrayList<LightSensor>();
-		ArrayList<LightSensor> lightArray = new ArrayList<LightSensor>();
-		
-		String[] splittedDate1 = dateFormat1.split("-");
-		int day1 	= Integer.parseInt(splittedDate1[0]);
-		int month1 	= Integer.parseInt(splittedDate1[1]);
-		int year1 	= Integer.parseInt(splittedDate1[2]);
+		synchronized(this) {
 
-		String[] splittedDate2 = dateFormat2.split("-");
-		int day2 	= Integer.parseInt(splittedDate2[0]);
-		int month2 	= Integer.parseInt(splittedDate2[1]);
-		int year2 	= Integer.parseInt(splittedDate2[2]);
+			//asserts
+			assert(dateFormat1 != null);
+			assert(time1 != null);
+			assert(dateFormat2 != null);
+			assert(time2 != null);
 
-		GregorianCalendar gc = new GregorianCalendar();
+			ArrayList<LightSensor> lights = new ArrayList<LightSensor>();
+			ArrayList<LightSensor> lightArray = new ArrayList<LightSensor>();
 
-		gc.set(year1, month1 - 1, day1);
-		Date date1 = new java.sql.Date(gc.getTimeInMillis());
-		gc.set(year2, month2 - 1, day2);
-		Date date2 = new java.sql.Date(gc.getTimeInMillis());
+			String[] splittedDate1 = dateFormat1.split("-");
+			int day1 	= Integer.parseInt(splittedDate1[0]);
+			int month1 	= Integer.parseInt(splittedDate1[1]);
+			int year1 	= Integer.parseInt(splittedDate1[2]);
 
-		try {
-			psGetLightBetween.setDate(1, date1);
-			psGetLightBetween.setDate(2, date2);
-			ResultSet rs = psGetLightBetween.executeQuery();
-			while (rs.next()){
-				Date date 	= rs.getDate(1);
-				String time = rs.getString(2);
-				String light = rs.getString(3);
-				LightSensor addlight = new LightSensor(date, time, light);
-				lightArray.add(addlight);
-			}
+			String[] splittedDate2 = dateFormat2.split("-");
+			int day2 	= Integer.parseInt(splittedDate2[0]);
+			int month2 	= Integer.parseInt(splittedDate2[1]);
+			int year2 	= Integer.parseInt(splittedDate2[2]);
 
-			lights = getLightBetweenHours(time1, time2, date1, date2, lightArray);
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return lights;
+			GregorianCalendar gc = new GregorianCalendar();
+
+			gc.set(year1, month1 - 1, day1);
+			Date date1 = new java.sql.Date(gc.getTimeInMillis());
+			gc.set(year2, month2 - 1, day2);
+			Date date2 = new java.sql.Date(gc.getTimeInMillis());
+
+			try {
+				psGetLightBetween.setDate(1, date1);
+				psGetLightBetween.setDate(2, date2);
+				ResultSet rs = psGetLightBetween.executeQuery();
+				while (rs.next()){
+					Date date 	= rs.getDate(1);
+					String time = rs.getString(2);
+					String light = rs.getString(3);
+					LightSensor addlight = new LightSensor(date, time, light);
+					lightArray.add(addlight);
+				}
+
+				lights = getLightBetweenHours(time1, time2, date1, date2, lightArray);
+			} catch (SQLException se) {
+				printSQLException(se) ;		
+			} 
+			return lights;
+		}
 	}
 
 	/**

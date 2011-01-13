@@ -61,20 +61,22 @@ public class SwitchDao {
 	 * @return the all light switches
 	 */
 	public ArrayList<LightSwitch> getAllLightSwitches(){
-		ArrayList<LightSwitch> lights = new ArrayList<LightSwitch>();
-		try {
-			ResultSet rs = psGetAllLightSwitches.executeQuery();
-			while (rs.next()){
-				Date date = rs.getDate(1);
-				String time = rs.getString(2);
-				String light = rs.getString(3);
-				LightSwitch l = new LightSwitch(date, time, light);
-				lights.add(l);
-			}
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return lights;
+		synchronized(this) {
+			ArrayList<LightSwitch> lights = new ArrayList<LightSwitch>();
+			try {
+				ResultSet rs = psGetAllLightSwitches.executeQuery();
+				while (rs.next()){
+					Date date = rs.getDate(1);
+					String time = rs.getString(2);
+					String light = rs.getString(3);
+					LightSwitch l = new LightSwitch(date, time, light);
+					lights.add(l);
+				}
+			} catch (SQLException se) {
+				printSQLException(se) ;		
+			} 
+			return lights;
+		}
 	}
 
 	/**
@@ -83,25 +85,27 @@ public class SwitchDao {
 	 * @param light the switch
 	 */
 	public void addNewLightSwitch(boolean light){
-		String switchHour = "";
-		String switchMin = "";
-		String switchSec = "";
-		try {
-			Calendar calendar = Calendar.getInstance();
-			if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { switchHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
-			else { switchHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
-			if(calendar.get(Calendar.MINUTE) < 10) { switchMin = "0" + calendar.get(Calendar.MINUTE); }
-			else { switchMin = "" + calendar.get(Calendar.MINUTE); }
-			if(calendar.get(Calendar.SECOND) < 10) { switchSec = "0" + calendar.get(Calendar.SECOND); }
-			else { switchSec = "" + calendar.get(Calendar.SECOND); }
-			
-			psNewLightSwitch.clearParameters();
-			psNewLightSwitch.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
-			psNewLightSwitch.setString(2, "" + switchHour + ":" + switchMin + ":" + switchSec);
-			psNewLightSwitch.setInt(3, light ? 1:0);
-			psNewLightSwitch.executeUpdate();
-		} catch (SQLException se) {
-			printSQLException(se) ;
+		synchronized(this) {
+			String switchHour = "";
+			String switchMin = "";
+			String switchSec = "";
+			try {
+				Calendar calendar = Calendar.getInstance();
+				if(calendar.get(Calendar.HOUR_OF_DAY) < 10) { switchHour = "0" + calendar.get(Calendar.HOUR_OF_DAY); }
+				else { switchHour = "" + calendar.get(Calendar.HOUR_OF_DAY); }
+				if(calendar.get(Calendar.MINUTE) < 10) { switchMin = "0" + calendar.get(Calendar.MINUTE); }
+				else { switchMin = "" + calendar.get(Calendar.MINUTE); }
+				if(calendar.get(Calendar.SECOND) < 10) { switchSec = "0" + calendar.get(Calendar.SECOND); }
+				else { switchSec = "" + calendar.get(Calendar.SECOND); }
+
+				psNewLightSwitch.clearParameters();
+				psNewLightSwitch.setDate(1, new java.sql.Date(new java.util.Date().getTime()));
+				psNewLightSwitch.setString(2, "" + switchHour + ":" + switchMin + ":" + switchSec);
+				psNewLightSwitch.setInt(3, light ? 1:0);
+				psNewLightSwitch.executeUpdate();
+			} catch (SQLException se) {
+				printSQLException(se) ;
+			}
 		}
 	}
 

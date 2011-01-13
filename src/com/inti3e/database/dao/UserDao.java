@@ -65,20 +65,22 @@ public class UserDao {
 	 * @return  all users
 	 */
 	public ArrayList<User> getAllUsers(){
-		ArrayList<User> users = new ArrayList<User>();
-		try {
-			ResultSet rs = psGetAllUsers.executeQuery();
-			while (rs.next()){
-				int id = rs.getInt(1);
-				String name = rs.getString(2);
-				String password = rs.getString(3);
-				User s = new User(id, name, password, false);
-				users.add(s);
-			}
-		} catch (SQLException se) {
-			printSQLException(se) ;		
-		} 
-		return users;
+		synchronized(this) {
+			ArrayList<User> users = new ArrayList<User>();
+			try {
+				ResultSet rs = psGetAllUsers.executeQuery();
+				while (rs.next()){
+					int id = rs.getInt(1);
+					String name = rs.getString(2);
+					String password = rs.getString(3);
+					User s = new User(id, name, password, false);
+					users.add(s);
+				}
+			} catch (SQLException se) {
+				printSQLException(se) ;		
+			} 
+			return users;
+		}
 	}
 	
 	/**
@@ -88,17 +90,19 @@ public class UserDao {
 	 * @param password the password of the new user
 	 */
 	public void addNewUser(String name, String password){
-		//asserts
-		assert (name != null);
-		assert (password != null);
-		
-		try {
-			psNewUser.clearParameters();
-			psNewUser.setString(1, name);
-			psNewUser.setString(2, password);
-			psNewUser.executeUpdate();
-		} catch (SQLException se) {
-			printSQLException(se) ;
+		synchronized(this) {
+			//asserts
+			assert (name != null);
+			assert (password != null);
+
+			try {
+				psNewUser.clearParameters();
+				psNewUser.setString(1, name);
+				psNewUser.setString(2, password);
+				psNewUser.executeUpdate();
+			} catch (SQLException se) {
+				printSQLException(se) ;
+			}
 		}
 	}
 	
@@ -108,15 +112,17 @@ public class UserDao {
 	 * @param name the name of the user to be removed
 	 */
 	public void removeUser(String name) {
-		//asserts
-		assert (name != null);
-		
-		try {
-			psRemoveUser.clearParameters();
-			psRemoveUser.setString(1, name);
-			psRemoveUser.executeUpdate();
-		} catch (SQLException se) {
-			printSQLException(se) ;
+		synchronized(this) {
+			//asserts
+			assert (name != null);
+
+			try {
+				psRemoveUser.clearParameters();
+				psRemoveUser.setString(1, name);
+				psRemoveUser.executeUpdate();
+			} catch (SQLException se) {
+				printSQLException(se) ;
+			}
 		}
 	}
 	
@@ -143,18 +149,20 @@ public class UserDao {
 	 * @return true, if successful
 	 */
 	public boolean nameIsAvailable(String nickname) {
-		
-		//asserts
-		assert(nickname != null);
-		
-		boolean doesexists = false;
-		ArrayList<User> allUsers = getAllUsers();
-		for(User s: allUsers) {
-			if(s.getName().equals(nickname)) {
-				doesexists = true;
+		synchronized(this) {
+
+			//asserts
+			assert(nickname != null);
+
+			boolean doesexists = false;
+			ArrayList<User> allUsers = getAllUsers();
+			for(User s: allUsers) {
+				if(s.getName().equals(nickname)) {
+					doesexists = true;
+				}
 			}
+			return doesexists;
 		}
-		return doesexists;
 	}	
 
 }
