@@ -42,7 +42,7 @@ public class RecordManager {
 		if (!recording) {
 			recording = true;
 
-			DateFormat dfmt = new SimpleDateFormat( "yyyy-MM-dd-[hh-mm-ss]" ); 			
+			DateFormat dfmt = new SimpleDateFormat( "yyyy-MM-dd-[HH-mm-ss]" ); 			
 			String filename = dfmt.format(new Date()) + ".ogg";
 
 			try {
