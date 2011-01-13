@@ -85,8 +85,7 @@ function fillPlaybackTable(json) {
 
 function showPlayer(name) {
 	var player = document.getElementById("videoplayer");
-	
-	var html = "<applet code='com.fluendo.player.Cortado.class' archive='cortado.jar' width='352' height='288'><param name='url' value='C:/Users/Dennis/Desktop/RecordedVideos/" + name + "'/><param name='seekable' value='true'/><param name='live' value='false'/><param name='video' value='true'/><param name='audio' value='false'/><param name='bufferLow' value='0'/><param name='bufferHigh' value='1'/><param name='bufferSize' value='200'/></applet>";
+	var html = '<video src="https://145.76.18.91/project.webfarm/videos/' + name + '" width="480" height="360" controls preload>Please update to a new generation browser, like Firefox >3.5, Chrome >5.0 or Opera >10.5.</video>';
 	
 	player.innerHTML = html;
 }

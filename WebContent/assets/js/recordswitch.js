@@ -1,4 +1,5 @@
 var recordButtonIsPressed = false;
+var isRecording = "off";
 
 $(document).ready(function(){
 	getRecordState();
@@ -6,27 +7,29 @@ $(document).ready(function(){
 });
 
 function getRecordState() {
-	$.getJSON("RecordServlet.do", function(json) {
-		changeRecordSwitchPage(json.recordOn);
+	$.getJSON("RecordServlet.do?record=" + isRecording, function(json) {
+		if (json != undefined) {
+			changeRecordSwitchPage(json.recordOn);
+		}
 	});
 }
 
 function changeRecordSwitchPage(recordOn) {
 	var button = document.getElementById("recordbutton");
 	
-	var onoff = "off";
-	if (recordOn) { onoff = "on"; } else { onoff = "off"; }
-	
-
 	if (recordOn) {
-		button.innerHTML = "<button type=\"submit\" onclick=\"singleClick('off')\" id=\"recordbutton\">Stop</button>";
+		button.innerHTML = "Stop";
+		button.setAttribute("onclick", "singleRecordClick('off')");
+		isRecording = "on";
 	} else {
-		button.innerHTML = "<button type=\"submit\" onclick=\"singleClick('on')\" id=\"recordbutton\">Record</button>";;
+		button.innerHTML = "Record";
+		button.setAttribute("onclick", "singleRecordClick('on')");
+		isRecording = "off";
 	}
 }
 
 
-function turnRecord(value) {
+function singleRecordClick(value) {
 	if (!recordButtonIsPressed) {
 		recordButtonIsPressed = true;
 		recordButtonTimeout = setTimeout("resetRecordButtonPress()", 3000);
@@ -52,9 +55,4 @@ function getXMLHTTPRequest() {
 
 function resetRecordButtonPress() {
 	recordButtonIsPressed = false;
-}
-
-
-function singleRecordClick(value) {
-	turnRecord(value);
 }

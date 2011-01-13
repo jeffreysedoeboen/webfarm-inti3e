@@ -38,7 +38,7 @@ align="left" width="50%" bgcolor="#222222">
 	<tbody id="playback_table_body"></tbody>
 </table>
 </div>
-<div style="width:70%; margin-left: 30%;">
+<div id="videoplayer" style="width:70%; margin-left: 30%;">
 </div>
 </div>
 <br><br><br><br><br><br><br>

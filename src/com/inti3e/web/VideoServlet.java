@@ -64,7 +64,7 @@ public class VideoServlet extends HttpServlet {
 		String newDate = year + "-" + month + "-" + day;
 		
 		
-		File file = new File("C:/Users/Dennis/Desktop/RecordedVideos");//Path to the recorded files
+		File file = new File("/var/lib/tomcat6/webapps/project.webfarm/videos/");//Path to the recorded files
 		if(file != null) {
 			File[] files = file.listFiles();
 			

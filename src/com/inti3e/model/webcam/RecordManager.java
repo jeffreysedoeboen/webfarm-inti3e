@@ -5,15 +5,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.inti3e.database.DBmanager;
-
 /**
  * The Class RecordManager.
  */
 public class RecordManager {
 	
 	/** The RecordManager uniqueInstance variable */
-	private static RecordManager uniqueInstance=null;
+	private static RecordManager uniqueInstance = null;
 	/** The recording process. */
 	private Process recordingProcess;
 	
@@ -30,7 +28,7 @@ public class RecordManager {
 	}
 	
 	public static synchronized RecordManager getInstance() {
-		if (uniqueInstance==null) {
+		if (uniqueInstance == null) {
 			uniqueInstance = new RecordManager();
 		}
 		return uniqueInstance;
@@ -43,14 +41,15 @@ public class RecordManager {
 		if (!recording) {
 			recording = true;
 			
-			DateFormat dfmt = new SimpleDateFormat( "yyyyMMdd-hhmmss" ); 			
+			DateFormat dfmt = new SimpleDateFormat( "yyyy-MM-dd-[hh-mm-ss]" ); 			
 			String filename = dfmt.format(new Date()) + ".ogg";
 			
 			try {
-				recordingProcess = Runtime.getRuntime().exec("cvlc -vvv http://localhost:8088 --demux=dump --demuxdump-file=" + filename + " &");
+				recordingProcess = Runtime.getRuntime().exec("cvlc -vvv http://localhost:8088/stream.ogg --demux=dump --demuxdump-file=webapps/project.webfarm/videos/" + filename + " &");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			System.out.println("recording");
 		}
 	}
 	
@@ -61,7 +60,7 @@ public class RecordManager {
 		if (recording) {
 			recordingProcess.destroy();
 			recording = false;
-			startByUser = false;
+			System.out.println("stop recording");
 		}
 	}
 	
@@ -71,17 +70,18 @@ public class RecordManager {
 	}
 	
 	public void startRecordingAtMovement() {
-		if (!startByUser) {
-			startRecording();
-		}
+		System.out.println("start recording by movement");
+		startRecording();
 	}
 	
 	public void stopRecordingByUser() {
+		startByUser = false;
 		stopRecording();
 	}
 	
 	public void stopRecordingAtMovement() {
 		if (!startByUser) {
+			System.out.println("stop recording by movement");
 			stopRecording();
 		}
 	}
@@ -90,6 +90,6 @@ public class RecordManager {
 	 * Get recording.
 	 */
 	public boolean getRecording() {
-		return recording;
+		return startByUser && recording;
 	}
 }
