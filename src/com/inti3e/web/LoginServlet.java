@@ -70,6 +70,9 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 		if (ingelogd){
+			if (name.equals("admin")){
+				request.getSession().setAttribute("user", new User(0, "admin", "admin", true));
+			}
 			response.sendRedirect("mainpage.jsp");
 		} else {
 			response.sendRedirect("loginerror.html");
