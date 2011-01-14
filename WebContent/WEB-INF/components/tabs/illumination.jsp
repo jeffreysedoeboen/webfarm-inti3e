@@ -18,7 +18,7 @@ align="center" width="50%" bgcolor="#222222">
 	<th>Light:</th>
 </tr>
 </thead>
-<tbody id="light_table_body"><tr></tr></tbody>
+<tbody id="light_table_body"><tr><td></td></tr></tbody>
 </table>
 </div>
 <br><br>
