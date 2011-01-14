@@ -37,10 +37,10 @@
 	<ul onmouseup="msgCleanup();">
 		<li><a onclick="onMainTabClick();" href="#tabs-1">Main</a></li>
 		<c:if test="${user != null}">
-			<li><a onclick="onLiveTabClick();" href="#tabs-2">Live stream</a></li>
-			<li><a onclick="onPlayTabClick();" href="#tabs-3">Video playback</a></li>
-			<li><a onclick="onUserstatsTabClick();" href="#tabs-4">User Statistics</a></li>
+			<li><a onclick="onPlayTabClick();" href="#tabs-2">Video playback</a></li>
+			<li><a onclick="onUserstatsTabClick();" href="#tabs-3">User Statistics</a></li>
 			<c:if test="${user.admin}">
+				<li><a onclick="onLiveTabClick();" href="#tabs-4">Live stream</a></li>
 				<li><a onclick="onTempTabClick();" href="#tabs-5">Temperature</a></li>
 				<li><a onclick="onHumidTabClick();" href="#tabs-6">Air humidity</a></li>
 				<li><a onclick="onIllumTabClick();" href="#tabs-7">Illumination</a></li>
@@ -64,13 +64,13 @@
 		<div id="currentstats"></div>
 	</div>
 	<c:if test="${user != null}">
-	<div id="tabs-2"><jsp:include page="/WEB-INF/components/tabs/livestream.jsp" />
+	<div id="tabs-2"><jsp:include page="/WEB-INF/components/tabs/videoplayback.jsp" />
 	</div>
-	<div id="tabs-3"><jsp:include page="/WEB-INF/components/tabs/videoplayback.jsp" />
-	</div>
-	<div id="tabs-4"><jsp:include page="/WEB-INF/components/tabs/statistics-user.jsp" />
+	<div id="tabs-3"><jsp:include page="/WEB-INF/components/tabs/statistics-user.jsp" />
 	</div>
 	<c:if test="${user.admin}">
+	<div id="tabs-4"><jsp:include page="/WEB-INF/components/tabs/livestream.jsp" />
+	</div>
 	<div id="tabs-5"><jsp:include page="/WEB-INF/components/tabs/temperature.jsp" />
 	</div>
 	<div id="tabs-6"><jsp:include page="/WEB-INF/components/tabs/airhumidity.jsp" />
