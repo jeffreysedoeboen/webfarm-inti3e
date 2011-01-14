@@ -36,7 +36,7 @@ align="center" width="40%" bgcolor="#222222">
 			<th>Hits</th>
 		</tr>
 	</thead>
-	<tbody id="stats_table_body"></tbody>
+	<tbody id="stats_table_body"><tr></tr></tbody>
 </table>
 </div>
 </center>

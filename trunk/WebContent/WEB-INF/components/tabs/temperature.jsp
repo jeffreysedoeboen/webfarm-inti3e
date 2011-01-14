@@ -18,7 +18,7 @@ align="center" width="50%" bgcolor="#222222">
 			<th>Temp:</th>
 		</tr>
 	</thead>
-	<tbody id="temp_table_body"></tbody>
+	<tbody id="temp_table_body"><tr></tr></tbody>
 </table>
 </div>
 <br>
