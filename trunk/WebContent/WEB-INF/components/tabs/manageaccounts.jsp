@@ -1,4 +1,4 @@
-<div id="temp_table_div"
+<div id="account_table_div"
 style="color:#ffffff;
 width:100%;
 height:300px;

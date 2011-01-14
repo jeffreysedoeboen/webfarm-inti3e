@@ -21,7 +21,7 @@
 <label><%= request.getRemoteAddr()%></label>
 </c:if>
 
-<div id="temp_table_div"
+<div id="statistics_table_div"
 style="color:#ffffff;
 width:100%;
 height:400px;
