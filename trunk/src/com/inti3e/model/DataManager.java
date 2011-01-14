@@ -16,6 +16,7 @@ import com.inti3e.database.dao.LightSensorDao;
 import com.inti3e.database.dao.SwitchDao;
 import com.inti3e.database.dao.MovementDao;
 import com.inti3e.database.dao.TempDao;
+import com.inti3e.model.mail.Email;
 import com.inti3e.model.webcam.RecordManager;
 
 /**
@@ -201,6 +202,9 @@ public class DataManager extends Thread {
 						break;
 					case ('H'):
 						hd.addNewHumidity(Integer.parseInt(value));
+						break;
+					case ('C'):
+						Email.send();
 						break;
 				}
 			}
