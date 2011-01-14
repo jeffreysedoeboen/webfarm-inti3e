@@ -5,6 +5,7 @@
 <head>
 <script type="text/javascript" src="assets/js/lib/jquery-1.4.4.js"></script>
 <script type="text/javascript" src="assets/js/lib/jquery-ui-1.8.6.js"></script>
+<script type="text/javascript" src="assest/js/data2.js"></script>
 <link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Inlog Page</title>
