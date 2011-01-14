@@ -8,13 +8,13 @@
 <script type="text/javascript" src="assets/js/lib/jquery-1.4.4.js"></script>
 <script type="text/javascript" src="assets/js/lib/jquery-ui-1.8.6.js"></script>
 <script type="text/javascript" src="assets/js/messages.js"></script>
-<link href="assets/css/stylestatistics.css" type="text/css" rel="stylesheet"></link>
-<link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css"></link>
+<link href="assets/css/stylestatistics.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/ui-darkness/jquery-ui-1.8.6.css">
 <script language="javascript" type="text/javascript" src="assets/js/lib/jquery.jqplot.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.canvasAxisTickRenderer.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.dateAxisRenderer.min.js"></script>
 <script type="text/javascript" src="assets/js/lib/jqplot.cursor.min.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css"></link>
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.jqplot.css">
 <c:if test="${user.admin}">
 	<script type="text/javascript" src="assets/js/data.js"></script>
 </c:if>
@@ -59,7 +59,7 @@
 		<p></p>
 		<p align="center">On this page you will see the protection of the Saxion webfarm.</p>
 		<p align="center">You can look the stats with the tabs.</p>
-		<br></br>
+		<br>
 		<p align="center">Here you can see the current stats:</p>
 		<div id="currentstats"></div>
 	</div>
@@ -116,6 +116,6 @@
 session.removeAttribute("errors");
 session.removeAttribute("success");
 %>
-<img src="analytics.jpg" />
+<img src="analytics.jpg" alt=""/>
 </body>
 </html>

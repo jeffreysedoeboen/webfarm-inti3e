@@ -18,7 +18,7 @@ align="center" width="50%" bgcolor="#222222">
 	<th>Humidity:</th>
 </tr>
 </thead>
-<tbody id="humidity_table_body"></tbody>
+<tbody id="humidity_table_body"><tr></tr></tbody>
 </table>
 </div>
 <br><br>

@@ -13,7 +13,7 @@ align="center" width="50%" bgcolor="#222222">
 			<th>Remove:</th>
 		</tr>
 	</thead>
-	<tbody id="user_table_body"></tbody>
+	<tbody id="user_table_body"><tr></tr></tbody>
 </table>
 </div>
 <br>
