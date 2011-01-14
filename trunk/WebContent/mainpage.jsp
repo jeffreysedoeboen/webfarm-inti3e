@@ -116,6 +116,6 @@
 session.removeAttribute("errors");
 session.removeAttribute("success");
 %>
-<img src="analytics.jpg" alt=""></img>
+<img src="analytics.jpg" alt="">
 </body>
 </html>
