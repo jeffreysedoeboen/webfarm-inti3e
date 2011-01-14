@@ -33,18 +33,18 @@
 		<p></p>
 		<p align="center">If you want to continue you can click on the "Proceed" button.</p>
 		<p align="center">If you do this you get restricted acces, login for full access.</p>
-		<p align="center"><a href="mainpage.jsp"><input type="button" value="Proceed"/></a></p>
+		<p align="center"><a href="mainpage.jsp"><input type="button" value="Proceed"></a></p>
 	</div>
 	<div id="tabs-3">
 	<h1 align="center">Please login</h1>
 	<p></p>
 	<form method="get" action="LoginServlet.do">
-		<p align="center"><input name="usernameLogin" type="text" value="Username" onclick="value=''"/></p>
-		<p align="center"><input name="passwordLogin" type="password" value="Password" onclick="value=''"/></p>
-		<p align="center"><input type="submit" value="Login"/></p>
+		<p align="center"><input name="usernameLogin" type="text" value="Username" onclick="value=''"></p>
+		<p align="center"><input name="passwordLogin" type="password" value="Password" onclick="value=''"></p>
+		<p align="center"><input type="submit" value="Login"></p>
 	</form>
 	</div>
 </div>
-<img src="analytics.jpg" alt="" />
+<img src="analytics.jpg" alt="">
 </body>
 </html>
