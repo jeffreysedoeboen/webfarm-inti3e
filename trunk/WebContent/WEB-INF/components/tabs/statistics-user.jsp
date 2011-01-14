@@ -17,7 +17,7 @@
 </c:if>
 
 <c:if test="${!user.admin}">
-<input id="selectedIp" value="<%= request.getRemoteAddr()%>" type="hidden"></input>
+<input id="selectedIp" value="<%= request.getRemoteAddr()%>" type="hidden">
 <label><%= request.getRemoteAddr()%></label>
 </c:if>
 
