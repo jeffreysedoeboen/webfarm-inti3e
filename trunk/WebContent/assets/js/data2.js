@@ -44,7 +44,7 @@ function fillPlaybackTable(json) {
 
 function showPlayer(name) {
 	var player = document.getElementById("videoplayer");
-	var html = '<video src="https://145.76.18.91/project.webfarm/videos/' + name + '" width="480" height="360" controls preload>Please update to a new generation browser, like Firefox >3.5, Chrome >5.0 or Opera >10.5.</video>';
+	var html = '<video src="videos/' + name + '" width="480" height="360" controls preload>Please update to a new generation browser, like Firefox >3.5, Chrome >5.0 or Opera >10.5.</video>';
 	
 	player.innerHTML = html;
 }
